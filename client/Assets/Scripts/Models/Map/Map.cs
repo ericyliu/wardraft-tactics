@@ -44,7 +44,7 @@ public class Map {
   public List<Tile> tilesInAttackRange (ActiveActor active_actor) {
      List<Tile> tiles = new List<Tile>();
      tiles = tilesInRange(getTile(active_actor.position),
-                          active_actor.attackRange.current);
+                          active_actor.attackRange.max);
      return tiles;
   }
   

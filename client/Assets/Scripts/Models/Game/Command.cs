@@ -2,10 +2,7 @@
 using System.Collections;
 
 [System.Serializable()]
-public class Command {
+public abstract class Command {
 
-	public virtual void invoke () {
-    
-  }
-  
+	public abstract void invoke ();
 }

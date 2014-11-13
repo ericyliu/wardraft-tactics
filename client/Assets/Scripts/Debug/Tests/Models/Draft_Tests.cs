@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public static partial class Tests {
   
   public static void Draft_Tests () {
-    Debug.Log ("- Draft Loader");
+    Debug.Log ("Draft Loader");
     
     int seed = 1234567890;
     string mapname = "testmap";

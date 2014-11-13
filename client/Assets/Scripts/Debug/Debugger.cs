@@ -11,6 +11,7 @@ public class Debugger : MonoBehaviour {
   public bool testGame;
   public bool testDraft;
   public bool testTurns;
+  public bool testBuffs;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,7 @@ public class Debugger : MonoBehaviour {
       if (allOn || testGame) Tests.Game_Tests();
       if (allOn || testDraft) Tests.Draft_Tests(); 
       if (allOn || testTurns) Tests.Turn_Tests(); 
+      if (allOn || testBuffs) Tests.Buff_Tests();
 		}
 	}
   

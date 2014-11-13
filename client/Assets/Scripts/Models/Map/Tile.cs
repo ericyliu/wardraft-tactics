@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
+[System.Serializable()]
 public class Tile {
 
 	public int layers = 3;
@@ -34,7 +35,7 @@ public class Tile {
 		for (int i=0; i<layers; i++) {
 			foreach (Aura aura in terrains[i].auras) {
 				if (actors[i] is ActiveActor) {
-					aura.apply(actors[i] as ActiveActor);
+					aura.invoke(actors[i] as ActiveActor);
 				}
 			}
 		}

@@ -9,5 +9,11 @@ public class Unit : ActiveActor {
 	public Unit(int aid, int oid) : base (aid,oid) {
 		
 	}
+  
+  public override void resetStats () {
+    base.resetStats();
+    speed.max = speed.normal;
+    mana.max = mana.normal;
+  }
 
 }

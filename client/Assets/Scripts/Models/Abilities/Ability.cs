@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Ability : MonoBehaviour {
+[System.Serializable()]
+public abstract class Ability {
 
-	// Use this for initialization
-	void Start () {
+  public ActiveActor aa_source;
+  public Tile tile_source;
+  
+  public virtual void invoke () {}
+  
+  public virtual void invoke (ActiveActor target) {}
+  
+  public virtual void invoke (Tile target) {}
 	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
