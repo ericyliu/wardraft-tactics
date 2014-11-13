@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
+[System.Serializable()]
 public class Tile {
 
 	public int layers = 3;

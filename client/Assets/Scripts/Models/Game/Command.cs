@@ -4,7 +4,7 @@ using System.Collections;
 [System.Serializable()]
 public class Command {
 
-	public virtual void invoke () {
+	public abstract void invoke () {
     
   }
   

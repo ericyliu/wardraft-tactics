@@ -25,7 +25,7 @@ public class ActiveActor : Actor {
 	
   #region commands
   public void attack (ActiveActor target) {
-    
+    target.takeDamage(damage.max);
   }
   
   public void move (List<Tile> path) {
@@ -39,10 +39,25 @@ public class ActiveActor : Actor {
   }
   #endregion
   
+  public void addHealth (FInt heal_for) {
+    health.current = health.current + heal_for;
+    if (health.current > health.max) health.current = health.max;
+  }
+  
+  public void takeDamage (FInt damage_taken) {
+    damage_taken = damage_taken - armor.max;
+    health.current = health.current - damage_taken;
+    if (health.current <= 0) {
+      die();
+    }
+  }
+  
   public void addBuff (Buff buff) {
-    buffs.Add(buff);
-    buff.target = this;
-    buff.invoke();
+    if (!buffs.Contains(buff)) {
+      buffs.Add(buff);
+      buff.target = this;
+      buff.invoke();
+    }
   }
   
   public void removeBuff (Buff buff) {
@@ -51,10 +66,18 @@ public class ActiveActor : Actor {
   }
   
 	public void applyAllBuffs () {
+    resetStats();
 		foreach (Buff buff in buffs) {
 			buff.invoke();
 		}
 	}
+  
+  public virtual void resetStats () {
+    health.max = health.normal;
+    damage.max = damage.normal;
+    armor.max = armor.normal;
+    attackRange.max = attackRange.current;
+  }
   
   public bool validMove (Tile tile) {
     if (tile.actors[layer] != null) return false; //occupied

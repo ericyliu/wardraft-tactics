@@ -9,7 +9,7 @@ public class Aura : Ability {
 	
 	public void apply (ActiveActor target) {
 		foreach (Buff buff in buffs) {
-			target.buffs.Add(buff);
+			target.addBuff(buff);
 		}
 	}
 }
