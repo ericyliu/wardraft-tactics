@@ -34,6 +34,12 @@ public class ActiveActor : Actor {
     }
   }
   
+  public void cast (Ability ability, ActiveActor target = null, Tile tile_target = null) {
+    if (target != null) ability.invoke(target);
+    else if (tile_target != null) ability.invoke(tile_target);
+    else ability.invoke();
+  }
+  
   public void die () {
     state = Enums.ActiveActorState.Dead;
   }

@@ -7,9 +7,10 @@ public class Aura : Ability {
 	public int range;
 	public List<Buff> buffs;
 	
-	public void apply (ActiveActor target) {
+	public override void invoke (ActiveActor target) {
 		foreach (Buff buff in buffs) {
 			target.addBuff(buff);
 		}
 	}
+  
 }
