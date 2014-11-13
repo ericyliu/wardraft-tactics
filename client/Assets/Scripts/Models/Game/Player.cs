@@ -21,7 +21,9 @@ public class Player {
     
     gold = GameValues.STARTING_GOLD;
     pauses = GameValues.MAX_PAUSES;
-    population = new IntStat(0, GameValues.STARTING_POP, GameValues.MAX_POP);
+    population = new IntStat(0);
+    population.normal = GameValues.MAX_POP;
+    population.max = GameValues.STARTING_POP;
     alive = true;
     
     buildableUnits = new List<string>();
