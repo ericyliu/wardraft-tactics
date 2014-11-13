@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainApplication {
+public class Application {
 }

@@ -64,9 +64,10 @@ public class Map {
 	#region private
 	
   private JsonMapData readData (string mapname) {
-    string data_text = System.IO.File.ReadAllText("Assets/Resources/Maps/" + mapname + ".json");
-    JsonMapData data = MiniJSON.Json.Deserialize(data_text) as JsonMapData;
-//    JsonConvert.DeserializeObject<JsonMapData>(data_text);
+    string path = AppValues.ROOTDIR + "Assets/Resources/Maps/" + mapname + ".json";
+    System.Console.WriteLine (path);
+    string data_text = System.IO.File.ReadAllText(path);
+    JsonMapData data = JsonConvert.DeserializeObject<JsonMapData>(data_text);
     return data;
   }
   
