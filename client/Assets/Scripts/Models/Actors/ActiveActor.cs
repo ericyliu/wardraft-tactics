@@ -6,7 +6,7 @@ public class ActiveActor : Actor {
 
 	public int ownerID, layer;
 	
-	public FIntStat health, attack, armor, buildTime;
+	public FIntStat health, damage, armor, buildTime;
 	
 	public IntStat attackRange;
 	
@@ -23,27 +23,43 @@ public class ActiveActor : Actor {
     state = Enums.ActiveActorState.Alive;
 	}
 	
-	public void applyBuffs () {
-		foreach (Buff buff in buffs) {
-			buff.invoke();
-		}
-	}
+  #region commands
+  public void attack (ActiveActor target) {
+    
+  }
   
-  public void pathTo (List<Tile> path) {
+  public void move (List<Tile> path) {
     for (int i=1; i<=path.Count; i++) {
       moveTo(path[path.Count-i]);
     }
   }
   
+  public void die () {
+    state = Enums.ActiveActorState.Dead;
+  }
+  #endregion
+  
+  public void addBuff (Buff buff) {
+    buffs.Add(buff);
+    buff.target = this;
+    buff.invoke();
+  }
+  
+  public void removeBuff (Buff buff) {
+    buffs.Remove(buff);
+    buff.devoke();
+  }
+  
+	public void applyAllBuffs () {
+		foreach (Buff buff in buffs) {
+			buff.invoke();
+		}
+	}
+  
   public bool validMove (Tile tile) {
     if (tile.actors[layer] != null) return false; //occupied
     if (tile.terrains[layer].passable) return false; //passable
     return true;
-  }
-  
-  public void die () {
-    state = Enums.ActiveActorState.Dead;
-    base.animation = Enums.AnimationState.Dying;
   }
   
   private void moveTo (Tile tile) {
