@@ -2,7 +2,7 @@
 using System.Collections;
 
 [System.Serializable()]
-public class Buff {
+public abstract class Buff {
 	
 	public int source;
   public int id;

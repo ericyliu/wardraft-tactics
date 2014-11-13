@@ -4,7 +4,8 @@ using System.Collections.Generic;
 public static class BuffList  {
 
   public static Dictionary<int, string> index = new Dictionary<int, string>() {
-    {1,"TestBuffClass"}
+    {0,"TestBuff0"},
+    {1,"TestBuff1"}
   };
 	
 }
