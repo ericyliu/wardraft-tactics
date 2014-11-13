@@ -10,8 +10,9 @@ public class Buff {
   
   public bool stack = false;
   
-  public Buff (int buff_source) {
+  public Buff (int buff_source, int buff_id) {
     source = buff_source;
+    id = buff_id;
   }
 	
 	public virtual void invoke () {
