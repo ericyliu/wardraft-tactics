@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ActiveActor : Actor {
+public abstract class ActiveActor : Actor {
 
 	public int ownerID, layer;
 	
@@ -52,6 +52,7 @@ public class ActiveActor : Actor {
   
   public void takeDamage (FInt damage_taken) {
     damage_taken = damage_taken - armor.max;
+    if (damage_taken < FInt.Create(1)) damage_taken = FInt.Create(1);
     health.current = health.current - damage_taken;
     if (health.current <= 0) {
       die();
@@ -83,6 +84,16 @@ public class ActiveActor : Actor {
     damage.max = damage.normal;
     armor.max = armor.normal;
     attackRange.max = attackRange.current;
+  }
+  
+  public virtual void assignStats (int health_stat = 0, int damage_stat = 0, int armor_stat = 0,
+                                   int build_stat = 0, int range_stat = 0, int speed_stat = 0,
+                                   int mana_stat = 0) {
+    health = new FIntStat(FInt.Create(health_stat));
+    damage = new FIntStat(FInt.Create(damage_stat));
+    armor = new FIntStat(FInt.Create(armor_stat));
+    buildTime = new FIntStat(FInt.Create(build_stat));
+    attackRange = new IntStat(range_stat);
   }
   
   public bool validMove (Tile tile) {

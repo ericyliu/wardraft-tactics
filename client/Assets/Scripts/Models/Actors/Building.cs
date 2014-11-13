@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Building : ActiveActor {
+public abstract class Building : ActiveActor {
 
 	public Unit[] buildList;
 
