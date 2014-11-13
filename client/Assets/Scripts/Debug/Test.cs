@@ -5,23 +5,17 @@ using System.Collections.Generic;
 public class Test {
   
   private string message;
-  private bool truth;
-  private string failure;
-  private Dictionary<string, System.Object> objects;
+  public bool truth;
+  public string failure;
   
   public Test(string test_message) {
     message = test_message;
-    objects = new Dictionary<string, System.Object>();
     truth = true;
   }
   
-  public void assert (string name, bool statement) {
-    if (statement == false) {
-      if (truth) {
-        truth = false;
-        failure = name;
-      }
-    }
+  public Assertion assert (string name) {
+    Assertion assertion = new Assertion(name, this);
+    return assertion;
   }
   
   public void finish () {
@@ -30,24 +24,14 @@ public class Test {
       error(message);
       error("            " + failure + " - failed");
     }
-    cleanup();
   }
-  
-  public System.Object add (string name, System.Object obj) {
-    objects.Add(name,obj);
-    return obj;
-  }
-  
-  private void cleanup() {
-    objects = null;
-  }
-  
+ 
   private void success (string text) {
-    Debug.Log("<color=green>" + text + "</color>");
+    Debug.Log("<color=green>          " + text + "</color>");
   }
   
   private void error (string text) {
-    Debug.Log("<color=red>" + text + "</color>");
+    Debug.Log("<color=red>          " + text + "</color>");
   }
   
 }
