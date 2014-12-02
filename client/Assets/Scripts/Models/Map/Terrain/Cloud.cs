@@ -1,7 +1,3 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿public class Cloud : Terrain {
 
-public class Cloud : Terrain {
-
-	
 }

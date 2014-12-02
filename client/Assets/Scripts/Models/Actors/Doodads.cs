@@ -1,10 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿public abstract class Doodads : Actor {
 
-public abstract class Doodads : Actor {
+  protected Doodads(int aid) : base(aid) {
 
-	public Doodads(int aid) : base(aid) {
-		
-	}
-	
+  }
+
 }

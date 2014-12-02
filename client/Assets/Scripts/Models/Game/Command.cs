@@ -1,8 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-
-[System.Serializable()]
+﻿[System.Serializable]
 public abstract class Command {
 
-	public abstract void invoke ();
+	public abstract void Invoke ();
 }

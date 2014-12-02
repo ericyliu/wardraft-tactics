@@ -1,36 +1,32 @@
-﻿using UnityEngine;
-using System.Collections;
-
-[System.Serializable()]
+﻿[System.Serializable]
 public abstract class Actor {
-	
+
   public int type_id;
 	public int id;
-  
+
 	public Point position;
 	public Point size;
-	
-	public Actor (int aid) {
+
+	protected Actor (int aid) {
 		id = aid;
+    SetSize();
 	}
-	
-	public void setPosition (int x, int y) {
+
+	public void SetPosition (int x, int y) {
+		position = new Point(x,y);
+	}
+
+	public void SetSize (int x = 1, int y = 1) {
 		size = new Point(x,y);
 	}
-	
-	public void setSize (int x, int y) {
-		size = new Point(x,y);
-	}
-  
+
   #region operators
   public override bool Equals (object obj)
   {
-    if (obj is Actor) {
-      return (((Actor)obj).type_id == type_id && ((Actor)obj).id == id);
-    }
-    else return false;
+    var actor = obj as Actor;
+    return (actor != null && actor.type_id == type_id && actor.id == id);
   }
-  
+
   public override int GetHashCode ()
   {
     int hash = 17;
@@ -38,7 +34,7 @@ public abstract class Actor {
     hash = hash * 23 + type_id.GetHashCode();
     return hash;
   }
-  
+
   public static bool operator ==(Actor a1, Actor a2) {
     return a1.Equals(a2);
   }

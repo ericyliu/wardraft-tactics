@@ -1,13 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿public abstract class Building : ActiveActor {
 
-public abstract class Building : ActiveActor {
+  public Unit[] buildList;
 
-	public Unit[] buildList;
+  protected Building (int aid, int oid) : base(aid,oid) {
+    canAttack = false;
+    canMove = false;
+  }
 
-	public Building (int aid, int oid) : base(aid,oid) {
-		base.CanAttack = false;
-		base.CanMove = false;
-	}
-	
 }

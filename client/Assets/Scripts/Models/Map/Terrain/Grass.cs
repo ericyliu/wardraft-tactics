@@ -1,7 +1,3 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿public class Grass : Terrain {
 
-public class Grass : Terrain {
-
-	
 }

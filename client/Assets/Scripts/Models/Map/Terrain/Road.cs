@@ -1,7 +1,3 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿public class Road : Terrain {
 
-public class Road : Terrain {
-
-	
 }

@@ -1,28 +1,25 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿public static class TerrainFactory {
 
-public static class TerrainFactory {
-
-  public static Terrain create (string type) {
+  public static Terrain Create (string type) {
     switch (type) {
       case "Air":
-        return new Air() as Terrain;
+        return new Air();
       case "Cloud":
-        return new Cloud() as Terrain;
+        return new Cloud();
       case "Dirt":
-        return new Dirt() as Terrain;
+        return new Dirt();
       case "Earth":
-        return new Earth() as Terrain;
+        return new Earth();
       case "Grass":
-        return new Grass() as Terrain;
+        return new Grass();
       case "River":
-        return new River() as Terrain;
+        return new River();
       case "Road":
-        return new Road() as Terrain;
+        return new Road();
       case "TestTerrain":
-        return new TestTerrain() as Terrain;
+        return new TestTerrain();
       default:
-          return new MissingTerrain() as Terrain;
+        return new MissingTerrain();
     }
   }
 

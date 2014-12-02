@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-[System.Serializable()]
+[System.Serializable]
 public class Player {
 
   public string name;
@@ -11,25 +9,25 @@ public class Player {
 	public int gold, pauses;
   public IntStat population;
   public bool alive;
-  
+
   public List<string> buildableUnits;
   public List<ActiveActor> ownedActives;
-  
+
   public Player (User user) {
     name = user.displayName;
-    color = Enums.getNextColor();
-    
+    color = Enums.GetNextColor();
+
     gold = GameValues.STARTING_GOLD;
     pauses = GameValues.MAX_PAUSES;
     population = new IntStat(0);
     population.normal = GameValues.MAX_POP;
     population.max = GameValues.STARTING_POP;
     alive = true;
-    
+
     buildableUnits = new List<string>();
-    ownedActives = new List<ActiveActor>();   
+    ownedActives = new List<ActiveActor>();
   }
-  
-  
-  
+
+
+
 }

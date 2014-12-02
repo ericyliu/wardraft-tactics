@@ -1,20 +1,19 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-[System.Serializable()]
+[System.Serializable]
 public class Move : Command {
 
-  ActiveActor source;
-	List<Tile> path;
-  
+  readonly ActiveActor source;
+	readonly List<Tile> path;
+
   public Move (ActiveActor move_source, List<Tile> move_path) {
     source = move_source;
     path = move_path;
   }
-  
-  public override void invoke ()
+
+  public override void Invoke ()
   {
-    source.move(path);
+    source.Move(path);
   }
-  
+
 }

@@ -1,13 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 public static class Utility {
 
-  public static List<User> shuffleUsers (List<User> users, ref System.Random random) {
-  	List<User> list = new List<User>();
+  public static List<User> ShuffleUsers (List<User> users, ref System.Random random) {
+    var list = new List<User>();
     users.ForEach(list.Add);
     for (int i=0; i<list.Count; i++) {
       User temp = list[i];
@@ -17,7 +15,7 @@ public static class Utility {
     }
     return list;
   }
-  
+
   public static T DeepClone<T>(T obj)
   {
     using (var ms = new MemoryStream())
@@ -25,9 +23,9 @@ public static class Utility {
       var formatter = new BinaryFormatter();
       formatter.Serialize(ms, obj);
       ms.Position = 0;
-      
+
       return (T) formatter.Deserialize(ms);
     }
   }
-  
+
 }

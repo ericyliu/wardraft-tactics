@@ -1,14 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-
-[System.Serializable()]
+﻿[System.Serializable]
 public class Cast : Command {
 
-  ActiveActor source;
-  ActiveActor target;
-  Tile tile_target;
-  Ability ability;
-  
+  readonly ActiveActor source;
+  readonly ActiveActor target;
+  readonly Tile tile_target;
+  readonly Ability ability;
+
   public Cast (ActiveActor cast_source, Ability cast_ability,
                ActiveActor cast_target, Tile cast_tile_target) {
     source = cast_source;
@@ -16,11 +13,11 @@ public class Cast : Command {
     target = cast_target;
     tile_target = cast_tile_target;
   }
-  
-  public override void invoke ()
+
+  public override void Invoke ()
   {
-    source.cast(ability, target:this.target,tile_target:this.tile_target);
+    source.Cast(ability, target: target, tile_target: tile_target);
   }
 
-	
+
 }

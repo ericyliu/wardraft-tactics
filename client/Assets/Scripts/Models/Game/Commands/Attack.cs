@@ -1,19 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
-
-[System.Serializable()]
+﻿[System.Serializable]
 public class Attack : Command {
 
-  ActiveActor source;
-  ActiveActor target;
+  readonly ActiveActor source;
+  readonly ActiveActor target;
 
   public Attack (ActiveActor attack_source, ActiveActor attack_target) {
     source = attack_source;
     target = attack_target;
   }
 
-  public override void invoke () {
-    source.attack(target);
+  public override void Invoke () {
+    source.Attack(target);
   }
-	
+
 }
