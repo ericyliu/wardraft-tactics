@@ -35,4 +35,4 @@ Thumbs.db
 # ============= #
 #    Sublime    #
 # ============= #
-.sublime-workspace
+*.sublime-workspace
