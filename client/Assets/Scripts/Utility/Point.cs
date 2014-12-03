@@ -11,6 +11,7 @@
   #region operators
   public override bool Equals (object obj)
   {
+    if (obj == null) return false;
     if (obj is Point) {
       return (((Point)obj).X == X && ((Point)obj).Y == Y);
     }

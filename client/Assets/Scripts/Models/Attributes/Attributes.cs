@@ -15,8 +15,8 @@
     attackRange = new IntStat(range_stat);
     speed = new FIntStat(FInt.Create(speed_stat));
     mana = new FIntStat(FInt.Create(mana_stat));
-    buildList = new string[build_list.Length];
     if (build_list != null) {
+      buildList = new string[build_list.Length];
       for (int i=0; i<build_list.Length; i++) {
         buildList[i] = ActorList.units[build_list[i]];
       }

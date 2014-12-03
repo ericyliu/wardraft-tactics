@@ -1,13 +1,14 @@
 ﻿[System.Serializable]
 public class Tile {
 
-  public int layers = 3;
-  public Actor[] actors;
-  public Terrain[] terrains;
-  public Point position;
-  public int height;
+  public int        layers    = 3;
+  public Actor[]    actors;
+  public Terrain[]  terrains;
+  public Point      position;
+  public int        height;
 
-  public Tile from;
+  public Tile       from;
+  public FInt       costSoFar = FInt.Create(5000);
 
   public Tile (Point tile_pos) {
     actors = new Actor[layers];
@@ -36,8 +37,30 @@ public class Tile {
     }
   }
 
+  public void PlaceActor (Actor actor, int layer) {
+    actors[layer] = actor;
+    if (actor != null) actor.position = this;
+  }
+
+  public void PlaceActiveActor (ActiveActor aa) {
+    actors[aa.layer] = aa;
+    aa.position = this;
+  }
+
+  public int GetLayer (Actor actor) {
+    for (int i=0; i<layers; i++) {
+      if (actors[i] == actor) return i;
+    }
+    return -1;
+  }
+
   public bool Equals(Tile tile) {
+    if (tile == null) return false;
     return tile.position == position;
+  }
+
+  public override string ToString() {
+    return "Tile: (" + position.X + "," + position.Y + ")";
   }
 
 }

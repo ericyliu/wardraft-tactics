@@ -3,7 +3,7 @@
 public static partial class Tests {
 
   public static void Buff_Tests () {
-    Debug.Log("Buff Tests");
+    Debug.Log("Buff Tests\n");
 
     var test = new Test("Buff equality is correct");
       Buff buff1 = new TestBuff0(0);

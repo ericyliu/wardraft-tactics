@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 public class Map {
 
   public Tile[,] mapTiles;
+  public static Map map;
 
   #region public
 
@@ -12,6 +13,7 @@ public class Map {
     JsonMapData data = readData(mapname);
     setUpTiles(data.width, data.height);
     setUpTerrain(data);
+    map = this;
   }
 
   public List<Tile> TilesInRange (Tile tile, int range) {
@@ -31,13 +33,14 @@ public class Map {
   }
 
   public List<Tile> TilesInUnitMoveRange (Unit unit) {
-    return tilesInMoveRange(GetTile(unit.position),
+    return tilesInMoveRange(unit.position,
                             unit.layer,
-                            unit.attributes.speed.current);
+                            unit.attributes.speed.current,
+                            FInt.Create(0));
   }
 
   public List<Tile> TilesInAttackRange (ActiveActor active_actor) {
-     List<Tile> tiles = TilesInRange(GetTile(active_actor.position),
+     List<Tile> tiles = TilesInRange(active_actor.position,
                           active_actor.attributes.attackRange.max);
      return tiles;
   }
@@ -51,6 +54,14 @@ public class Map {
 
   public Tile GetTile(Point position) {
     return mapTiles[position.X, position.Y];
+  }
+
+  public void PlaceActor(Point position, Actor actor, int layer = 1) {
+    GetTile(position).PlaceActor(actor, layer);
+  }
+
+  public void PlaceActiveActor(Point position, ActiveActor aa) {
+    GetTile(position).PlaceActiveActor(aa);
   }
 
   #endregion
@@ -97,18 +108,23 @@ public class Map {
   }
 
   private List<Tile> tilesInMoveRange (Tile start, int layer,
-                                       FInt movement_points) {
+                                       FInt movement_left,
+                                       FInt movement_used) {
     var tiles = new List<Tile>();
     List<Tile> one_away = TilesInRange(start, 1);
     foreach (Tile tile in one_away) {
       Terrain terrain = tile.terrains[layer];
-      if (terrain.passable && terrain.speedCost < movement_points) {
+      if (terrain.passable &&
+          movement_left - terrain.speedCost >= FInt.Create(0) &&
+          movement_used + terrain.speedCost < tile.costSoFar) {
         tile.from = start;
+        tile.costSoFar = movement_used + terrain.speedCost;
         tiles.Add(tile);
         tiles.AddRange(
           tilesInMoveRange(tile,
                            layer,
-                           movement_points-terrain.speedCost)
+                           movement_left - terrain.speedCost,
+                           movement_used + terrain.speedCost)
         );
       }
     }
@@ -116,6 +132,7 @@ public class Map {
   }
 
   private bool checkTilesInRange (Tile tile1, Tile tile2, int range) {
+    if (tile1.Equals(tile2)) return false;
     int distance_x = Mathf.Abs(tile2.position.X - tile1.position.X);
     int distance_y = Mathf.Abs(tile2.position.Y - tile1.position.Y);
     return range >= distance_x + distance_y;
