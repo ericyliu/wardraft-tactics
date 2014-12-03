@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 
-public class Aura : Ability {
+public abstract class Aura : Ability {
 
-	public int range;
-	public List<Buff> buffs;
+  public List<Buff> buffs;
 
-	public override void Invoke (ActiveActor target) {
-		foreach (Buff buff in buffs) {
-			target.AddBuff(buff);
-		}
-	}
+  public override void Invoke (ActiveActor aa_target = null, Tile tile_target = null) {
+    if (aa_target != null) {
+      foreach (Buff buff in buffs) {
+        aa_target.AddBuff(buff);
+      }
+    }
+  }
 
 }

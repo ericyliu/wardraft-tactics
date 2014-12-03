@@ -16,7 +16,7 @@ public class Cast : Command {
 
   public override void Invoke ()
   {
-    source.Cast(ability, target: target, tile_target: tile_target);
+    source.Cast(ability, aa_target: target, tile_target: tile_target);
   }
 
 

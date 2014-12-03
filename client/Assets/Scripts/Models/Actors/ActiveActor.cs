@@ -17,11 +17,14 @@ public abstract class ActiveActor : Actor {
   protected ActiveActor (int aid, int oid) : base(aid) {
     ownerID = oid;
     state = Enums.ActiveActorState.Alive;
+    buffs = new List<Buff>();
+    abilities = new List<Ability>();
   }
 
   #region commands
   public void Attack (ActiveActor target) {
     target.TakeDamage(attributes.damage.max);
+    canAttack = false;
   }
 
   public void Move (List<Tile> path) {
@@ -30,10 +33,8 @@ public abstract class ActiveActor : Actor {
     }
   }
 
-  public void Cast (Ability ability, ActiveActor target = null, Tile tile_target = null) {
-    if (target != null) ability.Invoke(target);
-    else if (tile_target != null) ability.Invoke(tile_target);
-    else ability.Invoke();
+  public void Cast (Ability ability, ActiveActor aa_target = null, Tile tile_target = null) {
+    ability.Invoke(aa_target: aa_target, tile_target: tile_target);
   }
 
   public void Die () {
@@ -46,8 +47,8 @@ public abstract class ActiveActor : Actor {
     if (attributes.health.current > attributes.health.max) attributes.health.current = attributes.health.max;
   }
 
-  public void TakeDamage (FInt damage_taken) {
-    damage_taken = damage_taken - attributes.armor.max;
+  public void TakeDamage (FInt damage_taken, bool apply_armor = true) {
+    if (apply_armor) damage_taken = damage_taken - attributes.armor.max;
     if (damage_taken < FInt.Create(1)) damage_taken = FInt.Create(1);
     attributes.health.current = attributes.health.current - damage_taken;
     if (attributes.health.current <= 0) {
@@ -80,6 +81,8 @@ public abstract class ActiveActor : Actor {
     attributes.damage.Repair();
     attributes.armor.Repair();
     attributes.attackRange.Repair();
+    canAttack = true;
+    canMove = true;
   }
 
   public void AssignStats (Attributes aa_attributes) {
@@ -89,6 +92,12 @@ public abstract class ActiveActor : Actor {
   public bool ValidMove (Tile tile) {
     return (tile.terrains[layer].passable &&
             tile.actors[layer] != null);
+  }
+
+  public void AddAbilityByID (int id) {
+    Ability ability = AbilityFactory.Create(AbilityList.abilities[id]);
+    ability.aa_source = this;
+    abilities.Add(ability);
   }
 
   private void moveTo (Tile start, Tile end) {
