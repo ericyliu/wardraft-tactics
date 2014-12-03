@@ -25,7 +25,7 @@ public static partial class Tests {
 
     test = new Test("Can place unit on map");
       Unit unit = new TestUnit(0,0);
-      map.PlaceActor(new Point(0,0), unit);
+      map.PlaceActiveActor(new Point(0,0), unit);
       test.Assert("unit is at (0,0)").Equal(unit, map.GetTile(new Point(0,0)).actors[1]);
       test.Finish();
   }
