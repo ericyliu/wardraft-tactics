@@ -2,22 +2,22 @@
 
 public abstract class ActiveActor : Actor {
 
-	public int ownerID, layer;
+  public int ownerID, layer = 1;
 
   public Attributes attributes;
 
-	public List<Buff> buffs;
-	public List<Ability> abilities;
+  public List<Buff> buffs;
+  public List<Ability> abilities;
 
-	public bool canAttack = true;
-	public bool canMove = true;
+  public bool canAttack = true;
+  public bool canMove = true;
 
   public Enums.ActiveActorState state;
 
-	protected ActiveActor (int aid, int oid) : base(aid) {
-		ownerID = oid;
+  protected ActiveActor (int aid, int oid) : base(aid) {
+    ownerID = oid;
     state = Enums.ActiveActorState.Alive;
-	}
+  }
 
   #region commands
   public void Attack (ActiveActor target) {
@@ -25,8 +25,8 @@ public abstract class ActiveActor : Actor {
   }
 
   public void Move (List<Tile> path) {
-    for (int i=1; i<=path.Count; i++) {
-      moveTo(path[path.Count-i]);
+    for (int i=2; i<=path.Count; i++) {
+      moveTo(position, path[path.Count-i]);
     }
   }
 
@@ -68,12 +68,12 @@ public abstract class ActiveActor : Actor {
     buff.Devoke();
   }
 
-	public void ApplyAllBuffs () {
+  public void ApplyAllBuffs () {
     ResetStats();
-		foreach (Buff buff in buffs) {
-			buff.Invoke();
-		}
-	}
+    foreach (Buff buff in buffs) {
+      buff.Invoke();
+    }
+  }
 
   public virtual void ResetStats () {
     attributes.health.Repair();
@@ -91,8 +91,9 @@ public abstract class ActiveActor : Actor {
             tile.actors[layer] != null);
   }
 
-  private void moveTo (Tile tile) {
-    position = tile.position;
+  private void moveTo (Tile start, Tile end) {
+    start.PlaceActor(null, layer);
+    end.PlaceActor(this, layer);
   }
 
 }

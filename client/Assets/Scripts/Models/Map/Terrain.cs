@@ -2,8 +2,8 @@
 
 public class Terrain {
 
-	public FInt speedCost;
-	public List<Aura> auras;
-	public bool passable;
+  public FInt speedCost;
+  public List<Aura> auras;
+  public bool passable = true;
 
 }
