@@ -63,7 +63,6 @@ public class Draft {
   }
 
   private void donePick () {
-    game.OnUnitPickDone(this);
   }
 
   private void removePick (string pick) {

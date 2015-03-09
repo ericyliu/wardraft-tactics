@@ -13,6 +13,16 @@ public class Turn {
     player = turn_player;
   }
 
+  public void AddCommand (Command command) {
+    commands.Add(command);
+  }
+
+  public void DoCommands () {
+    foreach (Command command in commands) {
+      command.Invoke();
+    }
+  }
+
   #region operators
   public override bool Equals (object obj)
   {

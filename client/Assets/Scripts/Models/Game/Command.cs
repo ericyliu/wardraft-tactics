@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
 public abstract class Command {
 
-	public abstract void Invoke ();
+  public abstract void Invoke ();
 }
