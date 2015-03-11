@@ -9,7 +9,7 @@ public class Game {
   public List<Player>     players;
   public Map              map;
   public Draft            draft;
-  public Random    random;
+  public Random           random;
 
   public List<Turn>       turn_list;
   public Turn             turn;
@@ -32,10 +32,22 @@ public class Game {
     state = Enums.GameState.UnitPick;
   }
 
+  public void OnDraftDone(Draft unitPick) {
+    foreach (Player player in players) {
+      player.buildableUnits = unitPick.ReturnPicks(player.name);
+    }
+    StartGame();
+  }
+
   public void StartGame() {
-    state = Enums.GameState.Playing;
     turn_list = new List<Turn>();
     turn = new Turn(0, players[0]);
+    state = Enums.GameState.Playing;
+  }
+
+  public void EndGame (Player game_winner) {
+    winner = game_winner;
+    state = Enums.GameState.Finished;
   }
 
   public bool Pause(Player player) {
@@ -49,11 +61,6 @@ public class Game {
 
   public void Unpause() {
     state = Enums.GameState.Playing;
-  }
-
-  public void EndGame (Player game_winner) {
-    winner = game_winner;
-    state = Enums.GameState.Finished;
   }
 
   public void NextTurn () {
@@ -83,13 +90,6 @@ public class Game {
     foreach (ActiveActor active in player.ownedActives) {
       func(active);
     }
-  }
-
-  public void OnUnitPickDone(Draft unitPick) {
-    foreach (Player player in players) {
-      player.buildableUnits = unitPick.ReturnPicks(player.name);
-    }
-    StartGame();
   }
 
   #endregion
