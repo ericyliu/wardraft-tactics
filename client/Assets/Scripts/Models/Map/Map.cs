@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 public class Map {
 
   public Tile[,] mapTiles;
-  public static Map map;
+  public static Map current;
 
   #region public
 
@@ -13,7 +13,7 @@ public class Map {
     JsonMapData data = readData(mapname);
     setUpTiles(data.width, data.height);
     setUpTerrain(data);
-    map = this;
+    current = this;
   }
 
   public List<Tile> TilesInRange (Tile tile, int range) {

@@ -26,15 +26,6 @@ public class ActiveActorVM : MonoBehaviour {
   }
   
   public void OnMouseClick () {
-    GameObject actors = GameObject.Find("Game/Actors");
-    for (int i=0; i<actors.transform.childCount; i++) {
-      Transform child = actors.transform.GetChild(i);
-      if (child != this.transform) {
-        normal(child.transform.Find("Model").renderer);
-        ActiveActorVM aavm = child.GetComponent<ActiveActorVM>();
-        if (aavm != null) aavm.selected = false;
-      }
-    }
     select(modelRenderer);
   }
   

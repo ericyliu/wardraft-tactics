@@ -1,7 +1,7 @@
 ﻿[System.Serializable]
 public abstract class Actor {
 
-  public int type_id;
+  public int code;
   public int id;
 
   public Tile position;
@@ -21,14 +21,14 @@ public abstract class Actor {
   {
     if (obj == null) return false;
     var actor = obj as Actor;
-    return (actor != null && actor.type_id == type_id && actor.id == id);
+    return (actor != null && actor.code == code && actor.id == id);
   }
 
   public override int GetHashCode ()
   {
     int hash = 17;
     hash = hash * 23 + id.GetHashCode();
-    hash = hash * 23 + type_id.GetHashCode();
+    hash = hash * 23 + code.GetHashCode();
     return hash;
   }
   #endregion

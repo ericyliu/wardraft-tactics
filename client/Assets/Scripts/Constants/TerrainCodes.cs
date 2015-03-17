@@ -14,6 +14,7 @@ public static class Terrains {
     {201, "Road"},
     {202, "River"},
     {203, "Grass"},
+    {204, "Stone"},
 
     // Air
     {300, "Air"},
