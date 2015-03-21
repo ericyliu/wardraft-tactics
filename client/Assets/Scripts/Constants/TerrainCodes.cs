@@ -4,6 +4,7 @@ public static class Terrains {
 
   public static Dictionary<int, string> codes = new Dictionary<int, string> {
     // Testing
+    {-1, "MissingTerrain"},
     {1, "TestTerrain"},
 
     // Underground

@@ -10,6 +10,7 @@ public class Map {
   #region public
 
   public void CreateMap (string mapname) {
+    Debug.Log("Loading Map Data...");
     JsonMapData data = readData(mapname);
     setUpTiles(data.width, data.height);
     setUpTerrain(data);
@@ -70,7 +71,6 @@ public class Map {
 
   private JsonMapData readData (string mapname) {
     string path = UnityEngine.Application.dataPath + "/Resources/Maps/" + mapname + ".json";
-    System.Console.WriteLine (path);
     string data_text = System.IO.File.ReadAllText(path);
     JsonMapData data = JsonConvert.DeserializeObject<JsonMapData>(data_text);
     return data;
