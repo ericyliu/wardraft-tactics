@@ -6,6 +6,7 @@ public class Map {
 
   public Tile[,] mapTiles;
   public static Map current;
+  public int layers = 3;
 
   #region public
 
@@ -14,6 +15,8 @@ public class Map {
     JsonMapData data = readData(mapname);
     setUpTiles(data.width, data.height);
     setUpTerrain(data);
+    setUpNeutrals(data);
+    setUpPlayersActors(data);
     current = this;
   }
 
@@ -86,14 +89,40 @@ public class Map {
   }
 
   private void setUpTerrain (JsonMapData data) {
-    for (int i=0; i<data.layers.Count; i++) {
+    for (int i=0; i<layers; i++) {
       List<int> tiles = data.layers[i].data;
       for (int j=0; j<tiles.Count; j++) {
         int x = j%data.width;
         int y = j/data.width;
         mapTiles[x,y].SetTerrain(i, tiles[j]);
         if (i==1) {
-          mapTiles[x,y].SetHeight(data.properties.height);
+          mapTiles[x,y].SetHeight(data.layers[(int)Enums.Layers.Heightmap].data[j]);
+        }
+      }
+    }
+  }
+  
+  private void setUpNeutrals (JsonMapData data) {
+    List<int> neutrals = data.layers[(int)Enums.Layers.Neutral].data;
+    for (int j=0; j<neutrals.Count; j++) {
+      if (neutrals[j] != 0) {
+        int x = j%data.width;
+        int y = j%data.width;
+        mapTiles[x,y].CreateActor(neutrals[j], 0);
+      }
+    }
+  }
+  
+  private void setUpPlayersActors (JsonMapData data) {
+    int numLayers = data.layers.Count;
+    int numPlayers = numLayers - (int)Enums.Layers.Players;
+    for (int i=0; i<numPlayers; i++) {
+      List<int> playersActors = data.layers[i+(int)Enums.Layers.Players].data;
+      for (int j=0; j<playersActors.Count; j++) {
+        if (playersActors[j] != 0) {
+          int x = j%data.width;
+          int y = j%data.width;
+          mapTiles[x,y].CreateActor(playersActors[j], i+1);
         }
       }
     }

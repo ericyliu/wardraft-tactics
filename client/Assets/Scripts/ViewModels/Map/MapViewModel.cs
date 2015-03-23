@@ -35,7 +35,6 @@ namespace Wardraft.Game {
     
     void createTiles () {
       Tile[,] tiles = Map.current.mapTiles;
-      Debug.Log(tiles.GetLength(0) + "x" + tiles.GetLength(1));
       for (int i=0; i<tiles.GetLength(0); i++) {
         for (int j=0; j<tiles.GetLength(1); j++) {
           createTile(tiles[i,j], i, j);
@@ -46,7 +45,7 @@ namespace Wardraft.Game {
     void createTile (Tile tile, int x, int y) {
       GameObject tileObject = new GameObject();
       tileObject.name = "Tile:" + x + "," + y;
-      tileObject.transform.position = new Vector3(x, .5f + tile.height, y);
+      tileObject.transform.position = new Vector3(x, .5f + (tile.height/2f), y);
       tileObject.transform.SetParent(transform,false);
       for (int i=0; i<tile.layers; i++) {
         createTerrain(tile.terrains[i], tileObject.transform, i);
@@ -70,7 +69,14 @@ namespace Wardraft.Game {
         GameObject actorObject = Instantiate(RL.actors[actor.code]) as GameObject;
         actorObject.name = "Actor:" + actor.code + "#" + actor.id;
         actorObject.transform.SetParent(tile,false);
-        actorObject.transform.position = new Vector3(0,layer-.5f,0);
+        actorObject.transform.localPosition = new Vector3(0,.5f,0);
+        
+        ActiveActorVM aavm = actorObject.GetComponent<ActiveActorVM>();
+        if (actor is ActiveActor) {
+          aavm.owner = (actor as ActiveActor).ownerID;
+        }
+        else aavm.owner = 0;
+        
       }
     }
     

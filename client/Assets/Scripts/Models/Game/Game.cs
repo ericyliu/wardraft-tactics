@@ -17,6 +17,8 @@ namespace Wardraft.Game {
     public Turn             turn;
   
     public Player           winner;
+    
+    public static int       nextAid = 0;
   
     #region public
   
@@ -96,6 +98,11 @@ namespace Wardraft.Game {
       foreach (ActiveActor active in player.ownedActives) {
         func(active);
       }
+    }
+    
+    public static int GetNextAid() {
+      nextAid++;
+      return nextAid;
     }
   
     #endregion

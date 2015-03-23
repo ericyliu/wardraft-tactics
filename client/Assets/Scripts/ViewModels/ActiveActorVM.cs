@@ -4,6 +4,7 @@ using System.Collections;
 public class ActiveActorVM : MonoBehaviour {
 
   public bool selected;
+  public int owner;
   Renderer modelRenderer;
   Shader normalShader, outlineShader;
   

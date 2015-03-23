@@ -4,22 +4,23 @@ public static class Terrains {
 
   public static Dictionary<int, string> codes = new Dictionary<int, string> {
     // Testing
-    {-1, "MissingTerrain"},
-    {1, "TestTerrain"},
+    {254, "MissingTerrain"},
+    {25, "TestTerrain"},
 
     // Underground
-    {100, "Earth"},
+    {21, "Earth"},
 
     // Ground
-    {200, "Dirt"},
-    {201, "Road"},
-    {202, "River"},
-    {203, "Grass"},
-    {204, "Stone"},
+    {3, "Dirt"},
+    {17, "Road"},
+    {207, "River"},
+    {1, "Grass"},
+    {2, "Stone"},
+    {5, "Wood"},
 
     // Air
-    {300, "Air"},
-    {301, "Cloud"}
+    {50, "Air"},
+    {23, "Cloud"}
   };
 
 }

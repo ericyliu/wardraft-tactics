@@ -3,6 +3,7 @@ public abstract class Actor {
 
   public int code;
   public int id;
+  public int layer = 1;
 
   public Tile position;
   public Point size;

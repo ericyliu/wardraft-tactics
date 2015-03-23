@@ -2,7 +2,7 @@
 
 public abstract class ActiveActor : Actor {
 
-  public int ownerID, layer = 1;
+  public int ownerID;
 
   public Attributes attributes;
 
