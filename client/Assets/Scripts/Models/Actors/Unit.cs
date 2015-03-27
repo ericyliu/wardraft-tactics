@@ -1,6 +1,6 @@
 ﻿public abstract class Unit : ActiveActor {
 
-  protected Unit(int aid, int oid) : base (aid,oid) {
+  protected Unit(int aid, string oid) : base (aid,oid) {
 
   }
 

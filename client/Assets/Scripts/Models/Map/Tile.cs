@@ -40,7 +40,7 @@ public class Tile {
     }
   }
 
-  public void CreateActor (int code, int oid) {
+  public void CreateActor (int code, string oid) {
     string type = "";
     if (Actors.codes.ContainsKey(code)) {
       type = Actors.codes[code];

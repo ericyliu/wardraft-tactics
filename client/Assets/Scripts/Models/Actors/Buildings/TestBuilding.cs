@@ -1,6 +1,6 @@
 public class TestBuilding : Building {
 
-  public TestBuilding (int aid, int oid) : base (aid,oid) {
+  public TestBuilding (int aid, string oid) : base (aid,oid) {
     code = 0;
   }
 

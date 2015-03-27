@@ -71,11 +71,10 @@ namespace Wardraft.Game {
         actorObject.transform.SetParent(tile,false);
         actorObject.transform.localPosition = new Vector3(0,.5f,0);
         
-        ActiveActorVM aavm = actorObject.GetComponent<ActiveActorVM>();
         if (actor is ActiveActor) {
-          aavm.owner = (actor as ActiveActor).ownerID;
+          ActiveActorController AAC = actorObject.GetComponent<ActiveActorController>();
+          AAC.AA = actor as ActiveActor;
         }
-        else aavm.owner = 0;
         
       }
     }

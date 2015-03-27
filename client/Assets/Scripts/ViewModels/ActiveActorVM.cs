@@ -3,8 +3,6 @@ using System.Collections;
 
 public class ActiveActorVM : MonoBehaviour {
 
-  public bool selected;
-  public int owner;
   Renderer modelRenderer;
   Shader normalShader, outlineShader;
   
@@ -14,39 +12,30 @@ public class ActiveActorVM : MonoBehaviour {
     modelRenderer = transform.GetComponentInChildren<Renderer>();
   }
   
-  public void OnMouseOver () {
-    if (!selected) {
-      mouseover(modelRenderer);
-    }
+  public void Normal () {
+    modelRenderer.material.shader = normalShader;
   }
   
-  public void OnMouseExit () {
-    if (!selected) {
-      normal(modelRenderer);
-    }
-  }
-  
-  public void OnMouseClick () {
-    select(modelRenderer);
-  }
-  
-  void normal (Renderer renderer) {
-    renderer.material.shader = normalShader;
-    selected = false;
-  }
-  
-  void mouseover (Renderer renderer) {
-    renderer.material.shader = outlineShader;
-    renderer.material.SetColor("_OutlineColor", new Color(.5f,1f,1f,.5f));
+  public void MouseoverOwn () {
+    modelRenderer.material.shader = outlineShader;
+    modelRenderer.material.SetColor("_OutlineColor", new Color(.5f,1f,.5f,.5f));
     
   }
   
-  void select (Renderer renderer) {
-    selected = true;
-    renderer.material.shader = outlineShader;
-    renderer.material.SetColor("_OutlineColor", new Color(0f,1f,0f,.5f));
+  public void MouseoverEnemy () {
+    modelRenderer.material.shader = outlineShader;
+    modelRenderer.material.SetColor("_OutlineColor", new Color(1f,.5f,.5f,.5f));
   }
   
+  public void SelectOwn () {
+    modelRenderer.material.shader = outlineShader;
+    modelRenderer.material.SetColor("_OutlineColor", new Color(0f,1f,0f,.5f));
+  }
+  
+  public void SelectEnemy () {
+    modelRenderer.material.shader = outlineShader;
+    modelRenderer.material.SetColor("_OutlineColor", new Color(1f,0f,0f,.5f));
+  }
   
 
 }

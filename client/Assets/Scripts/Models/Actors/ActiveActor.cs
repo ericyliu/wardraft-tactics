@@ -2,7 +2,7 @@
 
 public abstract class ActiveActor : Actor {
 
-  public int ownerID;
+  public string ownerID;
 
   public Attributes attributes;
 
@@ -13,8 +13,10 @@ public abstract class ActiveActor : Actor {
   public bool canMove = true;
 
   public Enums.ActiveActorState state;
+  
+  public bool selected = false;
 
-  protected ActiveActor (int aid, int oid) : base(aid) {
+  protected ActiveActor (int aid, string oid) : base(aid) {
     ownerID = oid;
     state = Enums.ActiveActorState.Alive;
     buffs = new List<Buff>();
@@ -39,6 +41,14 @@ public abstract class ActiveActor : Actor {
 
   public void Die () {
     state = Enums.ActiveActorState.Dead;
+  }
+  
+  public void Select () {
+    selected = true;
+  }
+  
+  public void Deselect () {
+    selected = false;
   }
   #endregion
 

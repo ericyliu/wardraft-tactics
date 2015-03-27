@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Wardraft.Game;
 
 public class Map {
 
@@ -108,7 +109,7 @@ public class Map {
       if (neutrals[j] != 0) {
         int x = j%data.width;
         int y = j%data.width;
-        mapTiles[x,y].CreateActor(neutrals[j], 0);
+        mapTiles[x,y].CreateActor(neutrals[j], "neutral");
       }
     }
   }
@@ -122,7 +123,7 @@ public class Map {
         if (playersActors[j] != 0) {
           int x = j%data.width;
           int y = j%data.width;
-          mapTiles[x,y].CreateActor(playersActors[j], i+1);
+          mapTiles[x,y].CreateActor(playersActors[j], Game.current.players[i].id);
         }
       }
     }

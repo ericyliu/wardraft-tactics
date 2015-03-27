@@ -12,7 +12,7 @@ public static partial class Tests {
     map.CreateMap(mapname);
 
     test = new Test("Finds the correct moves");
-      Unit unit = new TestUnit(0,0);
+      Unit unit = new TestUnit(0,"0");
       var start = new Point(1,1);
       var finish = new Point(6,1);
       map.PlaceActiveActor(start, unit);

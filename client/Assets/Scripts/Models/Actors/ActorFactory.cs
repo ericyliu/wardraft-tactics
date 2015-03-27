@@ -2,7 +2,7 @@
 
 public static class ActorFactory {
   
-  public static Actor Create (string type, int aid, int oid) {
+  public static Actor Create (string type, int aid, string oid) {
     switch (type) {
       case "Bunny":
         return new Bunny(aid, oid);

@@ -19,19 +19,22 @@ namespace Wardraft.Game {
     public Player           winner;
     
     public static int       nextAid = 0;
+    
+    public static Game      current;
   
     #region public
   
     public Game() {
       state = Enums.GameState.Unstarted;
+      current = this;
     }
     
     public void LoadGame (string mapname, List<User> game_users, int game_seed) {
       state = Enums.GameState.Loading;
       random = new Random(game_seed);
       users = Utility.ShuffleUsers(game_users, ref random);
-      loadMap(mapname);
       loadPlayers(users);
+      loadMap(mapname);
       state = Enums.GameState.Loaded;
     }
   
