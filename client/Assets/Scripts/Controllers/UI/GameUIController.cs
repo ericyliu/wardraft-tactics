@@ -7,13 +7,15 @@ namespace Wardraft.UI {
   public class GameUIController : MonoBehaviour {
   
     GameObject SelectedInfo;
+    GameObject PlayerInfo;
     
     void Start () {
       SelectedInfo = GameObject.Find("SelectedInfo");
-      HideInfo();
+      PlayerInfo = GameObject.Find("PlayerInfo");
+      HideSelectedInfo();
     }
     
-    public void ShowInfo (System.Object toShow) {
+    public void ShowSelectedInfo (System.Object toShow) {
       if (toShow is ActiveActor) {
         ActiveActor aa = toShow as ActiveActor;
         SelectedInfo.SetActive(true);
@@ -29,8 +31,15 @@ namespace Wardraft.UI {
       }
     }
     
-    public void HideInfo () {
+    public void HideSelectedInfo () {
       SelectedInfo.SetActive(false);
+    }
+    
+    public void UpdateCurrentPlayerInfo (Player player) {
+      changeText(PlayerInfo.transform.FindChild("LabelGold").gameObject,
+        "Gold: " + player.gold);
+      changeText(PlayerInfo.transform.FindChild("LabelPopulation").gameObject,
+        "Population: " + player.population.current + "/" + player.population.max);
     }
     
     void changeSelectedLabel (string name, string text) {

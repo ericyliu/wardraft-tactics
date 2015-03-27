@@ -21,7 +21,7 @@ namespace Wardraft.Game {
         selected.Deselect();
       }
       selected = toSelect;
-      GUIC.ShowInfo(toSelect.AA);
+      GUIC.ShowSelectedInfo(toSelect.AA);
     }
   
   }
