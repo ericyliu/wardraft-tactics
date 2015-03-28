@@ -7,7 +7,7 @@ namespace Wardraft.Game {
   public class PlayerController : MonoBehaviour {
   
     public Player player;
-    public ActiveActorController selected;
+    public System.Object selected;
     public GameUIController GUIC;
     
     public static PlayerController yourself;
@@ -16,12 +16,13 @@ namespace Wardraft.Game {
       GUIC = GameObject.Find("UI").GetComponent<GameUIController>();
     }
     
-    public void Select (ActiveActorController toSelect) {
+    public void Select (System.Object toSelect) {
       if (toSelect != selected && selected != null) {
-        selected.Deselect();
+        if (selected is ActiveActorController) (selected as ActiveActorController).Deselect();
+        if (selected is TileController) (selected as TileController).Deselect();
       }
       selected = toSelect;
-      GUIC.ShowSelectedInfo(toSelect.AA);
+      GUIC.ShowSelectedInfo(toSelect);
     }
   
   }

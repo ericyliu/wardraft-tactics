@@ -8,7 +8,7 @@ public class ActiveActorVM : MonoBehaviour {
   
   void Start () {
     normalShader = Shader.Find("Diffuse");
-    outlineShader = Shader.Find("Outlined/Silhouetted Bumped Diffuse");
+    outlineShader = Shader.Find("Outlined/Diffuse");
     modelRenderer = transform.GetComponentInChildren<Renderer>();
   }
   

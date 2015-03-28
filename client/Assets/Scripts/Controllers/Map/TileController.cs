@@ -3,34 +3,30 @@ using System.Collections;
 
 namespace Wardraft.Game {
 
-  public class ActiveActorController : MonoBehaviour {
+  public class TileController : MonoBehaviour {
   
-    public ActiveActorVM AAVM;
-    public ActiveActor AA;
+    public TileViewModel TVM;
+    public Tile tile;
     
     public void HoverOn () {
       if (PlayerController.yourself.selected != this) {
-        if (AA.ownerID != GameData.PlayerID) AAVM.MouseoverEnemy();
-        else AAVM.MouseoverOwn();
+        TVM.Mouseover();
       }
     }
     
     public void HoverExit () {
       if (PlayerController.yourself.selected != this) {
-        AAVM.Normal();
+        TVM.Normal();
       }
     }
     
     public void Select () {
-      if (AA.ownerID != GameData.PlayerID) AAVM.SelectEnemy();
-      else AAVM.SelectOwn();
-      AA.Select();
+      TVM.Select();
       PlayerController.yourself.Select(this);
     }
     
     public void Deselect () {
-      AAVM.Normal();
-      AA.Deselect();
+      TVM.Normal();
     }
   
   }

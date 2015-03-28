@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Wardraft.Game;
 
 namespace Wardraft.UI {
 
@@ -16,8 +17,8 @@ namespace Wardraft.UI {
     }
     
     public void ShowSelectedInfo (System.Object toShow) {
-      if (toShow is ActiveActor) {
-        ActiveActor aa = toShow as ActiveActor;
+      if (toShow is ActiveActorController) {
+        ActiveActor aa = (toShow as ActiveActorController).AA;
         SelectedInfo.SetActive(true);
         string owned = "";
         if (aa.ownerID == GameData.PlayerID) owned = " (Owned)";
