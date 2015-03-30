@@ -43,7 +43,7 @@ namespace Wardraft.Game {
       GameData.PlayerID = AppData.UserID;
       game.LoadGame(MapData.current.MapName, users, seed);
       createPlayers(game);
-      MapController.current.LoadMap();
+      MapController.current.LoadMap(game.map);
       setupUserData();
       //TODO: move this to after draft
       startGame();

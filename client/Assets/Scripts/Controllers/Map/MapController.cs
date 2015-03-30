@@ -6,15 +6,18 @@ namespace Wardraft.Game {
   public class MapController : MonoBehaviour {
   
     public MapViewModel MVM;
-    
+    public Map map;
+      
     public static MapController current;
+  
   
     void Start () {
       checkDependencies();
       current = this;
     }
   
-    public void LoadMap () {
+    public void LoadMap (Map map) {
+      this.map = map;
       MVM.LoadMap();
     }
     
@@ -32,6 +35,11 @@ namespace Wardraft.Game {
         MVM.DisplayMovementOptions(tiles);
         actor.position = savePos;
       }
+    }
+    
+    public void MoveActor (Actor actor, Tile tile) {
+      MVM.MoveActor(actor, tile);
+      DisplayOptions(actor);
     }
     
     void checkDependencies () {

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 namespace Wardraft.Game {
 
@@ -20,10 +21,20 @@ namespace Wardraft.Game {
       }
     }
     
-    public void Select () {
-      TVM.Select();
-      PlayerController.yourself.Select(this);
-      MapController.current.MVM.RemoveTileHighlights();
+    public void Select (BaseEventData data) {
+      if (data is PointerEventData) {
+        PointerEventData.InputButton button = (data as PointerEventData).button;
+        if (button == PointerEventData.InputButton.Left) {
+          TVM.Select();
+          PlayerController.yourself.Select(this);
+          MapController.current.MVM.RemoveTileHighlights();
+        }
+        else if (button == PointerEventData.InputButton.Right) {
+          if (PlayerController.yourself.selected is ActiveActorController) {
+            (PlayerController.yourself.selected as ActiveActorController).MoveTo(tile);
+          }
+        }
+      }
     }
     
     public void Deselect () {

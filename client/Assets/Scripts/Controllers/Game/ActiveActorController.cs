@@ -33,6 +33,20 @@ namespace Wardraft.Game {
       AAVM.Normal();
       AA.Deselect();
     }
+    
+    public void MoveTo (Tile tile) {
+      if (AA.canMove) {
+        if (Map.current.TilesInUnitMoveRange(AA as Unit).Contains(tile)) {
+          List<Tile> path = new List<Tile>();
+          Map.current.BuildPath(AA.position, tile, ref path);
+          AA.Move(path);
+          MapController.current.MoveActor(AA, tile); 
+        }
+        else {
+          Debug.Log("Unit cannot move to that tile");
+        }
+      }
+    }
   
   }
 
