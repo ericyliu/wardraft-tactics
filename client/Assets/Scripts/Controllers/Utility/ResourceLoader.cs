@@ -38,6 +38,8 @@ public class ResourceLoader : MonoBehaviour {
     }
     misc.Add("tileSelectionOutline", Resources.Load("Terrains/SelectionOutline"));
     misc.Add("tileMouseoverOutline", Resources.Load("Terrains/MouseoverOutline"));
+    misc.Add("tileMovementOutline", Resources.Load("Terrains/MovementOutline"));
+    misc.Add("tileAttackOutline", Resources.Load("Terrains/AttackOutline"));
   }
   
   void loadActors () {

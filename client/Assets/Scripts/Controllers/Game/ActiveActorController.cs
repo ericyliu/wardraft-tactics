@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace Wardraft.Game {
 
@@ -26,6 +26,7 @@ namespace Wardraft.Game {
       else AAVM.SelectOwn();
       AA.Select();
       PlayerController.yourself.Select(this);
+      if (AA is Unit) MapController.current.DisplayOptions(AA);
     }
     
     public void Deselect () {

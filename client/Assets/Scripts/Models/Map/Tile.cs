@@ -47,7 +47,7 @@ public class Tile {
     }
     Actor actor = ActorFactory.Create(type, Game.GetNextAid(), oid);
     actor.code = code;
-    actors[actor.layer] = actor;
+    PlaceActor(actor, actor.layer);
   }
 
   public void PlaceActor (Actor actor, int layer) {

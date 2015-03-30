@@ -21,8 +21,8 @@ public class Map {
     current = this;
   }
 
-  public List<Tile> TilesInRange (Tile tile, int range) {
-    var tiles = new List<Tile>();
+  public HashSet<Tile> TilesInRange (Tile tile, int range) {
+    var tiles = new HashSet<Tile>();
     Point position = tile.position;
     for (int x=position.X-range; x<=position.X+range; x++) {
       for (int y=position.Y-range; y<=position.Y+range; y++) {
@@ -37,15 +37,18 @@ public class Map {
     return tiles;
   }
 
-  public List<Tile> TilesInUnitMoveRange (Unit unit) {
+  public HashSet<Tile> TilesInUnitMoveRange (Unit unit) {
+    foreach (Tile tile in mapTiles) {
+      tile.costSoFar = FInt.Create(5000);
+    }
     return tilesInMoveRange(unit.position,
                             unit.layer,
                             unit.attributes.speed.current,
                             FInt.Create(0));
   }
 
-  public List<Tile> TilesInAttackRange (ActiveActor active_actor) {
-     List<Tile> tiles = TilesInRange(active_actor.position,
+  public HashSet<Tile> TilesInAttackRange (ActiveActor active_actor) {
+    HashSet<Tile> tiles = TilesInRange(active_actor.position,
                           active_actor.attributes.attackRange.max);
      return tiles;
   }
@@ -137,11 +140,11 @@ public class Map {
     }
   }
 
-  private List<Tile> tilesInMoveRange (Tile start, int layer,
+  private HashSet<Tile> tilesInMoveRange (Tile start, int layer,
                                        FInt movement_left,
                                        FInt movement_used) {
-    var tiles = new List<Tile>();
-    List<Tile> one_away = TilesInRange(start, 1);
+    var tiles = new HashSet<Tile>();
+    HashSet<Tile> one_away = TilesInRange(start, 1);
     foreach (Tile tile in one_away) {
       Wardraft.Game.Terrain terrain = tile.terrains[layer];
       if (terrain.passable &&
@@ -150,7 +153,7 @@ public class Map {
         tile.from = start;
         tile.costSoFar = movement_used + terrain.speedCost;
         tiles.Add(tile);
-        tiles.AddRange(
+        tiles.UnionWith(
           tilesInMoveRange(tile,
                            layer,
                            movement_left - terrain.speedCost,

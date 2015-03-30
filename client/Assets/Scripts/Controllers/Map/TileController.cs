@@ -23,6 +23,7 @@ namespace Wardraft.Game {
     public void Select () {
       TVM.Select();
       PlayerController.yourself.Select(this);
+      MapController.current.MVM.RemoveTileHighlights();
     }
     
     public void Deselect () {

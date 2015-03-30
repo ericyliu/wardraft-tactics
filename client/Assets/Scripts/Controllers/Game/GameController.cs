@@ -9,7 +9,6 @@ namespace Wardraft.Game {
   public class GameController : MonoBehaviour {
   
     public ResourceLoader RL;
-    public MapController MC;
     public GameUIController GUIC; 
     GameObject playersContainer;
     
@@ -44,7 +43,7 @@ namespace Wardraft.Game {
       GameData.PlayerID = AppData.UserID;
       game.LoadGame(MapData.current.MapName, users, seed);
       createPlayers(game);
-      MC.LoadMap();
+      MapController.current.LoadMap();
       setupUserData();
       //TODO: move this to after draft
       startGame();
@@ -74,7 +73,6 @@ namespace Wardraft.Game {
      
     void checkDependencies () {
       if (RL == null) Debug.LogError("Please set ResourceLoader in GameController");
-      if (MC == null) Debug.LogError("Please set MapController in GameController");
       if (GUIC == null) Debug.LogError("Please set GameUIController in GameController");
     }
   
