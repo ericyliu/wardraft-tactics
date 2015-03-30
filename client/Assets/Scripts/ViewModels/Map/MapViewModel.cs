@@ -48,18 +48,19 @@ namespace Wardraft.Game {
       tileObject.transform.position = new Vector3(x, .5f + (tile.height/2f), y);
       tileObject.transform.SetParent(transform,false);
       for (int i=0; i<tile.layers; i++) {
-        createTerrain(tile.terrains[i], tileObject.transform, i);
+        createTerrain(tile.terrains[i], tileObject.transform, i, tile);
         createActor(tile.actors[i], tileObject.transform, i);
       }
     }
     
-    void createTerrain (Terrain terrain, Transform tile, int layer) {
+    void createTerrain (Terrain terrain, Transform tileTransform, int layer, Tile tile) {
       if (layer != 1) return; //underground
       if (terrain != null) {
         GameObject terrainObject = Instantiate(RL.terrains[terrain.code]) as GameObject;
         terrainObject.name = "Terrain:" + terrain.code;
-        terrainObject.transform.SetParent(tile,false);
+        terrainObject.transform.SetParent(tileTransform,false);
         terrainObject.transform.localPosition = new Vector3(0,layer-1f,0);
+        terrainObject.GetComponent<TileController>().tile = tile;
       }
     }
     

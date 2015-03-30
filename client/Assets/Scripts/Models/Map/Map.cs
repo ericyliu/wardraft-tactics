@@ -143,7 +143,7 @@ public class Map {
     var tiles = new List<Tile>();
     List<Tile> one_away = TilesInRange(start, 1);
     foreach (Tile tile in one_away) {
-      Terrain terrain = tile.terrains[layer];
+      Wardraft.Game.Terrain terrain = tile.terrains[layer];
       if (terrain.passable &&
           movement_left - terrain.speedCost >= FInt.Create(0) &&
           movement_used + terrain.speedCost < tile.costSoFar) {

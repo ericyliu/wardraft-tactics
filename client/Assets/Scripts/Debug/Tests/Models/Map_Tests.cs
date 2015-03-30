@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Wardraft.Game;
 
 public static partial class Tests {
 

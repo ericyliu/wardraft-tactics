@@ -1,4 +1,6 @@
-﻿public static class TerrainFactory {
+﻿namespace Wardraft.Game {
+
+public static class TerrainFactory {
 
   public static Terrain Create (string type) {
     switch (type) {
@@ -22,5 +24,7 @@
         return new MissingTerrain();
     }
   }
+
+}
 
 }

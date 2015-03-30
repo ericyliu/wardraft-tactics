@@ -7,10 +7,14 @@ public class ResourceLoader : MonoBehaviour {
 
   public Dictionary<int, Object>  terrains;
   public Dictionary<int, Object>  actors;
+  public Dictionary<string, Object> misc;
   
   public bool done = false;
+  
+  public static ResourceLoader current;
 
   void Start () {
+    misc = new Dictionary<string, Object>();
     todo = new Dictionary<string, System.Action>() {
       { "Loading terrain files.", loadTerrains },
       { "Loading actor files.", loadActors }
@@ -22,6 +26,7 @@ public class ResourceLoader : MonoBehaviour {
       i++;
     }
     done = true;
+    current = this;
   }
   
   void loadTerrains () {
@@ -31,6 +36,8 @@ public class ResourceLoader : MonoBehaviour {
       if (prefab == null) Debug.LogError("Cannot find: " + entry.Value + " prefab.");
       terrains.Add(entry.Key, prefab);
     }
+    misc.Add("tileSelectionOutline", Resources.Load("Terrains/SelectionOutline"));
+    misc.Add("tileMouseoverOutline", Resources.Load("Terrains/MouseoverOutline"));
   }
   
   void loadActors () {

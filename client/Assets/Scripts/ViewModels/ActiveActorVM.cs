@@ -7,7 +7,7 @@ public class ActiveActorVM : MonoBehaviour {
   Shader normalShader, outlineShader;
   
   void Start () {
-    normalShader = Shader.Find("Diffuse");
+    normalShader = Shader.Find("Standard");
     outlineShader = Shader.Find("Outlined/Diffuse");
     modelRenderer = transform.GetComponentInChildren<Renderer>();
   }
