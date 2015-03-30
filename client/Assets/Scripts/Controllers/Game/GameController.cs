@@ -8,7 +8,6 @@ namespace Wardraft.Game {
 
   public class GameController : MonoBehaviour {
   
-    public string MapName;
     public ResourceLoader RL;
     public MapController MC;
     public GameUIController GUIC; 
@@ -43,7 +42,7 @@ namespace Wardraft.Game {
       AppData.UserID = "1";
       //END TODO
       GameData.PlayerID = AppData.UserID;
-      game.LoadGame(MapName, users, seed);
+      game.LoadGame(MapData.current.MapName, users, seed);
       createPlayers(game);
       MC.LoadMap();
       setupUserData();

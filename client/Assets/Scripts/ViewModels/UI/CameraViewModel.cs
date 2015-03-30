@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Wardraft.Game;
 
 namespace Wardraft.UI {
 
@@ -21,7 +22,15 @@ namespace Wardraft.UI {
     public void MoveRight () { move(container.right); }
     
     void move (Vector3 dir) {
+      Vector3 prevPos = transform.position;
       transform.Translate(dir * Time.deltaTime * speed, Space.World);
+      RaycastHit[] hits = Physics.RaycastAll(transform.position, transform.forward);
+      foreach (RaycastHit hit in hits) {
+        if (hit.collider.transform.GetComponentInChildren<TileViewModel>() != null) {
+          return;
+        }
+      }
+      transform.position = prevPos;
     }
   
   }

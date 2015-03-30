@@ -25,6 +25,12 @@ namespace Wardraft.Controls {
       if (Input.GetKey(KeySettings.Bindings[Actions.CameraUp])) y++;
       if (Input.GetKey(KeySettings.Bindings[Actions.CameraLeft])) x--;
       if (Input.GetKey(KeySettings.Bindings[Actions.CameraRight])) x++;
+      
+      if (Input.mousePosition.y < CC.mouseCameraGutter) y--;
+      if (Input.mousePosition.y > Screen.height - CC.mouseCameraGutter) y++;
+      if (Input.mousePosition.x < CC.mouseCameraGutter) x--;
+      if (Input.mousePosition.x > Screen.width - CC.mouseCameraGutter) x++;
+      
       CC.SetVelocity(x, y);
     }
     

@@ -7,6 +7,7 @@ namespace Wardraft.UI {
   
     CameraViewModel CVM;
     Vector2         velocity;
+    public float mouseCameraGutter = 20f;
     
     void Start () {
       CVM = gameObject.GetComponent<CameraViewModel>();
