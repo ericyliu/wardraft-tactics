@@ -9,6 +9,10 @@ namespace Wardraft.Game {
     public TileViewModel TVM;
     public Tile tile;
     
+    public static GameObject GetTileObject (Tile tile) {
+      return GameObject.Find("Tile:" + tile.position.X + "," + tile.position.Y);
+    }
+    
     public void HoverOn () {
       if (PlayerController.yourself.selected != this) {
         TVM.Mouseover();

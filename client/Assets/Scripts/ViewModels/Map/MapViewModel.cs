@@ -21,7 +21,7 @@ namespace Wardraft.Game {
       if (tileObject == null || actorObject == null) {
         Debug.LogError("Could not find tile and actor GameObjects.");
       }
-      actorObject.transform.SetParent(tileObject.transform,false);
+      actorObject.transform.SetParent(tileObject.transform,true);
     }
     
     public void DisplayAttackOptions (HashSet<Tile> tiles) {
