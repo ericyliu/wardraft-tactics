@@ -1,23 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Wardraft.Game;
 
 public class Map {
 
   public Tile[,] mapTiles;
-  public static Map map;
+  public static Map current;
+  public int layers = 3;
 
   #region public
 
   public void CreateMap (string mapname) {
+    Debug.Log("Loading Map Data...");
     JsonMapData data = readData(mapname);
     setUpTiles(data.width, data.height);
     setUpTerrain(data);
-    map = this;
+    setUpNeutrals(data);
+    setUpPlayersActors(data);
+    current = this;
   }
 
-  public List<Tile> TilesInRange (Tile tile, int range) {
-    var tiles = new List<Tile>();
+  public HashSet<Tile> TilesInRange (Tile tile, int range) {
+    var tiles = new HashSet<Tile>();
     Point position = tile.position;
     for (int x=position.X-range; x<=position.X+range; x++) {
       for (int y=position.Y-range; y<=position.Y+range; y++) {
@@ -32,15 +37,18 @@ public class Map {
     return tiles;
   }
 
-  public List<Tile> TilesInUnitMoveRange (Unit unit) {
+  public HashSet<Tile> TilesInUnitMoveRange (Unit unit) {
+    foreach (Tile tile in mapTiles) {
+      tile.costSoFar = FInt.Create(5000);
+    }
     return tilesInMoveRange(unit.position,
                             unit.layer,
                             unit.attributes.speed.current,
                             FInt.Create(0));
   }
 
-  public List<Tile> TilesInAttackRange (ActiveActor active_actor) {
-     List<Tile> tiles = TilesInRange(active_actor.position,
+  public HashSet<Tile> TilesInAttackRange (ActiveActor active_actor) {
+    HashSet<Tile> tiles = TilesInRange(active_actor.position,
                           active_actor.attributes.attackRange.max);
      return tiles;
   }
@@ -70,7 +78,6 @@ public class Map {
 
   private JsonMapData readData (string mapname) {
     string path = UnityEngine.Application.dataPath + "/Resources/Maps/" + mapname + ".json";
-    System.Console.WriteLine (path);
     string data_text = System.IO.File.ReadAllText(path);
     JsonMapData data = JsonConvert.DeserializeObject<JsonMapData>(data_text);
     return data;
@@ -86,14 +93,40 @@ public class Map {
   }
 
   private void setUpTerrain (JsonMapData data) {
-    for (int i=0; i<data.layers.Count; i++) {
+    for (int i=0; i<layers; i++) {
       List<int> tiles = data.layers[i].data;
       for (int j=0; j<tiles.Count; j++) {
         int x = j%data.width;
         int y = j/data.width;
         mapTiles[x,y].SetTerrain(i, tiles[j]);
         if (i==1) {
-          mapTiles[x,y].SetHeight(data.properties.height);
+          mapTiles[x,y].SetHeight(data.layers[(int)Enums.Layers.Heightmap].data[j]);
+        }
+      }
+    }
+  }
+  
+  private void setUpNeutrals (JsonMapData data) {
+    List<int> neutrals = data.layers[(int)Enums.Layers.Neutral].data;
+    for (int j=0; j<neutrals.Count; j++) {
+      if (neutrals[j] != 0) {
+        int x = j%data.width;
+        int y = j%data.width;
+        mapTiles[x,y].CreateActor(neutrals[j], "neutral");
+      }
+    }
+  }
+  
+  private void setUpPlayersActors (JsonMapData data) {
+    int numLayers = data.layers.Count;
+    int numPlayers = numLayers - (int)Enums.Layers.Players;
+    for (int i=0; i<numPlayers; i++) {
+      List<int> playersActors = data.layers[i+(int)Enums.Layers.Players].data;
+      for (int j=0; j<playersActors.Count; j++) {
+        if (playersActors[j] != 0) {
+          int x = j%data.width;
+          int y = j%data.width;
+          mapTiles[x,y].CreateActor(playersActors[j], Game.current.players[i].id);
         }
       }
     }
@@ -107,20 +140,20 @@ public class Map {
     }
   }
 
-  private List<Tile> tilesInMoveRange (Tile start, int layer,
+  private HashSet<Tile> tilesInMoveRange (Tile start, int layer,
                                        FInt movement_left,
                                        FInt movement_used) {
-    var tiles = new List<Tile>();
-    List<Tile> one_away = TilesInRange(start, 1);
+    var tiles = new HashSet<Tile>();
+    HashSet<Tile> one_away = TilesInRange(start, 1);
     foreach (Tile tile in one_away) {
-      Terrain terrain = tile.terrains[layer];
+      Wardraft.Game.Terrain terrain = tile.terrains[layer];
       if (terrain.passable &&
           movement_left - terrain.speedCost >= FInt.Create(0) &&
           movement_used + terrain.speedCost < tile.costSoFar) {
         tile.from = start;
         tile.costSoFar = movement_used + terrain.speedCost;
         tiles.Add(tile);
-        tiles.AddRange(
+        tiles.UnionWith(
           tilesInMoveRange(tile,
                            layer,
                            movement_left - terrain.speedCost,

@@ -3,6 +3,8 @@
 [System.Serializable]
 public class Player {
 
+  public string id;
+
   public string name;
   public Enums.Color color;
 
@@ -14,6 +16,8 @@ public class Player {
   public List<ActiveActor> ownedActives;
 
   public Player (User user) {
+    id = user.id;
+  
     name = user.displayName;
     color = Enums.GetNextColor();
 

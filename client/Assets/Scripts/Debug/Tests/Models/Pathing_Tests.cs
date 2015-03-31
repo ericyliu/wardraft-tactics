@@ -12,12 +12,12 @@ public static partial class Tests {
     map.CreateMap(mapname);
 
     test = new Test("Finds the correct moves");
-      Unit unit = new TestUnit(0,0);
+      Unit unit = new TestUnit(0,"0");
       var start = new Point(1,1);
       var finish = new Point(6,1);
       map.PlaceActiveActor(start, unit);
       test.Assert("Starts at 1,1").Equal(unit, map.GetTile(start).actors[1]);
-      List<Tile> tiles = map.TilesInUnitMoveRange(unit);
+      HashSet<Tile> tiles = map.TilesInUnitMoveRange(unit);
       test.Assert("Has 6,1 as possible move").Equal(tiles.Contains(map.GetTile(finish)), true);
       test.Assert("Has 1,6 as possible move").Equal(tiles.Contains(map.GetTile(new Point(1,6))), true);
       test.Finish();

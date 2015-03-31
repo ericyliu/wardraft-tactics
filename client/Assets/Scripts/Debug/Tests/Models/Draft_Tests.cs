@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Wardraft.Game;
 
 public static partial class Tests {
 
@@ -14,7 +15,8 @@ public static partial class Tests {
       new User("user_3","user_id_3"),
       new User("user_4","user_id_4")
     };
-    var game = new Game(mapname,users,seed);
+    var game = new Game();
+    game.LoadGame(mapname,users,seed);
     game.StartDraft();
 
     Test test;
@@ -30,9 +32,11 @@ public static partial class Tests {
 
 
     test = new Test("game and game2 have the same pick order");
-      game = new Game(mapname,users,seed);
+      game = new Game();
+      game.LoadGame(mapname,users,seed);
       game.StartDraft();
-      var game2 = new Game(mapname,users,seed);
+      var game2 = new Game();
+      game2.LoadGame(mapname,users,seed);
       game2.StartDraft();
       test.Assert("same first").Equal(game.draft.NextPick(),game2.draft.NextPick());
       test.Assert("same second").Equal(game.draft.NextPick(),game2.draft.NextPick());

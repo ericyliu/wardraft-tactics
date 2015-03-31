@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Wardraft.Game;
 
 public static partial class Tests {
 
@@ -15,7 +16,8 @@ public static partial class Tests {
       new User("user_3","user_id_3"),
       new User("user_4","user_id_4")
     };
-    var game = new Game(mapname,users,seed);
+    var game = new Game();
+    game.LoadGame(mapname,users,seed);
 
     Test test;
 

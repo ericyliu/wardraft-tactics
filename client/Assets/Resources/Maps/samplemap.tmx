@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Tileset" tilewidth="32" tileheight="32">
+  <image source="../../Textures/Tileset/tileset.png" width="512" height="512"/>
+  <terraintypes>
+   <terrain name="100" tile="-1"/>
+  </terraintypes>
+  <tile id="1093" terrain="0,0,0,0"/>
+ </tileset>
+ <layer name="Underground" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAAxNlYGAQHcWjeBSP4lE8iknEAJucAUhABgAA
+  </data>
+ </layer>
+ <layer name="Ground" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA6WUyw3AIAxD+YgB2H+ortQeQLKsJDj04EtLH0nstJVSGqh/qhd6lprBY+13JxbzplNfdBeyKrG21B4Hsapxn8p7Fm8czik1Yo+KfxGT56XmwWIyK8ND5nRYES/KxJ47s/A79Tn6mM0614493uSzO6xsnpjnsbJMax//5D7y0WOyPzyv0z56+USfeR/VTHRiNXFeyr+WeWqPXB/zXqCFnRpABgAA
+  </data>
+ </layer>
+ <layer name="Air" width="20" height="20" opacity="0.46">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAAzNiYGAwGiRYHIoHq3nDDZMbPrj0Udu8UTwab0MZj4TyDAA5F+EHQAYAAA==
+  </data>
+ </layer>
+ <layer name="Heightmap" width="20" height="20" opacity="0.55">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NmYGBgRsKMFGJmIsxjgmJSzMOnh9rm4cKkqifkVnLcQK6/6WkWtcKKEgyLY1L9ikuO3PTHxECdfDVY4mIwpTlq5iVywwpmLynlJzFpiVrmEVMek4LRzQMAs8Won0AGAAA=
+  </data>
+ </layer>
+</map>

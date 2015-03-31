@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using Wardraft.Game;
+
+[System.Serializable]
 public class Tile {
 
   public int        layers    = 3;
@@ -22,6 +24,7 @@ public class Tile {
       type = Terrains.codes[code];
     }
     terrains[index] = TerrainFactory.Create(type);
+    terrains[index].code = code;
   }
 
   public void SetHeight (int tile_height) {
@@ -35,6 +38,16 @@ public class Tile {
         if (aa != null) aura.Invoke(aa);
       }
     }
+  }
+
+  public void CreateActor (int code, string oid) {
+    string type = "";
+    if (Actors.codes.ContainsKey(code)) {
+      type = Actors.codes[code];
+    }
+    Actor actor = ActorFactory.Create(type, Game.GetNextAid(), oid);
+    actor.code = code;
+    PlaceActor(actor, actor.layer);
   }
 
   public void PlaceActor (Actor actor, int layer) {

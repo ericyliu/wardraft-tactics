@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
 
-public class Terrain {
+namespace Wardraft.Game {
 
-  public FInt speedCost;
-  public List<Aura> auras;
-  public bool passable = true;
+  public class Terrain {
+  
+    public int code;
+    public FInt speedCost = FInt.Create(2.5);
+    public List<Aura> auras;
+    public bool passable = true;
+  
+  }
 
 }

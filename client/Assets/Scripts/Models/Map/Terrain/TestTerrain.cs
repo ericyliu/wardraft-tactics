@@ -1,3 +1,9 @@
-﻿public class TestTerrain : Terrain {
+﻿namespace Wardraft.Game {
+
+public class TestTerrain : Terrain {
+
+  public TestTerrain () { code = 1; }
+
+}
 
 }
