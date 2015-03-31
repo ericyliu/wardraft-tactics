@@ -4,12 +4,19 @@ Wardraft: Tactics - Readme
 ## Contents
 * **Introduction**
 
+* **Installation**
+
 * **About The Game**
 
 * **File Architecture**
 
 ## Introduction
 Wardraft: Tactics is a tactical turn-based strategy game inspired by Fire Emblem and Advance Wars. Part speed chess, part go and part poker, this revolutionary take on the genre of tile-based warfare will capture your attention and imagination. Outplay, outwit and outmanuever your enemies with a deadlier army and your superior strategy.
+
+## Installation
+1. Get the Repo with `git clone https://github.com/ericyliu/wardraft-tactics.git`
+2. Download Unity 5 `http://unity3d.com/get-unity/download`
+3. Install Unity and open up `samplemap.unity` in the `client/Assets` folder
 
 ## About The Game
 1. Personalized Army
@@ -27,41 +34,14 @@ Wardraft: Tactics is a tactical turn-based strategy game inspired by Fire Emblem
   - Cut down trees, scale cliffs, burrow underground, take to the skys to outplay your enemy.
 
 ## File Architecture
-- `Assets/Scripts`
-  - `/Constants` Enums and Constant settings used by the app and game
-  - `/Controllers` part of MVC, controllers that handle player and server input
-  - `/Debug` testing code
-  - `/Managers` managers that dictate the flow of the app
-  - `/Models` part of MVC
-    - `/Abilities` abilities used by units and buildings
-    - `/Actors` any entity inside the game
-      - `/Buildings` building types
-      - `/Doodads` doodad types
-      - `/Units` unit types
-    - `/Application` models describing the app
-    - `/Attributes` unit and building stats
-    - `/Game` models describing the game
-    - `/Map` models describing the map and terrain
-      - `/Terrain` terrain types
-  - `Utility` libraries and helpers
-  - `Views` part of MVC, what the player sees
-- `Assets/Resources`
-  - `/Maps` map files in json format made using Tiled (http://www.mapeditor.org/)
-  - `/Models` 3d models of game objects
-    - `/Terrain`
-    - `/Units`
-    - `/Buildings`
-    - `/FX`
-  - `/Textures` textures for game objects
-    - `/Terrain`
-    - `/Units`
-    - `/Buildings`
-    - `/FX`
-    - `/UI`
-      - `/Menus`
-      - `/Icons`
-  - `/Sounds` sounds of game objects
-    - `/Units`
-    - `/Buildings`
-    - `/FX`
+- `Assets/Scripts/` All game logic
+  - `Constants/` Enums and Constant settings used by the app and game
+  - `Controllers/` controllers that handle player and server input and handles communication between game objects
+  - `Data/` data objects storing game attributes
+  - `Debug/` testing code
+  - `Models/` data objects storing game state
+  - `Utility/` libraries and helpers
+  - `ViewModels/` scripts that interact with unity gameobjects
+- `Assets/Resources` Resources to be loaded during runtime
+  - `Maps/` map files in json format made using Tiled (http://www.mapeditor.org/)
 
