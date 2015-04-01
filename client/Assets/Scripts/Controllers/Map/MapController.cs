@@ -23,17 +23,13 @@ namespace Wardraft.Game {
     
     public void DisplayOptions (Actor actor) {
      MVM.RemoveTileHighlights();
-      if (actor is Unit) {
+      if (actor is ActiveActor) {
         HashSet<Tile> tiles = Map.current.TilesInUnitMoveRange(actor as Unit);
-        Tile savePos = actor.position;
-        HashSet<Tile> attackTiles = new HashSet<Tile>();
-        foreach (Tile tile in tiles) {
-          actor.position = tile;
-          attackTiles.UnionWith(Map.current.TilesInAttackRange(actor as ActiveActor));
-        }
+        HashSet<Tile> attackTiles;
+        if (actor is Unit) attackTiles = Map.current.TilesInMoveAttackRange(actor as Unit);
+        else attackTiles = Map.current.TilesInAttackRange(actor as ActiveActor);
         MVM.DisplayAttackOptions(attackTiles);
         MVM.DisplayMovementOptions(tiles);
-        actor.position = savePos;
       }
     }
     

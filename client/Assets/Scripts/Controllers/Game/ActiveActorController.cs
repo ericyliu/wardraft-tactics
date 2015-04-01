@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Threading;
+using UnityEngine.EventSystems;
 
 namespace Wardraft.Game {
 
@@ -37,12 +37,28 @@ namespace Wardraft.Game {
       }
     }
     
-    public void Select () {
-      if (AA.ownerID != GameData.PlayerID) AAVM.SelectEnemy();
-      else AAVM.SelectOwn();
-      AA.Select();
-      PlayerController.yourself.Select(this);
-      if (AA is Unit) MapController.current.DisplayOptions(AA);
+    public void Click (BaseEventData data) {
+      if (data is PointerEventData) {
+        PointerEventData.InputButton button = (data as PointerEventData).button;
+        if (button == PointerEventData.InputButton.Left) {
+          if (AA.ownerID != GameData.PlayerID) AAVM.SelectEnemy();
+          else AAVM.SelectOwn();
+          AA.Select();
+          PlayerController.yourself.Select(this);
+          if (owned()) MapController.current.DisplayOptions(AA);
+        }
+        else if (button == PointerEventData.InputButton.Right) {
+          if (PlayerController.yourself.selected is ActiveActorController) {
+            ActiveActorController source = PlayerController.yourself.selected as ActiveActorController;
+            ActiveActorController target = this;
+            if (source.owned() && !target.owned()) {
+              if (Map.current.IsWithinAttackRange(source.AA, target.AA)) {
+                Debug.Log ("Attacking " + Actors.codes[AA.code]);
+              }
+            }
+          }
+        }
+      }
     }
     
     public void Deselect () {
@@ -51,6 +67,7 @@ namespace Wardraft.Game {
     }
     
     public void MoveTo (Tile tile) {
+      if (!owned()) return;
       if (AA.canMove) {
         if (Map.current.TilesInUnitMoveRange(AA as Unit).Contains(tile)) {
           List<Tile> path = new List<Tile>();
@@ -60,10 +77,11 @@ namespace Wardraft.Game {
           path.AddRange(currentPath);
           currentPath = path;
         }
-        else {
-          Debug.Log("Unit cannot move to that tile");
-        }
       }
+    }
+    
+    bool owned () {
+      return AA.ownerID == GameData.PlayerID;
     }
     
     void navigate () {

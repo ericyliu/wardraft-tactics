@@ -62,7 +62,7 @@ public class Tile {
 
   public int GetLayer (Actor actor) {
     for (int i=0; i<layers; i++) {
-      if (actors[i] == actor) return i;
+      if (actors[i] != null && actors[i].Equals(actor)) return i;
     }
     return -1;
   }
