@@ -1,4 +1,5 @@
-﻿public class Bunny : Unit {
+﻿[System.Serializable]
+public class Bunny : Unit {
   
   public Bunny (int aid, string oid) : base(aid, oid) {
     var attr = new Attributes(health_stat: 10, damage_stat: 1,

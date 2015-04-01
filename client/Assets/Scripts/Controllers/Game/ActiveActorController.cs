@@ -9,19 +9,19 @@ namespace Wardraft.Game {
     public ActiveActorVM AAVM;
     public ActiveActor AA;
     
-    List<Tile> currentPath;
+    public List<Tile> currentPath;
     Vector3 currentDestination;
+    ActiveActorController target;
     Enums.AnimationState state;
     
     void Start () {
       currentPath = new List<Tile>();
       currentDestination = Vector3.zero;
-      state = Enums.AnimationState.Standing;
+      AAVM.PlayAnimation(Enums.AnimationState.Standing);
     }
     
     void Update () {
       navigate();
-      AAVM.PlayAnimation(state);
     }
     
     public void HoverOn () {
@@ -40,22 +40,10 @@ namespace Wardraft.Game {
     public void Click (BaseEventData data) {
       if (data is PointerEventData) {
         PointerEventData.InputButton button = (data as PointerEventData).button;
-        if (button == PointerEventData.InputButton.Left) {
-          if (AA.ownerID != GameData.PlayerID) AAVM.SelectEnemy();
-          else AAVM.SelectOwn();
-          AA.Select();
-          PlayerController.yourself.Select(this);
-          if (owned()) MapController.current.DisplayOptions(AA);
-        }
+        if (button == PointerEventData.InputButton.Left) onSelected();
         else if (button == PointerEventData.InputButton.Right) {
           if (PlayerController.yourself.selected is ActiveActorController) {
-            ActiveActorController source = PlayerController.yourself.selected as ActiveActorController;
-            ActiveActorController target = this;
-            if (source.owned() && !target.owned()) {
-              if (Map.current.IsWithinAttackRange(source.AA, target.AA)) {
-                Debug.Log ("Attacking " + Actors.codes[AA.code]);
-              }
-            }
+            onAttacked();
           }
         }
       }
@@ -80,13 +68,51 @@ namespace Wardraft.Game {
       }
     }
     
+    public void Attack (ActiveActorController target) {
+      if (owned() && !target.owned()) {
+        if (Map.current.IsWithinAttackRange(AA, target.AA)) {
+          Debug.Log ("Attacking " + Actors.codes[AA.code]);
+          List<Tile> path = new List<Tile>();
+          Map.current.BuildPath(AA.position, target.AA.position, ref path);
+          path.RemoveAt(0);
+          MapController.current.MoveActor(AA,path[0]);
+          AA.Move(path);
+          path.AddRange(currentPath);
+          currentPath = path;
+          this.target = target;
+        }
+      }
+    }
+    
+    public void DealDamage () {
+      Debug.Log("DealDamage");
+      AA.Attack(target.AA);
+    }
+    
+    public void FinishAttack () {
+      target = null;
+    }
+    
+    void onSelected () {
+      if (AA.ownerID != GameData.PlayerID) AAVM.SelectEnemy();
+      else AAVM.SelectOwn();
+      AA.Select();
+      PlayerController.yourself.Select(this);
+      if (owned()) MapController.current.DisplayOptions(AA);
+    }
+    
+    void onAttacked () {
+      ActiveActorController source = PlayerController.yourself.selected as ActiveActorController;
+      source.Attack(this);
+    }
+    
     bool owned () {
       return AA.ownerID == GameData.PlayerID;
     }
     
     void navigate () {
       if (currentPath.Count > 0) {
-        state = Enums.AnimationState.Moving;
+        AAVM.PlayAnimation(Enums.AnimationState.Moving);
         float threshold = ((float)AA.attributes.speed.current.ToDouble() * Time.deltaTime) / 5f;
         if (currentDestination == Vector3.zero) {
           Tile tile = currentPath[currentPath.Count-1];
@@ -102,7 +128,13 @@ namespace Wardraft.Game {
           currentDestination = Vector3.zero;
         }
       }
-      else state = Enums.AnimationState.Standing;
+      else {
+        if (target != null) {
+          AAVM.Face(target.transform.position);
+          AAVM.PlayAnimation(Enums.AnimationState.Attacking);
+        }
+        else AAVM.PlayAnimation(Enums.AnimationState.Standing);
+      }
     }
   
   }
