@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+[System.Serializable]
 public abstract class ActiveActor : Actor {
 
   public string ownerID;

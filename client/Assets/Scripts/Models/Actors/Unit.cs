@@ -1,4 +1,6 @@
-﻿public abstract class Unit : ActiveActor {
+﻿
+[System.Serializable]
+public abstract class Unit : ActiveActor {
 
   protected Unit(int aid, string oid) : base (aid,oid) {
 

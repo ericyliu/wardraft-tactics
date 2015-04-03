@@ -5,7 +5,7 @@
 
   public enum GameState {Unstarted, Loading, Loaded, UnitPick, Starting, Playing, Paused, Finished};
   public enum ActiveActorState {Alive, Dead};
-  public enum AnimationState {Moving, Attacking, Standing, Dying};
+  public enum AnimationState {Moving, Attacking, Standing, Dying, TakeDamage};
 
   public enum Layers {Underground, Ground, Air, Heightmap, Neutral, Players};
 

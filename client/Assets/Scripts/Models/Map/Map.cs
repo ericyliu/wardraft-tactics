@@ -50,7 +50,7 @@ public class Map {
   public HashSet<Tile> TilesInAttackRange (ActiveActor active_actor) {
     HashSet<Tile> tiles = TilesInRange(active_actor.position,
                           active_actor.attributes.attackRange.max);
-     return tiles;
+    return tiles;
   }
 
   public void BuildPath (Tile start, Tile finish, ref List<Tile> path) {
@@ -58,6 +58,28 @@ public class Map {
     if (!start.Equals(finish)) {
       BuildPath(start, finish.from, ref path);
     }
+  }
+  
+  public HashSet<Tile> TilesInMoveAttackRange (Unit unit) {
+    HashSet<Tile> tiles = new HashSet<Tile>();
+    HashSet<Tile> moveTiles = TilesInUnitMoveRange(unit);
+    foreach (Tile tile in moveTiles) {
+      Tile prevPos = unit.position;
+      unit.position = tile;
+      tiles.UnionWith(TilesInAttackRange(unit));
+      unit.position = prevPos;
+    }
+    return tiles;
+  }
+  
+  public bool IsWithinAttackRange (ActiveActor source, ActiveActor target) {
+    HashSet<Tile> tiles = new HashSet<Tile>();
+    if (source is Unit) tiles = TilesInMoveAttackRange(source as Unit);
+    else tiles = TilesInAttackRange(source);
+    foreach (Tile tile in tiles) {
+      if (tile.GetLayer(target) != -1) return true;
+    }
+    return false;
   }
 
   public Tile GetTile(Point position) {
