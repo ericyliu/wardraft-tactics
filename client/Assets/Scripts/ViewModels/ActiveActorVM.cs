@@ -44,6 +44,7 @@ public class ActiveActorVM : MonoBehaviour {
     if (state == Enums.AnimationState.Standing) animator.Play("Idle");
     else if (state == Enums.AnimationState.Moving) animator.Play("Walking");
     else if (state == Enums.AnimationState.Attacking) animator.Play("Attacking");
+    else if (state == Enums.AnimationState.TakeDamage) animator.Play("TakeDamage");
     
   }
   

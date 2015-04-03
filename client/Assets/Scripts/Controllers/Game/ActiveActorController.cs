@@ -71,7 +71,6 @@ namespace Wardraft.Game {
     public void Attack (ActiveActorController target) {
       if (owned() && !target.owned()) {
         if (Map.current.IsWithinAttackRange(AA, target.AA)) {
-          Debug.Log ("Attacking " + Actors.codes[AA.code]);
           List<Tile> path = new List<Tile>();
           Map.current.BuildPath(AA.position, target.AA.position, ref path);
           path.RemoveAt(0);
@@ -85,12 +84,16 @@ namespace Wardraft.Game {
     }
     
     public void DealDamage () {
-      Debug.Log("DealDamage");
       AA.Attack(target.AA);
+      target.TakeDamage();
     }
     
     public void FinishAttack () {
       target = null;
+    }
+    
+    public void TakeDamage () {
+      AAVM.PlayAnimation(Enums.AnimationState.TakeDamage);
     }
     
     void onSelected () {
@@ -126,6 +129,7 @@ namespace Wardraft.Game {
           transform.position = currentDestination;
           currentPath.RemoveAt(currentPath.Count-1);
           currentDestination = Vector3.zero;
+          if (currentPath.Count == 0) AAVM.PlayAnimation(Enums.AnimationState.Standing);
         }
       }
       else {
@@ -133,7 +137,6 @@ namespace Wardraft.Game {
           AAVM.Face(target.transform.position);
           AAVM.PlayAnimation(Enums.AnimationState.Attacking);
         }
-        else AAVM.PlayAnimation(Enums.AnimationState.Standing);
       }
     }
   
