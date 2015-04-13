@@ -9,12 +9,15 @@ namespace Wardraft.UI {
   
     GameObject SelectedActorInfo;
     GameObject SelectedTileInfo;
+    GameObject AbilityPanel;
     GameObject PlayerInfo;
     
     void Start () {
       SelectedActorInfo = GameObject.Find("SelectedActorInfo");
       SelectedTileInfo = GameObject.Find("SelectedTileInfo");
       PlayerInfo = GameObject.Find("PlayerInfo");
+      AbilityPanel = GameObject.Find("AbilityPanel");
+      AbilityPanel.SetActive(false);
       HideSelectedInfo();
     }
     
@@ -29,9 +32,11 @@ namespace Wardraft.UI {
         changeLabel(SelectedActorInfo, "LabelHealth", "Health: " + aa.attributes.health.current.ToInt() + "/" + aa.attributes.health.max.ToInt());
         changeLabel(SelectedActorInfo, "LabelDamage", "Damage: " + aa.attributes.damage.current.ToInt());
         changeLabel(SelectedActorInfo, "LabelArmor", "Armor: " + aa.attributes.armor.current.ToInt());
-        changeLabel(SelectedActorInfo, "LabelSpeed", "Speed: " + aa.attributes.speed.current.ToInt());
+        changeLabel(SelectedActorInfo, "LabelSpeed", "Movement: " + aa.attributes.speed.current.ToInt() + "/" + aa.attributes.speed.max.ToInt());
         changeLabel(SelectedActorInfo, "LabelMana", "Mana: " + aa.attributes.mana.current.ToInt() + "/" + aa.attributes.mana.max.ToInt());
         changeLabel(SelectedActorInfo, "LabelAttackRange", "A. Range: " + aa.attributes.attackRange.current);
+      
+        showAbilities(aa);
       }
       if (toShow is TileController) {
         Tile tile = (toShow as TileController).tile;
@@ -46,6 +51,7 @@ namespace Wardraft.UI {
     public void HideSelectedInfo () {
       SelectedActorInfo.SetActive(false);
       SelectedTileInfo.SetActive(false);
+      hideAbilities();
     }
     
     public void UpdateCurrentPlayerInfo (Player player) {
@@ -60,6 +66,28 @@ namespace Wardraft.UI {
     
     void changeText (GameObject textObject, string text) {
       textObject.GetComponent<Text>().text = text;
+    }
+    
+    void showAbilities (ActiveActor aa) {
+      AbilityPanel.SetActive(true);
+      GameObject garbage = GameObject.Find("Garbage");
+      for (int i=0; i<AbilityPanel.transform.childCount; i++) {
+        AbilityPanel.transform.GetChild(i).SetParent(garbage.transform);
+      }
+      Debug.Log (aa.abilities.Count);
+      for (int i=0; i<aa.abilities.Count; i++) {
+        Ability ability = aa.abilities[i];
+        float position = (60 * i) + (10 * (i + 1));
+        GameObject button = Instantiate(ResourceLoader.current.ui["AbilityButton"]) as GameObject;
+        button.GetComponent<RectTransform>().anchoredPosition = new Vector2(position, 10f);
+        changeLabel(button, "Label", AbilityList.abilities[ability.code]);
+        button.transform.SetParent(AbilityPanel.transform,false);
+        button.name = "AbilityButton:" + ability.code;
+      }
+    }
+    
+    void hideAbilities () {
+      AbilityPanel.SetActive(false);
     }
   
   }

@@ -11,14 +11,14 @@ namespace Wardraft.Game {
     
     public void Mouseover () {
       destroyOutlines();
-      GameObject outline = Instantiate(ResourceLoader.current.misc["tileMouseoverOutline"]) as GameObject;
+      GameObject outline = Instantiate(ResourceLoader.current.ui["tileMouseoverOutline"]) as GameObject;
       outline.name = "MouseoverOutline";
       outline.transform.SetParent(transform,false);
     }
     
     public void Select () {
       destroyOutlines();
-      GameObject outline = Instantiate(ResourceLoader.current.misc["tileSelectionOutline"]) as GameObject;
+      GameObject outline = Instantiate(ResourceLoader.current.ui["tileSelectionOutline"]) as GameObject;
       outline.name = "SelectionOutline";
       outline.transform.SetParent(transform,false);
     }

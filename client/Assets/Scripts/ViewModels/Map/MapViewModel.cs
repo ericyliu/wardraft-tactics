@@ -27,7 +27,7 @@ namespace Wardraft.Game {
     public void DisplayAttackOptions (HashSet<Tile> tiles) {
       foreach (Tile tile in tiles) {
         GameObject tileObject = GameObject.Find("Tile:" + tile.position.X + "," + tile.position.Y);
-        GameObject outline = Instantiate(ResourceLoader.current.misc["tileAttackOutline"]) as GameObject;
+        GameObject outline = Instantiate(ResourceLoader.current.ui["tileAttackOutline"]) as GameObject;
         outline.name = "AttackOutline";
         outline.transform.SetParent(tileObject.transform,false);
         highlightedTiles.Add(tileObject);
@@ -37,7 +37,7 @@ namespace Wardraft.Game {
     public void DisplayMovementOptions (HashSet<Tile> tiles) {
       foreach (Tile tile in tiles) {
         GameObject tileObject = GameObject.Find("Tile:" + tile.position.X + "," + tile.position.Y);
-        GameObject outline = Instantiate(ResourceLoader.current.misc["tileMovementOutline"]) as GameObject;
+        GameObject outline = Instantiate(ResourceLoader.current.ui["tileMovementOutline"]) as GameObject;
         outline.name = "MovementOutline";
         outline.transform.SetParent(tileObject.transform,false);
         highlightedTiles.Add(tileObject);

@@ -107,6 +107,7 @@ public abstract class ActiveActor : Actor {
 
   public void AddAbilityByID (int id) {
     Ability ability = AbilityFactory.Create(AbilityList.abilities[id]);
+    ability.code = id;
     ability.aa_source = this;
     abilities.Add(ability);
   }

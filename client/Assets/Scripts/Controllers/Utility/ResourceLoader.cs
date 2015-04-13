@@ -7,17 +7,18 @@ public class ResourceLoader : MonoBehaviour {
 
   public Dictionary<int, Object>  terrains;
   public Dictionary<int, Object>  actors;
-  public Dictionary<string, Object> misc;
+  public Dictionary<string, Object> ui;
   
   public bool done = false;
   
   public static ResourceLoader current;
 
   void Start () {
-    misc = new Dictionary<string, Object>();
+    ui = new Dictionary<string, Object>();
     todo = new Dictionary<string, System.Action>() {
       { "Loading terrain files.", loadTerrains },
-      { "Loading actor files.", loadActors }
+      { "Loading actor files.", loadActors },
+      { "Loading UI elements", loadUI }
     };
     int i = 1;
     foreach (KeyValuePair<string, System.Action> entry in todo) {
@@ -36,10 +37,6 @@ public class ResourceLoader : MonoBehaviour {
       if (prefab == null) Debug.LogError("Cannot find: " + entry.Value + " prefab.");
       terrains.Add(entry.Key, prefab);
     }
-    misc.Add("tileSelectionOutline", Resources.Load("Terrains/SelectionOutline"));
-    misc.Add("tileMouseoverOutline", Resources.Load("Terrains/MouseoverOutline"));
-    misc.Add("tileMovementOutline", Resources.Load("Terrains/MovementOutline"));
-    misc.Add("tileAttackOutline", Resources.Load("Terrains/AttackOutline"));
   }
   
   void loadActors () {
@@ -49,6 +46,15 @@ public class ResourceLoader : MonoBehaviour {
       if (prefab == null) Debug.LogError("Cannot find: " + entry.Value + " prefab.");
       actors.Add(entry.Key, prefab);
     }
+  }
+  
+  void loadUI () {
+    ui.Add("tileSelectionOutline", Resources.Load("GameUI/SelectionOutline"));
+    ui.Add("tileMouseoverOutline", Resources.Load("GameUI/MouseoverOutline"));
+    ui.Add("tileMovementOutline", Resources.Load("GameUI/MovementOutline"));
+    ui.Add("tileAttackOutline", Resources.Load("GameUI/AttackOutline"));
+    
+    ui.Add("AbilityButton", Resources.Load("GameUI/AbilityButton"));
   }
 
 }
