@@ -36,7 +36,7 @@ namespace Wardraft.UI {
         changeLabel(SelectedActorInfo, "LabelMana", "Mana: " + aa.attributes.mana.current.ToInt() + "/" + aa.attributes.mana.max.ToInt());
         changeLabel(SelectedActorInfo, "LabelAttackRange", "A. Range: " + aa.attributes.attackRange.current);
       
-        showAbilities(aa);
+        if (aa.ownerID == GameData.PlayerID) showAbilities(aa);
       }
       if (toShow is TileController) {
         Tile tile = (toShow as TileController).tile;
@@ -74,7 +74,6 @@ namespace Wardraft.UI {
       for (int i=0; i<AbilityPanel.transform.childCount; i++) {
         AbilityPanel.transform.GetChild(i).SetParent(garbage.transform);
       }
-      Debug.Log (aa.abilities.Count);
       for (int i=0; i<aa.abilities.Count; i++) {
         Ability ability = aa.abilities[i];
         float position = (60 * i) + (10 * (i + 1));
