@@ -144,7 +144,7 @@ namespace Wardraft.Game {
     void navigate () {
       if (currentPath.Count > 0) {
         AAVM.PlayAnimation(Enums.AnimationState.Moving);
-        float threshold = ((float)AA.attributes.speed.current.ToDouble() * Time.deltaTime) / 5f;
+        float threshold = ((float)AA.attributes.speed.max.ToDouble() * Time.deltaTime) / 5f;
         if (currentDestination == Vector3.zero) {
           Tile tile = currentPath[currentPath.Count-1];
           GameObject tileObject = GameObject.Find("Tile:" + tile.position.X + "," + tile.position.Y);

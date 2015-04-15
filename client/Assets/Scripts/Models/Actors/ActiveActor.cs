@@ -58,13 +58,15 @@ public abstract class ActiveActor : Actor {
     if (attributes.health.current > attributes.health.max) attributes.health.current = attributes.health.max;
   }
 
-  public void TakeDamage (FInt damage_taken, bool apply_armor = true) {
+  public bool TakeDamage (FInt damage_taken, bool apply_armor = true) {
     if (apply_armor) damage_taken = damage_taken - attributes.armor.max;
     if (damage_taken < FInt.Create(1)) damage_taken = FInt.Create(1);
     attributes.health.current = attributes.health.current - damage_taken;
     if (attributes.health.current <= 0) {
       Die();
+      return true;
     }
+    return false;
   }
 
   public void AddBuff (Buff buff) {
@@ -115,6 +117,7 @@ public abstract class ActiveActor : Actor {
   private void moveTo (Tile start, Tile end) {
     start.PlaceActor(null, layer);
     end.PlaceActor(this, layer);
+    attributes.speed.current -= end.terrains[layer].speedCost;
   }
 
 }
