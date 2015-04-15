@@ -8,6 +8,7 @@ public class Gateway : Building {
                               range_stat: 0,  speed_stat: 0,
                               mana_stat: 0);
     AssignStats(attr);
+    buildList = new int[] {1};
   }
   
 }

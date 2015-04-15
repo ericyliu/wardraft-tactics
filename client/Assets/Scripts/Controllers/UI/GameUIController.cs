@@ -11,6 +11,7 @@ namespace Wardraft.UI {
     GameObject  SelectedTileInfo;
     GameObject  AbilityPanel;
     GameObject  PlayerInfo;
+    GameObject  BuildListPanel;
     
     public static GameUIController current;
     
@@ -19,6 +20,8 @@ namespace Wardraft.UI {
       SelectedTileInfo = GameObject.Find("SelectedTileInfo");
       PlayerInfo = GameObject.Find("PlayerInfo");
       AbilityPanel = GameObject.Find("AbilityPanel");
+      BuildListPanel = GameObject.Find("BuildListPanel");
+      BuildListPanel.SetActive(false);
       AbilityPanel.SetActive(false);
       HideSelectedInfo();
       current = this;
@@ -54,7 +57,10 @@ namespace Wardraft.UI {
           changeLabel(SelectedActorInfo, "LabelAttackRange", string.Format("A. Range: {0}", 
                                                                            aa.attributes.attackRange.current)); }
       
-        if (aa.ownerID == GameData.PlayerID) showAbilities(aa);
+        if (aa.ownerID == GameData.PlayerID) {
+          showAbilities(aa);
+          if (aa is Building) showBuildList(aa as Building);
+        }
       }
       if (toShow is TileController) {
         Tile tile = (toShow as TileController).tile;
@@ -111,7 +117,7 @@ namespace Wardraft.UI {
         GameObject buttonObject = Instantiate(ResourceLoader.current.ui["AbilityButton"]) as GameObject;
         buttonObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(position, 10f);
         changeLabel(buttonObject, "Label", AbilityList.abilities[ability.code]);
-        buttonObject.transform.SetParent(AbilityPanel.transform,false);
+        buttonObject.transform.SetParent(AbilityPanel.transform, false);
         buttonObject.name = "AbilityButton:" + ability.code;
         Button button = buttonObject.GetComponent<Button>();
         button.onClick.AddListener(() => {
@@ -123,6 +129,28 @@ namespace Wardraft.UI {
     
     void hideAbilities () {
       AbilityPanel.SetActive(false);
+    }
+    
+    void showBuildList (Building building) {
+      BuildListPanel.SetActive(true);
+      GameObject garbage = GameObject.Find("Garbage");
+      for (int i=0; i<BuildListPanel.transform.childCount; i++) {
+        BuildListPanel.transform.GetChild(i).SetParent(garbage.transform);
+      }
+      for (int i=0; i<building.buildList.Length; i++) {
+        string name = ActorList.codes[building.buildList[i]];
+        float positionY = -(10 * ((i%3) + 1)) - ((i%3) * 60);
+        float positionX = (10 * ((i/3) + 1)) + ((i/3) * 60);
+        GameObject buttonObject = Instantiate(ResourceLoader.current.ui["BuildListButton"]) as GameObject;
+        buttonObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(positionX, positionY);
+        changeLabel(buttonObject, "Label", name);
+        buttonObject.transform.SetParent(BuildListPanel.transform, false);
+        buttonObject.name = string.Format("BuildListButton:{0}", building.buildList[i]);
+      }
+    }
+    
+    void hideBuildList () {
+      BuildListPanel.SetActive(false);
     }
   
   }
