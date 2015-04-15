@@ -7,10 +7,12 @@ namespace Wardraft.UI {
 
   public class GameUIController : MonoBehaviour {
   
-    GameObject SelectedActorInfo;
-    GameObject SelectedTileInfo;
-    GameObject AbilityPanel;
-    GameObject PlayerInfo;
+    GameObject  SelectedActorInfo;
+    GameObject  SelectedTileInfo;
+    GameObject  AbilityPanel;
+    GameObject  PlayerInfo;
+    
+    public static GameUIController current;
     
     void Start () {
       SelectedActorInfo = GameObject.Find("SelectedActorInfo");
@@ -19,6 +21,7 @@ namespace Wardraft.UI {
       AbilityPanel = GameObject.Find("AbilityPanel");
       AbilityPanel.SetActive(false);
       HideSelectedInfo();
+      current = this;
     }
     
     public void ShowSelectedInfo (System.Object toShow) {
@@ -59,6 +62,10 @@ namespace Wardraft.UI {
       changeLabel(PlayerInfo, "LabelPopulation", "Pop: " + player.population.current + "/" + player.population.max);
     }
     
+    public void PrimeAbility (Ability ability, ActiveActor source) {
+      PlayerController.yourself.PrimeAbility(ability, source);
+    }
+    
     void changeLabel (GameObject panel, string name, string text) {
       GameObject textObject = panel.transform.FindChild(name).gameObject;
       changeText(textObject, text);
@@ -77,11 +84,17 @@ namespace Wardraft.UI {
       for (int i=0; i<aa.abilities.Count; i++) {
         Ability ability = aa.abilities[i];
         float position = (60 * i) + (10 * (i + 1));
-        GameObject button = Instantiate(ResourceLoader.current.ui["AbilityButton"]) as GameObject;
-        button.GetComponent<RectTransform>().anchoredPosition = new Vector2(position, 10f);
-        changeLabel(button, "Label", AbilityList.abilities[ability.code]);
-        button.transform.SetParent(AbilityPanel.transform,false);
-        button.name = "AbilityButton:" + ability.code;
+        GameObject buttonObject = Instantiate(ResourceLoader.current.ui["AbilityButton"]) as GameObject;
+        buttonObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(position, 10f);
+        changeLabel(buttonObject, "Label", AbilityList.abilities[ability.code]);
+        buttonObject.transform.SetParent(AbilityPanel.transform,false);
+        buttonObject.name = "AbilityButton:" + ability.code;
+        Button button = buttonObject.GetComponent<Button>();
+        button.onClick.AddListener(() => {
+          Debug.Log("Priming ability: " + AbilityList.abilities[ability.code]);
+          PrimeAbility(ability, aa);
+        });
+        
       }
     }
     

@@ -3,6 +3,7 @@ public class TestAbility2 : Ability {
 
   public TestAbility2 () {
     range = 1;
+    target = Enums.SpellTarget.Tile;
   }
 
   //Deals 1 true damage to all AA on tile

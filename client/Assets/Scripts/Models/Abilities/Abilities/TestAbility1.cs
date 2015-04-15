@@ -3,6 +3,7 @@ public class TestAbility1 : Ability {
 
   public TestAbility1 () {
     range = 1;
+    target = Enums.SpellTarget.Target;
   }
 
   //Deals 1 true damage to target

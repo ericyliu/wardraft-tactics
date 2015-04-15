@@ -6,11 +6,14 @@ namespace Wardraft.Game {
 
   public class PlayerController : MonoBehaviour {
   
-    public Player player;
-    public System.Object selected;
-    public GameUIController GUIC;
+    public Player                   player;
+    public System.Object            selected;
+    public GameUIController         GUIC;
     
-    public static PlayerController yourself;
+    public Ability                  primedAbility;
+    public ActiveActor              abilitySource;
+    
+    public static PlayerController  yourself;
     
     void Start () {
       GUIC = GameObject.Find("UI").GetComponent<GameUIController>();
@@ -23,6 +26,14 @@ namespace Wardraft.Game {
       }
       selected = toSelect;
       GUIC.ShowSelectedInfo(toSelect);
+    }
+    
+    public void PrimeAbility (Ability ability, ActiveActor source) {
+      primedAbility = ability;
+      abilitySource = source;
+    }
+  
+    public void UseAbility () {
     }
   
   }

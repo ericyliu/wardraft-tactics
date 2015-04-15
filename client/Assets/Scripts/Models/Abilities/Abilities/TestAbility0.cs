@@ -3,6 +3,7 @@ public class TestAbility0 : Ability {
 
   public TestAbility0 () {
     range = 0;
+    target = Enums.SpellTarget.Self;
   }
 
   //Heals self for 1

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using Wardraft.UI;
 
 namespace Wardraft.Game {
 
@@ -40,7 +41,10 @@ namespace Wardraft.Game {
     public void Click (BaseEventData data) {
       if (data is PointerEventData) {
         PointerEventData.InputButton button = (data as PointerEventData).button;
-        if (button == PointerEventData.InputButton.Left) onSelected();
+        if (button == PointerEventData.InputButton.Left) {
+          if (PlayerController.yourself.primedAbility == null) onSelected();
+          else PlayerController.yourself.UseAbility();
+        }
         else if (button == PointerEventData.InputButton.Right) {
           if (PlayerController.yourself.selected is ActiveActorController) {
             onAttacked();
