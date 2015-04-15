@@ -108,7 +108,20 @@ namespace Wardraft.Game {
     }
     
     public void Build (int code) {
-      MapController.current.CreateActor(code, null, AA.ownerID);
+      if (AA is Building) {
+        Tile tile = (AA as Building).rallyPoint;
+        if (tile == null) {
+          Debug.Log("No rally point set.");
+          return;
+        }
+        bool success = MapController.current.CreateActor(code, tile, AA.ownerID);
+        if (success) {
+          Debug.Log(string.Format("Player {0} created a {1} at {2}.", AA.ownerID, ActorList.codes[code], tile.position));
+        }
+        else {
+          Debug.Log("No space to create new unit.");
+        }
+      }
     }
     
     void onSelected () {

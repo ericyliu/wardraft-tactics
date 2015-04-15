@@ -46,8 +46,10 @@ public class Tile {
       type = ActorList.codes[code];
     }
     Actor actor = ActorFactory.Create(type, Game.GetNextAid(), oid);
+    if (actors[actor.layer] != null) return null;
     actor.code = code;
     PlaceActor(actor, actor.layer);
+    if (actor is Building) (actor as Building).SetDefaultRallyPoint();
     return actor;
   }
 

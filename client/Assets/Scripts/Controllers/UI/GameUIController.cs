@@ -76,6 +76,7 @@ namespace Wardraft.UI {
       SelectedActorInfo.SetActive(false);
       SelectedTileInfo.SetActive(false);
       hideAbilities();
+      hideBuildList();
     }
     
     public void UpdateCurrentPlayerInfo (Player player) {

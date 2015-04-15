@@ -40,9 +40,14 @@ namespace Wardraft.Game {
       DisplayOptions(actor);
     }
     
-    public string CreateActor (int code, Tile tile, int oid) {
+    public bool CreateActor (int code, Tile tile, string oid) {
       Actor actor = tile.CreateActor(code, oid);
-      MVM.CreateActor(actor, tile, actor.layer);
+      if (actor != null) {
+        GameObject tileObject = GameObject.Find("Tile:" + tile.position.X + "," + tile.position.Y);
+        MVM.CreateActor(actor, tileObject.transform);
+        return true;
+      }
+      return false;
     }
     
     void checkDependencies () {

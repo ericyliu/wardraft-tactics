@@ -57,7 +57,6 @@ namespace Wardraft.Game {
     }
     
     public void CreateActor (Actor actor, Transform tile) {
-      if (actor.layer == 0) return; //underground
       if (actor != null) {
         GameObject actorObject = Instantiate(RL.actors[actor.code]) as GameObject;
         actorObject.name = "Actor:" + actor.code + "#" + actor.id;
@@ -99,7 +98,7 @@ namespace Wardraft.Game {
       tileObject.transform.SetParent(transform,false);
       for (int i=0; i<tile.layers; i++) {
         createTerrain(tile.terrains[i], tileObject.transform, i, tile);
-        CreateActor(tile.actors[i], tileObject.transform, i);
+        CreateActor(tile.actors[i], tileObject.transform);
       }
     }
     
