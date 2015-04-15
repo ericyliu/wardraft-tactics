@@ -107,6 +107,28 @@ namespace Wardraft.Game {
       nextAid++;
       return nextAid;
     }
+    
+    public void RemoveActor (Actor actor) {
+      actor.position.actors[actor.layer] = null;
+      if (actor is ActiveActor) {
+        Player player = GetPlayer((actor as ActiveActor).ownerID);
+        if (player != null) {
+          foreach (ActiveActor aa in player.ownedActives) {
+            if (aa.id == actor.id) {
+              player.ownedActives.Remove(aa);
+              return;
+            }
+          }
+        }
+      }
+    }
+    
+    public Player GetPlayer (string id) {
+      foreach (Player player in players) {
+        if (player.id == id) return player;
+      }
+      return null;
+    }
   
     #endregion
   

@@ -80,7 +80,7 @@ namespace Wardraft.Game {
     }
     
     public void Attack (ActiveActorController target) {
-      if (owned() && !target.owned()) {
+      if (owned() && !target.owned() && target.AA.state == Enums.ActiveActorState.Alive) {
         if (Map.current.IsWithinAttackRange(AA, target.AA)) {
           List<Tile> path = new List<Tile>();
           Map.current.BuildPath(AA.position, target.AA.position, ref path);
@@ -105,6 +105,14 @@ namespace Wardraft.Game {
     
     public void TakeDamage () {
       AAVM.PlayAnimation(Enums.AnimationState.TakeDamage);
+      if (AA.state == Enums.ActiveActorState.Dead) {
+        AAVM.PlayAnimation(Enums.AnimationState.Dying);
+      }
+    }
+    
+    public void OnDeathFinish () {
+      Game.current.RemoveActor(AA);
+      gameObject.transform.SetParent(GameObject.Find("Garbage").transform);
     }
     
     public void Build (int code) {

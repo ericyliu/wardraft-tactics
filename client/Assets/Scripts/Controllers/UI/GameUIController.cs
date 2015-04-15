@@ -33,33 +33,37 @@ namespace Wardraft.UI {
         HideSelectedInfo();
         SelectedActorInfo.SetActive(true);
         string owned = "";
+        string state = "";
         if (aa.ownerID == GameData.PlayerID) owned = " (Owned)";
+        if (aa.state == Enums.ActiveActorState.Dead) state = " (Dead)";
         clearLabels();
-        changeLabel(SelectedActorInfo, "LabelName", ActorList.codes[aa.code] + owned);
-        if (aa.attributes.health.max.ToInt() != 0) {
-          changeLabel(SelectedActorInfo, "LabelHealth", string.Format("Health: {0}/{1}", 
-                                                                      aa.attributes.health.current.ToInt(),
-                                                                      aa.attributes.health.max.ToInt())); }
-        if (aa.attributes.damage.max.ToInt() != 0) {
-          changeLabel(SelectedActorInfo, "LabelDamage", string.Format("Damage: {0}",
-                                                                      aa.attributes.damage.current.ToInt())); }
-        changeLabel(SelectedActorInfo, "LabelArmor", string.Format("Armor: {0}", 
-                                                                   aa.attributes.armor.current.ToInt()));
-        if (aa.attributes.speed.max.ToInt() != 0) {
-          changeLabel(SelectedActorInfo, "LabelSpeed", string.Format("Movement: {0}/{1}",
-                                                                     aa.attributes.speed.current.ToInt(),
-                                                                     aa.attributes.speed.max.ToInt())); }
-        if (aa.attributes.mana.max.ToInt() != 0) {
-          changeLabel(SelectedActorInfo, "LabelMana", string.Format("Mana: {0}/{1}", 
-                                                                    aa.attributes.mana.current.ToInt(),
-                                                                    aa.attributes.mana.max.ToInt())); }
-        if (aa.attributes.damage.max.ToInt() != 0) {
-          changeLabel(SelectedActorInfo, "LabelAttackRange", string.Format("A. Range: {0}", 
-                                                                           aa.attributes.attackRange.current)); }
-      
-        if (aa.ownerID == GameData.PlayerID) {
-          showAbilities(aa);
-          if (aa is Building) showBuildList(toShow as ActiveActorController);
+        changeLabel(SelectedActorInfo, "LabelName", ActorList.codes[aa.code] + owned + state);
+        if (aa.state == Enums.ActiveActorState.Alive) {
+          if (aa.attributes.health.max.ToInt() != 0) {
+            changeLabel(SelectedActorInfo, "LabelHealth", string.Format("Health: {0}/{1}", 
+                                                                        aa.attributes.health.current.ToInt(),
+                                                                        aa.attributes.health.max.ToInt())); }
+          if (aa.attributes.damage.max.ToInt() != 0) {
+            changeLabel(SelectedActorInfo, "LabelDamage", string.Format("Damage: {0}",
+                                                                        aa.attributes.damage.current.ToInt())); }
+          changeLabel(SelectedActorInfo, "LabelArmor", string.Format("Armor: {0}", 
+                                                                     aa.attributes.armor.current.ToInt()));
+          if (aa.attributes.speed.max.ToInt() != 0) {
+            changeLabel(SelectedActorInfo, "LabelSpeed", string.Format("Movement: {0}/{1}",
+                                                                       aa.attributes.speed.current.ToInt(),
+                                                                       aa.attributes.speed.max.ToInt())); }
+          if (aa.attributes.mana.max.ToInt() != 0) {
+            changeLabel(SelectedActorInfo, "LabelMana", string.Format("Mana: {0}/{1}", 
+                                                                      aa.attributes.mana.current.ToInt(),
+                                                                      aa.attributes.mana.max.ToInt())); }
+          if (aa.attributes.damage.max.ToInt() != 0) {
+            changeLabel(SelectedActorInfo, "LabelAttackRange", string.Format("A. Range: {0}", 
+                                                                             aa.attributes.attackRange.current)); }
+        
+          if (aa.ownerID == GameData.PlayerID) {
+            showAbilities(aa);
+            if (aa is Building) showBuildList(toShow as ActiveActorController);
+          }
         }
       }
       if (toShow is TileController) {

@@ -7,6 +7,9 @@ public abstract class Ability {
   public int                aoeRange;
   public int                code;
   public Enums.SpellTarget  target;
+  public bool               isDamageDealt = true;
+  
+  public bool               canTargetDead = false;
 
   public virtual string Invoke (ActiveActor aa_target = null, Tile tile_target = null) {
     return "";

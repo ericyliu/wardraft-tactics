@@ -8,6 +8,7 @@ public class TestAbility0 : Ability {
   public TestAbility0 () {
     range = 0;
     target = Enums.SpellTarget.Self;
+    isDamageDealt = false;
   }
 
   //Heals self for 1

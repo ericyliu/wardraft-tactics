@@ -46,10 +46,12 @@ namespace Wardraft.Game {
     }
   
     public void UseAbility (ActiveActor aa_target = null, Tile tile_target = null) {
-      if (primedAbility.target == Enums.SpellTarget.Target && aa_target == null) {
-        Debug.Log("Must cast target ability on target");
-        UnprimeAbility();
-        return;
+      if (primedAbility.target == Enums.SpellTarget.Target) {
+        if (aa_target == null) {
+          Debug.Log("Must cast target ability on target");
+          UnprimeAbility();
+          return;
+        }
       }
       Debug.Log(primedAbility.Invoke(aa_target, tile_target));
       UnprimeAbility();
