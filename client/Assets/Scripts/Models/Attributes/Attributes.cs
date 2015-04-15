@@ -18,7 +18,7 @@
     if (build_list != null) {
       buildList = new string[build_list.Length];
       for (int i=0; i<build_list.Length; i++) {
-        buildList[i] = ActorList.units[build_list[i]];
+        buildList[i] = ActorList.codes[build_list[i]];
       }
     }
     else buildList = new string[0];

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using Wardraft.Game;
@@ -31,7 +31,7 @@ namespace Wardraft.UI {
         SelectedActorInfo.SetActive(true);
         string owned = "";
         if (aa.ownerID == GameData.PlayerID) owned = " (Owned)";
-        changeLabel(SelectedActorInfo, "LabelName", Actors.codes[aa.code] + owned);
+        changeLabel(SelectedActorInfo, "LabelName", ActorList.codes[aa.code] + owned);
         changeLabel(SelectedActorInfo, "LabelHealth", "Health: " + aa.attributes.health.current.ToInt() + "/" + aa.attributes.health.max.ToInt());
         changeLabel(SelectedActorInfo, "LabelDamage", "Damage: " + aa.attributes.damage.current.ToInt());
         changeLabel(SelectedActorInfo, "LabelArmor", "Armor: " + aa.attributes.armor.current.ToInt());

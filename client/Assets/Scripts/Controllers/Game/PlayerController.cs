@@ -37,8 +37,7 @@ namespace Wardraft.Game {
         isAbilityPrimed = true;
       }
       else {
-        Debug.Log("Using ability: " + AbilityList.abilities[ability.code]);
-        ability.Invoke(null, null);
+        Debug.Log(ability.Invoke(null, null));
       }
     }
     
@@ -52,8 +51,7 @@ namespace Wardraft.Game {
         UnprimeAbility();
         return;
       }
-      Debug.Log("Using ability: " + AbilityList.abilities[primedAbility.code]);
-      primedAbility.Invoke(aa_target, tile_target);
+      Debug.Log(primedAbility.Invoke(aa_target, tile_target));
       UnprimeAbility();
     }
   

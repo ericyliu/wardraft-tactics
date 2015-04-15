@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public static class Actors {
+public static class ActorList {
 
   public static Dictionary<int, string> codes = new Dictionary<int, string> {
     // Testing
