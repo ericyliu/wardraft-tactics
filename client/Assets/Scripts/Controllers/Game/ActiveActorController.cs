@@ -106,6 +106,7 @@ namespace Wardraft.Game {
     public void TakeDamage () {
       AAVM.PlayAnimation(Enums.AnimationState.TakeDamage);
       if (AA.state == Enums.ActiveActorState.Dead) {
+        Debug.Log(string.Format("{0} has been destroyed.", ActorList.codes[AA.code]));
         AAVM.PlayAnimation(Enums.AnimationState.Dying);
       }
     }
