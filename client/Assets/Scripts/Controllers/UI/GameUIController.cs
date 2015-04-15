@@ -91,7 +91,6 @@ namespace Wardraft.UI {
         buttonObject.name = "AbilityButton:" + ability.code;
         Button button = buttonObject.GetComponent<Button>();
         button.onClick.AddListener(() => {
-          Debug.Log("Priming ability: " + AbilityList.abilities[ability.code]);
           PrimeAbility(ability, aa);
         });
         

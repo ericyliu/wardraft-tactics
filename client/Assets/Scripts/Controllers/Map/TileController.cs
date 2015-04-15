@@ -29,11 +29,19 @@ namespace Wardraft.Game {
       if (data is PointerEventData) {
         PointerEventData.InputButton button = (data as PointerEventData).button;
         if (button == PointerEventData.InputButton.Left) {
+          if (PlayerController.yourself.isAbilityPrimed) {
+            PlayerController.yourself.UseAbility(null, tile);
+            return;
+          }
           TVM.Select();
           PlayerController.yourself.Select(this);
           MapController.current.MVM.RemoveTileHighlights();
         }
         else if (button == PointerEventData.InputButton.Right) {
+          if (PlayerController.yourself.isAbilityPrimed) {
+            PlayerController.yourself.UnprimeAbility();
+            return;
+          }
           if (PlayerController.yourself.selected is ActiveActorController) {
             (PlayerController.yourself.selected as ActiveActorController).MoveTo(tile);
           }

@@ -42,10 +42,17 @@ namespace Wardraft.Game {
       if (data is PointerEventData) {
         PointerEventData.InputButton button = (data as PointerEventData).button;
         if (button == PointerEventData.InputButton.Left) {
-          if (PlayerController.yourself.primedAbility == null) onSelected();
-          else PlayerController.yourself.UseAbility();
+          if (PlayerController.yourself.isAbilityPrimed) {
+            PlayerController.yourself.UseAbility(AA, AA.position);
+            return;
+          }
+          onSelected();
         }
         else if (button == PointerEventData.InputButton.Right) {
+          if (PlayerController.yourself.isAbilityPrimed) {
+            PlayerController.yourself.UnprimeAbility();
+            return;
+          }
           if (PlayerController.yourself.selected is ActiveActorController) {
             onAttacked();
           }
