@@ -8,6 +8,8 @@
   public enum AnimationState {Moving, Attacking, Standing, Dying, TakeDamage};
 
   public enum Layers {Underground, Ground, Air, Heightmap, Neutral, Players};
+  
+  public enum SpellTarget {Self, Target, Tile};
 
   public static Color GetNextColor () {
     var color = (Color)color_index;

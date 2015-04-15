@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using Wardraft.Game;
@@ -7,15 +7,21 @@ namespace Wardraft.UI {
 
   public class GameUIController : MonoBehaviour {
   
-    GameObject SelectedActorInfo;
-    GameObject SelectedTileInfo;
-    GameObject PlayerInfo;
+    GameObject  SelectedActorInfo;
+    GameObject  SelectedTileInfo;
+    GameObject  AbilityPanel;
+    GameObject  PlayerInfo;
+    
+    public static GameUIController current;
     
     void Start () {
       SelectedActorInfo = GameObject.Find("SelectedActorInfo");
       SelectedTileInfo = GameObject.Find("SelectedTileInfo");
       PlayerInfo = GameObject.Find("PlayerInfo");
+      AbilityPanel = GameObject.Find("AbilityPanel");
+      AbilityPanel.SetActive(false);
       HideSelectedInfo();
+      current = this;
     }
     
     public void ShowSelectedInfo (System.Object toShow) {
@@ -25,13 +31,15 @@ namespace Wardraft.UI {
         SelectedActorInfo.SetActive(true);
         string owned = "";
         if (aa.ownerID == GameData.PlayerID) owned = " (Owned)";
-        changeLabel(SelectedActorInfo, "LabelName", Actors.codes[aa.code] + owned);
+        changeLabel(SelectedActorInfo, "LabelName", ActorList.codes[aa.code] + owned);
         changeLabel(SelectedActorInfo, "LabelHealth", "Health: " + aa.attributes.health.current.ToInt() + "/" + aa.attributes.health.max.ToInt());
         changeLabel(SelectedActorInfo, "LabelDamage", "Damage: " + aa.attributes.damage.current.ToInt());
         changeLabel(SelectedActorInfo, "LabelArmor", "Armor: " + aa.attributes.armor.current.ToInt());
-        changeLabel(SelectedActorInfo, "LabelSpeed", "Speed: " + aa.attributes.speed.current.ToInt());
+        changeLabel(SelectedActorInfo, "LabelSpeed", "Movement: " + aa.attributes.speed.current.ToInt() + "/" + aa.attributes.speed.max.ToInt());
         changeLabel(SelectedActorInfo, "LabelMana", "Mana: " + aa.attributes.mana.current.ToInt() + "/" + aa.attributes.mana.max.ToInt());
         changeLabel(SelectedActorInfo, "LabelAttackRange", "A. Range: " + aa.attributes.attackRange.current);
+      
+        if (aa.ownerID == GameData.PlayerID) showAbilities(aa);
       }
       if (toShow is TileController) {
         Tile tile = (toShow as TileController).tile;
@@ -46,11 +54,16 @@ namespace Wardraft.UI {
     public void HideSelectedInfo () {
       SelectedActorInfo.SetActive(false);
       SelectedTileInfo.SetActive(false);
+      hideAbilities();
     }
     
     public void UpdateCurrentPlayerInfo (Player player) {
       changeLabel(PlayerInfo, "LabelGold", "Gold: " + player.gold);
       changeLabel(PlayerInfo, "LabelPopulation", "Pop: " + player.population.current + "/" + player.population.max);
+    }
+    
+    public void PrimeAbility (Ability ability, ActiveActor source) {
+      PlayerController.yourself.PrimeAbility(ability, source);
     }
     
     void changeLabel (GameObject panel, string name, string text) {
@@ -60,6 +73,32 @@ namespace Wardraft.UI {
     
     void changeText (GameObject textObject, string text) {
       textObject.GetComponent<Text>().text = text;
+    }
+    
+    void showAbilities (ActiveActor aa) {
+      AbilityPanel.SetActive(true);
+      GameObject garbage = GameObject.Find("Garbage");
+      for (int i=0; i<AbilityPanel.transform.childCount; i++) {
+        AbilityPanel.transform.GetChild(i).SetParent(garbage.transform);
+      }
+      for (int i=0; i<aa.abilities.Count; i++) {
+        Ability ability = aa.abilities[i];
+        float position = (60 * i) + (10 * (i + 1));
+        GameObject buttonObject = Instantiate(ResourceLoader.current.ui["AbilityButton"]) as GameObject;
+        buttonObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(position, 10f);
+        changeLabel(buttonObject, "Label", AbilityList.abilities[ability.code]);
+        buttonObject.transform.SetParent(AbilityPanel.transform,false);
+        buttonObject.name = "AbilityButton:" + ability.code;
+        Button button = buttonObject.GetComponent<Button>();
+        button.onClick.AddListener(() => {
+          PrimeAbility(ability, aa);
+        });
+        
+      }
+    }
+    
+    void hideAbilities () {
+      AbilityPanel.SetActive(false);
     }
   
   }

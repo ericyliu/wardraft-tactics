@@ -1,4 +1,4 @@
-﻿using Wardraft.Game;
+using Wardraft.Game;
 
 [System.Serializable]
 public class Tile {
@@ -42,8 +42,8 @@ public class Tile {
 
   public void CreateActor (int code, string oid) {
     string type = "";
-    if (Actors.codes.ContainsKey(code)) {
-      type = Actors.codes[code];
+    if (ActorList.codes.ContainsKey(code)) {
+      type = ActorList.codes[code];
     }
     Actor actor = ActorFactory.Create(type, Game.GetNextAid(), oid);
     actor.code = code;

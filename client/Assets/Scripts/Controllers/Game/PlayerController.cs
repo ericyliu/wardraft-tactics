@@ -6,11 +6,15 @@ namespace Wardraft.Game {
 
   public class PlayerController : MonoBehaviour {
   
-    public Player player;
-    public System.Object selected;
-    public GameUIController GUIC;
+    public Player                   player;
+    public System.Object            selected;
+    public GameUIController         GUIC;
     
-    public static PlayerController yourself;
+    public Ability                  primedAbility;
+    public ActiveActor              abilitySource;
+    public bool                     isAbilityPrimed;
+    
+    public static PlayerController  yourself;
     
     void Start () {
       GUIC = GameObject.Find("UI").GetComponent<GameUIController>();
@@ -23,6 +27,32 @@ namespace Wardraft.Game {
       }
       selected = toSelect;
       GUIC.ShowSelectedInfo(toSelect);
+    }
+    
+    public void PrimeAbility (Ability ability, ActiveActor source) {
+      if (ability.target != Enums.SpellTarget.Self) {
+        Debug.Log("Priming ability: " + AbilityList.abilities[ability.code]);
+        primedAbility = ability;
+        abilitySource = source;
+        isAbilityPrimed = true;
+      }
+      else {
+        Debug.Log(ability.Invoke(null, null));
+      }
+    }
+    
+    public void UnprimeAbility () {
+      isAbilityPrimed = false;
+    }
+  
+    public void UseAbility (ActiveActor aa_target = null, Tile tile_target = null) {
+      if (primedAbility.target == Enums.SpellTarget.Target && aa_target == null) {
+        Debug.Log("Must cast target ability on target");
+        UnprimeAbility();
+        return;
+      }
+      Debug.Log(primedAbility.Invoke(aa_target, tile_target));
+      UnprimeAbility();
     }
   
   }
