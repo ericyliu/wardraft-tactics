@@ -54,7 +54,7 @@ namespace Wardraft.Game {
             return;
           }
           if (PlayerController.yourself.selected is ActiveActorController) {
-            onAttacked();
+            if ((PlayerController.yourself.selected as ActiveActorController).AA.canAttack) onAttacked();
           }
         }
       }

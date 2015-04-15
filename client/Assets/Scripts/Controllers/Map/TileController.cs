@@ -43,7 +43,10 @@ namespace Wardraft.Game {
             return;
           }
           if (PlayerController.yourself.selected is ActiveActorController) {
-            (PlayerController.yourself.selected as ActiveActorController).MoveTo(tile);
+            ActiveActorController aac = PlayerController.yourself.selected as ActiveActorController;
+            if (aac.AA is Unit) {
+              aac.MoveTo(tile);
+            }
           }
         }
       }
