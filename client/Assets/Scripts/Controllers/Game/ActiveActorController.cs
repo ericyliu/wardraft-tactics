@@ -107,6 +107,10 @@ namespace Wardraft.Game {
       AAVM.PlayAnimation(Enums.AnimationState.TakeDamage);
     }
     
+    public void Build (int code) {
+      MapController.current.CreateActor(code, null, AA.ownerID);
+    }
+    
     void onSelected () {
       if (AA.ownerID != GameData.PlayerID) AAVM.SelectEnemy();
       else AAVM.SelectOwn();

@@ -40,7 +40,7 @@ public class Tile {
     }
   }
 
-  public void CreateActor (int code, string oid) {
+  public Actor CreateActor (int code, string oid) {
     string type = "";
     if (ActorList.codes.ContainsKey(code)) {
       type = ActorList.codes[code];
@@ -48,6 +48,7 @@ public class Tile {
     Actor actor = ActorFactory.Create(type, Game.GetNextAid(), oid);
     actor.code = code;
     PlaceActor(actor, actor.layer);
+    return actor;
   }
 
   public void PlaceActor (Actor actor, int layer) {

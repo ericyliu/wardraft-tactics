@@ -59,7 +59,7 @@ namespace Wardraft.UI {
       
         if (aa.ownerID == GameData.PlayerID) {
           showAbilities(aa);
-          if (aa is Building) showBuildList(aa as Building);
+          if (aa is Building) showBuildList(toShow as ActiveActorController);
         }
       }
       if (toShow is TileController) {
@@ -81,10 +81,6 @@ namespace Wardraft.UI {
     public void UpdateCurrentPlayerInfo (Player player) {
       changeLabel(PlayerInfo, "LabelGold", "Gold: " + player.gold);
       changeLabel(PlayerInfo, "LabelPopulation", "Pop: " + player.population.current + "/" + player.population.max);
-    }
-    
-    public void PrimeAbility (Ability ability, ActiveActor source) {
-      PlayerController.yourself.PrimeAbility(ability, source);
     }
     
     void clearLabels () {
@@ -121,7 +117,7 @@ namespace Wardraft.UI {
         buttonObject.name = "AbilityButton:" + ability.code;
         Button button = buttonObject.GetComponent<Button>();
         button.onClick.AddListener(() => {
-          PrimeAbility(ability, aa);
+          PlayerController.yourself.PrimeAbility(ability, aa);
         });
         
       }
@@ -131,21 +127,27 @@ namespace Wardraft.UI {
       AbilityPanel.SetActive(false);
     }
     
-    void showBuildList (Building building) {
+    void showBuildList (ActiveActorController buildingController) {
+      Building building = buildingController.AA as Building;
       BuildListPanel.SetActive(true);
       GameObject garbage = GameObject.Find("Garbage");
       for (int i=0; i<BuildListPanel.transform.childCount; i++) {
         BuildListPanel.transform.GetChild(i).SetParent(garbage.transform);
       }
       for (int i=0; i<building.buildList.Length; i++) {
-        string name = ActorList.codes[building.buildList[i]];
+        int code = building.buildList[i];
+        string name = ActorList.codes[code];
         float positionY = -(10 * ((i%3) + 1)) - ((i%3) * 60);
         float positionX = (10 * ((i/3) + 1)) + ((i/3) * 60);
         GameObject buttonObject = Instantiate(ResourceLoader.current.ui["BuildListButton"]) as GameObject;
         buttonObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(positionX, positionY);
         changeLabel(buttonObject, "Label", name);
         buttonObject.transform.SetParent(BuildListPanel.transform, false);
-        buttonObject.name = string.Format("BuildListButton:{0}", building.buildList[i]);
+        buttonObject.name = string.Format("BuildListButton:{0}", code);
+        Button button = buttonObject.GetComponent<Button>();
+        button.onClick.AddListener(() => {
+          buildingController.Build(code);
+        });
       }
     }
     

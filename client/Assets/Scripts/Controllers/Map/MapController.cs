@@ -40,6 +40,11 @@ namespace Wardraft.Game {
       DisplayOptions(actor);
     }
     
+    public string CreateActor (int code, Tile tile, int oid) {
+      Actor actor = tile.CreateActor(code, oid);
+      MVM.CreateActor(actor, tile, actor.layer);
+    }
+    
     void checkDependencies () {
       if (MVM == null) Debug.LogError("Please set MapViewModel in MapController.");
     }

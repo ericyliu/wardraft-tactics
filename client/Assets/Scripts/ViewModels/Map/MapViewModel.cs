@@ -56,6 +56,22 @@ namespace Wardraft.Game {
       highlightedTiles.Clear();
     }
     
+    public void CreateActor (Actor actor, Transform tile) {
+      if (actor.layer == 0) return; //underground
+      if (actor != null) {
+        GameObject actorObject = Instantiate(RL.actors[actor.code]) as GameObject;
+        actorObject.name = "Actor:" + actor.code + "#" + actor.id;
+        actorObject.transform.SetParent(tile,false);
+        actorObject.transform.localPosition = new Vector3(0,.5f,0);
+        
+        if (actor is ActiveActor) {
+          ActiveActorController AAC = actorObject.GetComponent<ActiveActorController>();
+          AAC.AA = actor as ActiveActor;
+        }
+        
+      }
+    }
+    
     void Start () {
       checkDependencies();
     }
@@ -83,7 +99,7 @@ namespace Wardraft.Game {
       tileObject.transform.SetParent(transform,false);
       for (int i=0; i<tile.layers; i++) {
         createTerrain(tile.terrains[i], tileObject.transform, i, tile);
-        createActor(tile.actors[i], tileObject.transform, i);
+        CreateActor(tile.actors[i], tileObject.transform, i);
       }
     }
     
@@ -95,22 +111,6 @@ namespace Wardraft.Game {
         terrainObject.transform.SetParent(tileTransform,false);
         terrainObject.transform.localPosition = new Vector3(0,layer-1f,0);
         terrainObject.GetComponent<TileController>().tile = tile;
-      }
-    }
-    
-    void createActor (Actor actor, Transform tile, int layer) {
-      if (layer == 0) return; //underground
-      if (actor != null) {
-        GameObject actorObject = Instantiate(RL.actors[actor.code]) as GameObject;
-        actorObject.name = "Actor:" + actor.code + "#" + actor.id;
-        actorObject.transform.SetParent(tile,false);
-        actorObject.transform.localPosition = new Vector3(0,.5f,0);
-        
-        if (actor is ActiveActor) {
-          ActiveActorController AAC = actorObject.GetComponent<ActiveActorController>();
-          AAC.AA = actor as ActiveActor;
-        }
-        
       }
     }
     
