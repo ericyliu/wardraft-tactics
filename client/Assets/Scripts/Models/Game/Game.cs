@@ -18,7 +18,7 @@ namespace Wardraft.Game {
   
     public Player           winner;
     
-    public static int       nextAid = 0;
+    static int       nextAid = 0;
     
     public static Game      current;
   

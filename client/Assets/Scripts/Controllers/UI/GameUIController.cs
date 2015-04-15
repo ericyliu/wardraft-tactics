@@ -11,6 +11,7 @@ namespace Wardraft.UI {
     GameObject  SelectedTileInfo;
     GameObject  AbilityPanel;
     GameObject  PlayerInfo;
+    GameObject  BuildListPanel;
     
     public static GameUIController current;
     
@@ -19,6 +20,8 @@ namespace Wardraft.UI {
       SelectedTileInfo = GameObject.Find("SelectedTileInfo");
       PlayerInfo = GameObject.Find("PlayerInfo");
       AbilityPanel = GameObject.Find("AbilityPanel");
+      BuildListPanel = GameObject.Find("BuildListPanel");
+      BuildListPanel.SetActive(false);
       AbilityPanel.SetActive(false);
       HideSelectedInfo();
       current = this;
@@ -31,15 +34,33 @@ namespace Wardraft.UI {
         SelectedActorInfo.SetActive(true);
         string owned = "";
         if (aa.ownerID == GameData.PlayerID) owned = " (Owned)";
+        clearLabels();
         changeLabel(SelectedActorInfo, "LabelName", ActorList.codes[aa.code] + owned);
-        changeLabel(SelectedActorInfo, "LabelHealth", "Health: " + aa.attributes.health.current.ToInt() + "/" + aa.attributes.health.max.ToInt());
-        changeLabel(SelectedActorInfo, "LabelDamage", "Damage: " + aa.attributes.damage.current.ToInt());
-        changeLabel(SelectedActorInfo, "LabelArmor", "Armor: " + aa.attributes.armor.current.ToInt());
-        changeLabel(SelectedActorInfo, "LabelSpeed", "Movement: " + aa.attributes.speed.current.ToInt() + "/" + aa.attributes.speed.max.ToInt());
-        changeLabel(SelectedActorInfo, "LabelMana", "Mana: " + aa.attributes.mana.current.ToInt() + "/" + aa.attributes.mana.max.ToInt());
-        changeLabel(SelectedActorInfo, "LabelAttackRange", "A. Range: " + aa.attributes.attackRange.current);
+        if (aa.attributes.health.max.ToInt() != 0) {
+          changeLabel(SelectedActorInfo, "LabelHealth", string.Format("Health: {0}/{1}", 
+                                                                      aa.attributes.health.current.ToInt(),
+                                                                      aa.attributes.health.max.ToInt())); }
+        if (aa.attributes.damage.max.ToInt() != 0) {
+          changeLabel(SelectedActorInfo, "LabelDamage", string.Format("Damage: {0}",
+                                                                      aa.attributes.damage.current.ToInt())); }
+        changeLabel(SelectedActorInfo, "LabelArmor", string.Format("Armor: {0}", 
+                                                                   aa.attributes.armor.current.ToInt()));
+        if (aa.attributes.speed.max.ToInt() != 0) {
+          changeLabel(SelectedActorInfo, "LabelSpeed", string.Format("Movement: {0}/{1}",
+                                                                     aa.attributes.speed.current.ToInt(),
+                                                                     aa.attributes.speed.max.ToInt())); }
+        if (aa.attributes.mana.max.ToInt() != 0) {
+          changeLabel(SelectedActorInfo, "LabelMana", string.Format("Mana: {0}/{1}", 
+                                                                    aa.attributes.mana.current.ToInt(),
+                                                                    aa.attributes.mana.max.ToInt())); }
+        if (aa.attributes.damage.max.ToInt() != 0) {
+          changeLabel(SelectedActorInfo, "LabelAttackRange", string.Format("A. Range: {0}", 
+                                                                           aa.attributes.attackRange.current)); }
       
-        if (aa.ownerID == GameData.PlayerID) showAbilities(aa);
+        if (aa.ownerID == GameData.PlayerID) {
+          showAbilities(aa);
+          if (aa is Building) showBuildList(toShow as ActiveActorController);
+        }
       }
       if (toShow is TileController) {
         Tile tile = (toShow as TileController).tile;
@@ -55,6 +76,7 @@ namespace Wardraft.UI {
       SelectedActorInfo.SetActive(false);
       SelectedTileInfo.SetActive(false);
       hideAbilities();
+      hideBuildList();
     }
     
     public void UpdateCurrentPlayerInfo (Player player) {
@@ -62,8 +84,13 @@ namespace Wardraft.UI {
       changeLabel(PlayerInfo, "LabelPopulation", "Pop: " + player.population.current + "/" + player.population.max);
     }
     
-    public void PrimeAbility (Ability ability, ActiveActor source) {
-      PlayerController.yourself.PrimeAbility(ability, source);
+    void clearLabels () {
+      changeLabel(SelectedActorInfo, "LabelHealth", "");
+      changeLabel(SelectedActorInfo, "LabelDamage", "");
+      changeLabel(SelectedActorInfo, "LabelSpeed", "");
+      changeLabel(SelectedActorInfo, "LabelArmor", "");
+      changeLabel(SelectedActorInfo, "LabelMana", "");
+      changeLabel(SelectedActorInfo, "LabelAttackRange", "");
     }
     
     void changeLabel (GameObject panel, string name, string text) {
@@ -87,11 +114,11 @@ namespace Wardraft.UI {
         GameObject buttonObject = Instantiate(ResourceLoader.current.ui["AbilityButton"]) as GameObject;
         buttonObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(position, 10f);
         changeLabel(buttonObject, "Label", AbilityList.abilities[ability.code]);
-        buttonObject.transform.SetParent(AbilityPanel.transform,false);
+        buttonObject.transform.SetParent(AbilityPanel.transform, false);
         buttonObject.name = "AbilityButton:" + ability.code;
         Button button = buttonObject.GetComponent<Button>();
         button.onClick.AddListener(() => {
-          PrimeAbility(ability, aa);
+          PlayerController.yourself.PrimeAbility(ability, aa);
         });
         
       }
@@ -99,6 +126,34 @@ namespace Wardraft.UI {
     
     void hideAbilities () {
       AbilityPanel.SetActive(false);
+    }
+    
+    void showBuildList (ActiveActorController buildingController) {
+      Building building = buildingController.AA as Building;
+      BuildListPanel.SetActive(true);
+      GameObject garbage = GameObject.Find("Garbage");
+      for (int i=0; i<BuildListPanel.transform.childCount; i++) {
+        BuildListPanel.transform.GetChild(i).SetParent(garbage.transform);
+      }
+      for (int i=0; i<building.buildList.Length; i++) {
+        int code = building.buildList[i];
+        string name = ActorList.codes[code];
+        float positionY = -(10 * ((i%3) + 1)) - ((i%3) * 60);
+        float positionX = (10 * ((i/3) + 1)) + ((i/3) * 60);
+        GameObject buttonObject = Instantiate(ResourceLoader.current.ui["BuildListButton"]) as GameObject;
+        buttonObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(positionX, positionY);
+        changeLabel(buttonObject, "Label", name);
+        buttonObject.transform.SetParent(BuildListPanel.transform, false);
+        buttonObject.name = string.Format("BuildListButton:{0}", code);
+        Button button = buttonObject.GetComponent<Button>();
+        button.onClick.AddListener(() => {
+          buildingController.Build(code);
+        });
+      }
+    }
+    
+    void hideBuildList () {
+      BuildListPanel.SetActive(false);
     }
   
   }

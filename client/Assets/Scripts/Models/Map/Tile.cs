@@ -40,14 +40,17 @@ public class Tile {
     }
   }
 
-  public void CreateActor (int code, string oid) {
+  public Actor CreateActor (int code, string oid) {
     string type = "";
     if (ActorList.codes.ContainsKey(code)) {
       type = ActorList.codes[code];
     }
     Actor actor = ActorFactory.Create(type, Game.GetNextAid(), oid);
+    if (actors[actor.layer] != null) return null;
     actor.code = code;
     PlaceActor(actor, actor.layer);
+    if (actor is Building) (actor as Building).SetDefaultRallyPoint();
+    return actor;
   }
 
   public void PlaceActor (Actor actor, int layer) {

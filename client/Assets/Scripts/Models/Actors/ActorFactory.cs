@@ -4,6 +4,8 @@ public static class ActorFactory {
   
   public static Actor Create (string type, int aid, string oid) {
     switch (type) {
+      case "Gateway":
+        return new Gateway(aid, oid);
       case "Bunny":
         return new Bunny(aid, oid);
       case "TestUnit":

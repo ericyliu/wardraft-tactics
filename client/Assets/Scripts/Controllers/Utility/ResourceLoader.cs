@@ -55,6 +55,7 @@ public class ResourceLoader : MonoBehaviour {
     ui.Add("tileAttackOutline", Resources.Load("GameUI/AttackOutline"));
     
     ui.Add("AbilityButton", Resources.Load("GameUI/AbilityButton"));
+    ui.Add("BuildListButton", Resources.Load("GameUI/BuildListButton"));
   }
 
 }

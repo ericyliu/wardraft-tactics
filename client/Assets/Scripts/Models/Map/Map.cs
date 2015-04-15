@@ -14,11 +14,11 @@ public class Map {
   public void CreateMap (string mapname) {
     Debug.Log("Loading Map Data...");
     JsonMapData data = readData(mapname);
+    current = this;
     setUpTiles(data.width, data.height);
     setUpTerrain(data);
     setUpNeutrals(data);
     setUpPlayersActors(data);
-    current = this;
   }
 
   public HashSet<Tile> TilesInRange (Tile tile, int range) {
@@ -92,6 +92,16 @@ public class Map {
 
   public void PlaceActiveActor(Point position, ActiveActor aa) {
     GetTile(position).PlaceActiveActor(aa);
+  }
+  
+  public Tile findOpenAdjacentTile(Tile tile) {
+    for (int x=tile.position.X-1; x<=tile.position.X+1; x++) {
+      for (int y=tile.position.Y-1; y<=tile.position.Y+1; y++) {
+        Tile t = GetTile(new Point(x,y));
+        if (t != null) return t;
+      }
+    }
+    return null;
   }
 
   #endregion
