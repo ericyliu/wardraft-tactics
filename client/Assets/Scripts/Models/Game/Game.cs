@@ -52,7 +52,7 @@ namespace Wardraft.Game {
   
     public void StartGame() {
       turn_list = new List<Turn>();
-      turn = new Turn(0, players[0]);
+      turn = new Turn(0, players[0].id);
       state = Enums.GameState.Playing;
     }
   
@@ -76,7 +76,7 @@ namespace Wardraft.Game {
   
     public void NextTurn () {
       turn_list.Add(Utility.DeepClone<Turn>(turn));
-      turn = new Turn(++turn.number, players[turn.number%players.Count]);
+      turn = new Turn(++turn.number, players[turn.number%players.Count].id);
     }
   
     public bool CheckGameOver () {

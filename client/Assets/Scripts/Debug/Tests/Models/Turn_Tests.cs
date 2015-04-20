@@ -24,15 +24,15 @@ public static partial class Tests {
     test = new Test("Turns increment correctly");
       game.StartGame();
       test.Assert("first turn is 0").Equal(game.turn.number,0);
-      test.Assert("first turn is first player").Equal(game.turn.player.name,game.players[0].name);
+      test.Assert("first turn is first player").Equal(game.turn.playerId,game.players[0].name);
       game.NextTurn();
       test.Assert("second turn is 1").Equal(game.turn.number,1);
-      test.Assert("second turn is second player").Equal(game.turn.player.name,game.players[1].name);
+      test.Assert("second turn is second player").Equal(game.turn.playerId,game.players[1].name);
       test.Finish ();
 
     test = new Test("Turns save correctly");
       test.Assert("first turn in turn list matches number").Equal(game.turn_list[0].number,0);
-      test.Assert("first turn in turn list matches player").Equal(game.turn_list[0].player.name,game.players[0].name);
+      test.Assert("first turn in turn list matches player").Equal(game.turn_list[0].playerId,game.players[0].name);
       test.Finish();
 
   }

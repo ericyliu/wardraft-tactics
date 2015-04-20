@@ -32,6 +32,11 @@ namespace Wardraft.Game {
     public Player GetMe () {
       return game.players.Find(x => x.id == GameData.PlayerID);
     }
+    
+    public void EndTurn () {
+      game.NextTurn();
+      GameUIController.current.UpdateCurrentPlayerInfo(game.GetPlayer(GameData.PlayerID));
+    }
   
     void loadGame () {
       Debug.Log("Starting Game...");

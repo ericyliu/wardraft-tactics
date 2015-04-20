@@ -84,8 +84,12 @@ namespace Wardraft.UI {
     }
     
     public void UpdateCurrentPlayerInfo (Player player) {
+      Game.Game game = Game.Game.current;
       changeLabel(PlayerInfo, "LabelGold", "Gold: " + player.gold);
       changeLabel(PlayerInfo, "LabelPopulation", "Pop: " + player.population.current + "/" + player.population.max);
+      changeLabel(PlayerInfo, "LabelTurn", string.Format("Turn {0}: {1}", 
+                                                         game.turn.number,
+                                                         game.GetPlayer(game.turn.playerId).name));
     }
     
     void clearLabels () {

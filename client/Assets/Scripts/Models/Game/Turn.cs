@@ -4,13 +4,13 @@
 public class Turn {
 
 	public int number;
-  public Player player;
+  public string playerId;
 
   public List<Command> commands;
 
-  public Turn (int turn_number,  Player turn_player) {
+  public Turn (int turn_number,  string player_id) {
     number = turn_number;
-    player = turn_player;
+    playerId = player_id;
   }
 
   public void AddCommand (Command command) {
@@ -27,14 +27,14 @@ public class Turn {
   public override bool Equals (object obj)
   {
     var turn = obj as Turn;
-    return turn != null && turn.number == number && turn.player.name == player.name;
+    return turn != null && turn.number == number && turn.playerId == playerId;
   }
 
   public override int GetHashCode ()
   {
     int hash = 17;
     hash = hash * 23 + number.GetHashCode();
-    hash = hash * 23 + player.name.GetHashCode();
+    hash = hash * 23 + playerId.GetHashCode();
     return hash;
   }
 
