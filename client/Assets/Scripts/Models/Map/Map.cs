@@ -158,8 +158,7 @@ public class Map {
         if (playersActors[j] != 0) {
           int x = j%data.width;
           int y = j%data.width;
-          Actor actor = mapTiles[x,y].CreateActor(playersActors[j], Game.current.players[i].id);
-          Game.current.players[i].ownedActives.Add(actor as ActiveActor);
+          mapTiles[x,y].CreateActor(playersActors[j], Game.current.players[i].id);
         }
       }
     }

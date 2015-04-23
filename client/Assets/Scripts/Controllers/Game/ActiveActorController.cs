@@ -80,16 +80,18 @@ namespace Wardraft.Game {
     }
     
     public void Attack (ActiveActorController target) {
-      if (owned() && !target.owned() && target.AA.state == Enums.ActiveActorState.Alive) {
-        if (Map.current.IsWithinAttackRange(AA, target.AA)) {
-          List<Tile> path = new List<Tile>();
-          Map.current.BuildPath(AA.position, target.AA.position, ref path);
-          path.RemoveAt(0);
-          MapController.current.MoveActor(AA,path[0]);
-          AA.Move(path);
-          path.AddRange(currentPath);
-          currentPath = path;
-          this.target = target;
+      if (AA.canAttack) {
+        if (owned() && !target.owned() && target.AA.state == Enums.ActiveActorState.Alive) {
+          if (Map.current.IsWithinAttackRange(AA, target.AA)) {
+            List<Tile> path = new List<Tile>();
+            Map.current.BuildPath(AA.position, target.AA.position, ref path);
+            path.RemoveAt(0);
+            MapController.current.MoveActor(AA,path[0]);
+            AA.Move(path);
+            path.AddRange(currentPath);
+            currentPath = path;
+            this.target = target;
+          }
         }
       }
     }
@@ -109,6 +111,7 @@ namespace Wardraft.Game {
         Debug.Log(string.Format("{0} has been destroyed.", ActorList.codes[AA.code]));
         AAVM.PlayAnimation(Enums.AnimationState.Dying);
       }
+      GameUIController.current.ShowSelectedInfo(PlayerController.yourself.selected);
     }
     
     public void OnDeathFinish () {
@@ -118,17 +121,24 @@ namespace Wardraft.Game {
     
     public void Build (int code) {
       if (AA is Building) {
-        Tile tile = (AA as Building).rallyPoint;
-        if (tile == null) {
-          Debug.Log("No rally point set.");
-          return;
-        }
-        bool success = MapController.current.CreateActor(code, tile, AA.ownerID);
-        if (success) {
-          Debug.Log(string.Format("Player {0} created a {1} at {2}.", AA.ownerID, ActorList.codes[code], tile.position));
-        }
-        else {
-          Debug.Log("No space to create new unit.");
+        Debug.Log(ActorList.codes[code].cost);
+        Debug.Log(PlayerController.yourself.player.gold);
+        if (ActorList.codes[code].cost > PlayerController.yourself.player.gold) {
+          Tile tile = (AA as Building).rallyPoint;
+          if (tile == null) {
+            Debug.Log("No rally point set.");
+            return;
+          }
+          Debug.Log ("hi");
+          Actor actor = MapController.current.CreateActor(code, tile, AA.ownerID);
+          if (actor != null) {
+            PlayerController.yourself.player.gold -= ActorList.codes[code].cost;
+            Debug.Log(string.Format("Player {0} created a {1} at [{2},{3}].", AA.ownerID, ActorList.codes[code].name, tile.position.X, tile.position.Y));
+            GameUIController.current.UpdateCurrentPlayerInfo(PlayerController.yourself.player);
+          }
+          else {
+            Debug.Log("No space to create new unit.");
+          }
         }
       }
     }

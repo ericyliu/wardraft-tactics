@@ -9,6 +9,7 @@ namespace Wardraft.Game {
   
     public List<User>       users;
     public List<Player>     players;
+    public List<Actor>      actors;
     public Map              map;
     public Draft            draft;
     public Random           random;
@@ -73,10 +74,15 @@ namespace Wardraft.Game {
     public void Unpause() {
       state = Enums.GameState.Playing;
     }
-  
-    public void NextTurn () {
+    
+    public void StartTurn () {
+      foreach (Actor actor in actors) actor.OnStartTurn();
+    }
+    
+    public void EndTurn () {
       turn_list.Add(Utility.DeepClone<Turn>(turn));
       turn = new Turn(++turn.number, players[turn.number%players.Count].id);
+      foreach (Actor actor in actors) actor.OnEndTurn();
     }
   
     public bool CheckGameOver () {
@@ -135,6 +141,7 @@ namespace Wardraft.Game {
     #region private
   
     private void loadMap(string mapname) {
+      actors = new List<Actor>();
       map = new Map();
       map.CreateMap(mapname);
     }

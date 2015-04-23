@@ -145,7 +145,7 @@ namespace Wardraft.UI {
       }
       for (int i=0; i<building.buildList.Length; i++) {
         int code = building.buildList[i];
-        string name = ActorList.codes[code];
+        string name = ActorList.codes[code].name;
         float positionY = -(10 * ((i%3) + 1)) - ((i%3) * 60);
         float positionX = (10 * ((i/3) + 1)) + ((i/3) * 60);
         GameObject buttonObject = Instantiate(ResourceLoader.current.ui["BuildListButton"]) as GameObject;

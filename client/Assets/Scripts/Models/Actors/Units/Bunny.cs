@@ -6,6 +6,7 @@ public class Bunny : Unit {
                               armor_stat: 1,  build_stat: 1,
                               range_stat: 1,  speed_stat: 10,
                               mana_stat: 1);
+    Bunny.cost = 50;
     AddAbilityByID(0);
     AddAbilityByID(1);
     AddAbilityByID(2);

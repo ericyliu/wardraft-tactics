@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Wardraft.Game;
+using UnityEngine;
 
 [System.Serializable]
 public abstract class ActiveActor : Actor {
@@ -16,6 +18,8 @@ public abstract class ActiveActor : Actor {
   public Enums.ActiveActorState state;
   
   public bool selected = false;
+  
+  public static int cost = 0;
 
   protected ActiveActor (int aid, string oid) : base(aid) {
     ownerID = oid;
@@ -88,12 +92,16 @@ public abstract class ActiveActor : Actor {
   }
 
   public virtual void ResetStats () {
-    attributes.health.Repair();
-    attributes.damage.Repair();
-    attributes.armor.Repair();
-    attributes.attackRange.Repair();
+    attributes.health.Reset();
+    attributes.damage.Reset();
+    attributes.armor.Reset();
+    attributes.attackRange.Reset();
+  }
+  
+  public virtual void RepairStats () {
+    attributes.mana.Repair();
+    attributes.speed.Repair();
     canAttack = true;
-    canMove = true;
   }
 
   public void AssignStats (Attributes aa_attributes) {
@@ -110,6 +118,12 @@ public abstract class ActiveActor : Actor {
     ability.code = id;
     ability.aa_source = this;
     abilities.Add(ability);
+  }
+  
+  public override void OnStartTurn () {
+    if (Game.current.turn.playerId == ownerID) {
+      RepairStats();
+    }
   }
 
   private void moveTo (Tile start, Tile end) {

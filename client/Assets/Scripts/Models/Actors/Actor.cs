@@ -16,6 +16,12 @@ public abstract class Actor {
   public void SetSize (int x = 1, int y = 1) {
     size = new Point(x,y);
   }
+  
+  public virtual void OnStartTurn () {
+  }
+  
+  public virtual void OnEndTurn () {
+  }
 
   #region operators
   public override bool Equals (object obj)

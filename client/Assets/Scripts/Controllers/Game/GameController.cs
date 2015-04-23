@@ -34,7 +34,12 @@ namespace Wardraft.Game {
     }
     
     public void EndTurn () {
-      game.NextTurn();
+      game.EndTurn();
+      StartTurn();
+    }
+    
+    public void StartTurn () {
+      game.StartTurn();
       GameUIController.current.UpdateCurrentPlayerInfo(game.GetPlayer(GameData.PlayerID));
     }
   

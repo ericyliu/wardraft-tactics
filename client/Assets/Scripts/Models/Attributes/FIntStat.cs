@@ -7,6 +7,8 @@ public class FIntStat {
 		current = stat; normal = stat; max = stat;
 	}
 
-	public void Repair () { max = normal; }
+	public void Reset () { max = normal; }
+  
+  public void Repair () { current = max; }
 
 }

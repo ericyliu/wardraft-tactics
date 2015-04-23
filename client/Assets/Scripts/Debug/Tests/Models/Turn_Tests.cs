@@ -25,7 +25,7 @@ public static partial class Tests {
       game.StartGame();
       test.Assert("first turn is 0").Equal(game.turn.number,0);
       test.Assert("first turn is first player").Equal(game.turn.playerId,game.players[0].name);
-      game.NextTurn();
+      game.EndTurn();
       test.Assert("second turn is 1").Equal(game.turn.number,1);
       test.Assert("second turn is second player").Equal(game.turn.playerId,game.players[1].name);
       test.Finish ();

@@ -41,9 +41,9 @@ public class ResourceLoader : MonoBehaviour {
   
   void loadActors () {
     actors = new Dictionary<int, Object>();
-    foreach (KeyValuePair<int,string> entry in ActorList.codes) {
-      Object prefab = Resources.Load("Actors/" + entry.Value);
-      if (prefab == null) Debug.LogError("Cannot find: " + entry.Value + " prefab.");
+    foreach (KeyValuePair<int,ActorInfo> entry in ActorList.codes) {
+      Object prefab = Resources.Load("Actors/" + entry.Value.name);
+      if (prefab == null) Debug.LogError("Cannot find: " + entry.Value.name + " prefab.");
       actors.Add(entry.Key, prefab);
     }
   }

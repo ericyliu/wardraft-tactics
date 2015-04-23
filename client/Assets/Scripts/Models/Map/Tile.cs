@@ -43,7 +43,7 @@ public class Tile {
   public Actor CreateActor (int code, string oid) {
     string type = "";
     if (ActorList.codes.ContainsKey(code)) {
-      type = ActorList.codes[code];
+      type = ActorList.codes[code].name;
     }
     Actor actor = ActorFactory.Create(type, Game.GetNextAid(), oid);
     if (actors[actor.layer] != null) return null;
