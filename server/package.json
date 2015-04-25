@@ -1,0 +1,17 @@
+{
+  "name": "wardraft-main-server",
+  "version": "0.0.1",
+  "description": "Handles logging in and displaying available games",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Yuhui Liu",
+  "license": "ISC",
+  "dependencies": {
+    "coffee-script": "^1.9.2",
+    "express": "^4.10.2",
+    "socket.io": "^1.3.5",
+    "ws": "^0.7.1"
+  }
+}
