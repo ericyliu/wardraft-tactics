@@ -1,15 +1,27 @@
+stackTrace = require 'stack-trace'
+
 module.exports =
 
   verbose: true
   queryIndicator: '|'
 
   logVerbose: (text) ->
-    if @verbose then @log text
+    if @verbose then @_log @formatLog text
 
   logError: (text) ->
-    @log "ERROR: #{text}"
+    @_log @formatLog "ERROR: #{text}"
 
   log: (text) ->
+    @_log @formatLog text
+
+  formatLog: (text) ->
+    stack = stackTrace.get()
+    path = stack[2].getFileName().split '/'
+    filename = path.slice(path.length - 3).join '/'
+    datetime = "#{new Date().toLocaleDateString()} #{new Date().toLocaleTimeString()}"
+    text = "#{datetime} [.../#{filename}] #{text}"
+
+  _log: (text) ->
     console.log text
 
   sendError: (ws, text) ->
@@ -21,7 +33,4 @@ module.exports =
     @sendData ws, 'server/message', data
 
   sendData: (ws, route, data) ->
-    console.log ws
-    console.log data
-    console.log route
     ws.send "#{route}#{@queryIndicator}#{JSON.stringify data}"

@@ -19,13 +19,14 @@ Router =
     try
       data = JSON.parse (message.split Logger.queryIndicator)[1]
     catch e
-      Logger.logError e
+      Logger.logVerbose e
+      Logger.sendError ws, "Invalid message format. Expected: 'route|JsonObject'"
       return
 
     if @routes[route] is undefined
       Logger.sendError ws, "Route #{route} does not exist."
       return
 
-    @routes[route] ws, data
+    @routes[route] ws, route, data
 
 module.exports = Router
