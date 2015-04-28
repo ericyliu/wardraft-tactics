@@ -1,8 +1,14 @@
 Logger = require '../../utils/logger'
 Account = require '../../models/schemas/account'
 Mongoose = require('mongoose-q')()
+WebSocket = require 'ws'
 
 AccountRoutes =
+
+  # route: account/register
+  # parameters:
+  #   username: username to register
+  #   password: password to register
 
   register: (ws, route, data) ->
     if data.username is undefined or data.password is undefined
@@ -38,6 +44,11 @@ AccountRoutes =
             Logger.logError err
           .done()
 
+  # route: account/login
+  # parameters:
+  #   username: username to login
+  #   password: password to login
+
   login: (ws, route, data) ->
     if data.username is undefined or data.password is undefined
       Logger.sendData ws, route,
@@ -70,18 +81,14 @@ AccountRoutes =
         Logger.logError err
       .done()
 
+  # route: account/logout
+
   logout: (ws, route, data) ->
-    if ws.data.account is undefined
-      Logger.sendData ws, route,
-        success: false
-        message: 'You are not logged in.'
-      return
     username = ws.data.account.username
     Logger.logVerbose "Logging out <#{username}>"
 
     delete ws.data.account
-    Logger.sendData ws, route,
-      success: true
+    Logger.sendSuccess ws, route,
       message: 'You have logged out.'
     Logger.log "<#{username}> has logged out"
 

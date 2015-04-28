@@ -1,4 +1,5 @@
 Logger = require '../utils/logger'
+Util = require './util.coffee'
 fs = require 'fs'
 
 routesPath = 'services/routes/'
@@ -19,14 +20,16 @@ Router =
     try
       data = JSON.parse (message.split Logger.queryIndicator)[1]
     catch e
-      Logger.logVerbose e
       Logger.sendError ws, "Invalid message format. Expected: 'route|JsonObject'"
       return
 
-    if @routes[route] is undefined
+    if @routes[route] is undefined or route.indexOf('_') isnt -1
       Logger.sendError ws, "Route #{route} does not exist."
       return
 
-    @routes[route] ws, route, data
+    if (Util.isLoggedIn ws) or (route is 'account/register') or (route is 'account/login')
+      @routes[route] ws, route, data
+    else
+      Logger.sendError ws, "Must be logged in use route '#{route}'."
 
 module.exports = Router

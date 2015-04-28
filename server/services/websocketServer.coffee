@@ -1,7 +1,7 @@
 Logger = require '../utils/logger'
 Router = require './router'
 wss = require('ws').Server
-ConnectionMap = require '../models/ConnectionMap'
+ConnectionMap = require '../models/connectionMap'
 
 WebSocketServer =
 
@@ -25,9 +25,9 @@ WebSocketServer =
         Router.route ws, message
 
       ws.on 'close', (code, message) ->
-        Logger.log 'A user has disconnected'
         if ws.data and ConnectionMap[ws.data.id]
           Router.route ws, "account/logout|{}" if ws.data.account
           delete ConnectionMap[ws.data.id]
+        Logger.log 'A user has disconnected'
 
 module.exports = WebSocketServer

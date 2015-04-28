@@ -1,4 +1,5 @@
 stackTrace = require 'stack-trace'
+WebSocket = require 'ws'
 
 module.exports =
 
@@ -32,5 +33,14 @@ module.exports =
     data = message: text
     @sendData ws, 'server/message', data
 
+  sendSuccess: (ws, route, data) ->
+    data.success = true
+    @sendData ws, route, data
+
+  sendFailure: (ws, route, data) ->
+    data.success = false
+    @sendData ws, route, data
+
   sendData: (ws, route, data) ->
-    ws.send "#{route}#{@queryIndicator}#{JSON.stringify data}"
+    if ws.readyState is WebSocket.OPEN
+      ws.send "#{route}#{@queryIndicator}#{JSON.stringify data}"
