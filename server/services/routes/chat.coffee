@@ -63,7 +63,7 @@ ChatRoutes =
 
   leave: (ws, route, data) ->
     username = ws.data.account.username
-    if data.id then ids = [data.id] else ids = ws.data.chatrooms
+    if data?.id then ids = [data.id] else ids = ws.data.chatrooms
     count = 0
     for id in ids
       chatroom = ChatSystem.getChatroom id

@@ -73,6 +73,7 @@ AccountRoutes =
             message: "Password is incorrect."
           return
         ws.data.account = result
+        ws.data.chatrooms ?= []
         Logger.sendData ws, route,
           success: true
           message: "You have successfully logged in."
@@ -86,7 +87,7 @@ AccountRoutes =
   logout: (ws, route, data) ->
     username = ws.data.account.username
     Logger.logVerbose "Logging out <#{username}>"
-
+    @['chat/leave'] ws, 'chat/leave'
     delete ws.data.account
     Logger.sendSuccess ws, route,
       message: 'You have logged out.'

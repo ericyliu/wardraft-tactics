@@ -37,7 +37,7 @@ ChatSystem =
   _setupLobbyChatroom: () ->
     chatroom = new Chatroom(++@nextId)
     chatroom.persists = true
-    chatroom.name = "Lobby"
+    chatroom.name = "Chat Lobby"
     @chatrooms.public[chatroom.id] = chatroom
 
 module.exports = ChatSystem

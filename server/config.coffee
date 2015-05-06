@@ -1,7 +1,7 @@
 module.exports =
   server:
     address: 'localhost'
-    port: 3000
+    port: 5000
     wsPort: 8080
 
   db:
