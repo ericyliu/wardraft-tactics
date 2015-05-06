@@ -4,6 +4,9 @@ WebSocket = require 'ws'
 module.exports =
 
   verbose: true
+  time: false
+  filepath: false
+
   queryIndicator: '|'
 
   logVerbose: (text) ->
@@ -18,9 +21,9 @@ module.exports =
   formatLog: (text) ->
     stack = stackTrace.get()
     path = stack[2].getFileName().split '/'
-    filename = path.slice(path.length - 3).join '/'
-    datetime = "#{new Date().toLocaleDateString()} #{new Date().toLocaleTimeString()}"
-    text = "#{datetime} [.../#{filename}] #{text}"
+    filename = if @filepath then "[.../#{path.slice(path.length - 3).join '/'}] " else ''
+    datetime = if @time then "#{new Date().toLocaleDateString()} #{new Date().toLocaleTimeString()} " else ''
+    text = "#{datetime}#{filename}#{text}"
 
   _log: (text) ->
     console.log text
