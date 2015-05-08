@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using Wardraft.Game;
 
@@ -31,7 +31,7 @@ public static partial class Tests {
     test.Finish();
 
     test = new Test("Game is now Loaded");
-    test.Assert("state is loaded").Equal(game.state,Enums.GameState.Loaded);
+    test.Assert("state is loaded").Equal(game.state,GameEnums.GameState.Loaded);
     test.Finish();
 
   }

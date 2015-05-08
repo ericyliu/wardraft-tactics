@@ -12,28 +12,39 @@ namespace Wardraft.Menu {
     //GameObjects to be set by developer in Unity Editor
     public Text StatusText;
     public InputField UsernameField;
-    public InputField UsernamePassword;
+    public InputField PasswordField;
+    public Button LoginButton;
   
     void Start () {
       if (WebsocketService.current.connected) OnConnect(null); else OnDisconnect(null);
-      WebsocketService.current.RegisterService("onWsOpen", OnConnect);
-      WebsocketService.current.RegisterService("onWsClose", OnDisconnect);
+      registerServices();
+    }
+    
+    public void Login () {
+      Hashtable data = new Hashtable();
+      data.Add("username", UsernameField.text);
+      data.Add("password", PasswordField.text);
+      LoadingWidgetController.current.Display("Logging In");
+      WebsocketService.current.Send("account/login", data);
     }
     
     public void OnConnect (Hashtable data) {
       displayStatus("Please Sign In", Status.Neutral);
+      UsernameField.enabled = true;
+      PasswordField.enabled = true;
+      LoginButton.enabled = true;
     }
     
     public void OnDisconnect (Hashtable data) {
       displayStatus("You have lost connection to the server.", Status.Error);
+      UsernameField.enabled = false;
+      PasswordField.enabled = false;
+      LoginButton.enabled = false;
     }
     
-    void testJSON () {
-      Hashtable toConvert = new Hashtable();
-      toConvert["entry1"] = "value1";
-      toConvert["entry2"] = "value2";
-      string jsonObject = JsonConvert.SerializeObject(toConvert);
-      Debug.Log (jsonObject);
+    void registerServices () {
+      WebsocketService.current.RegisterService("onWsOpen", OnConnect);
+      WebsocketService.current.RegisterService("onWsClose", OnDisconnect);
     }
     
     void displayStatus (string message, Status status) {

@@ -45,6 +45,21 @@ public class WebsocketService : MonoBehaviour {
     serviceMap[route].Remove(action);
   }
 
+  public void Send (string route, Hashtable data) {
+    if (connected && data != null) {
+      string message = createMessage(route, data);
+      ws.Send(message);
+    }
+  }
+  
+  public void Send (string route) {
+    if (connected) {
+      string message = createMessage(route, new Hashtable());
+      ws.Send(message);
+      Debug.Log("Sent: " + message);
+    }
+  }
+
   void createWebsocket () {
     ws = new WebSocket(string.Format("ws://{0}:{1}", Config.SERVER_ADDR, Config.SERVER_PORT));
     ws.OnMessage += (object sender, MessageEventArgs e) => handleMessage(e.Data);
@@ -54,13 +69,14 @@ public class WebsocketService : MonoBehaviour {
   
   void connect () {
     if (!connected) {
-      Debug.Log("Estbalishing connection to server...");
+      LoadingWidgetController.current.Display("Estbalishing connection to server...");
       if (ws == null) createWebsocket();
       ws.Connect();
     }
   }
   
   void handleMessage (string message) {
+    Debug.Log("Recieved: " + message);
     string route = message.Split(delimiter)[0];
     Hashtable data = JsonConvert.DeserializeObject<Hashtable>(message.Split(delimiter)[1]);
     if (serviceMap.ContainsKey(route)) {
@@ -79,6 +95,7 @@ public class WebsocketService : MonoBehaviour {
   
   void handleConnectionOpen () {
     Debug.Log("You have connected to the server.");
+    LoadingWidgetController.current.Hide();
     connected = true;
       handleMessage(createMessage("onWsOpen", null));
   }
@@ -86,6 +103,11 @@ public class WebsocketService : MonoBehaviour {
   string createMessage (string route, Hashtable data) {
     string jsonData = JsonConvert.SerializeObject(data);
     return route + delimiter + jsonData;
+  }
+  
+  void OnApplicationQuit () {
+    CancelInvoke("connect");
+    ws.Close();
   }
 
 }

@@ -1,4 +1,4 @@
-﻿public static class Enums {
+﻿public static class GameEnums {
 
   private static int color_index;
   public enum Color {Red, Blue, Green, Yellow};

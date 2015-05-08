@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class Player {
@@ -6,7 +6,7 @@ public class Player {
   public string id;
 
   public string name;
-  public Enums.Color color;
+  public GameEnums.Color color;
 
 	public int gold, pauses;
   public IntStat population;
@@ -19,7 +19,7 @@ public class Player {
     id = user.id;
   
     name = user.displayName;
-    color = Enums.GetNextColor();
+    color = GameEnums.GetNextColor();
 
     gold = GameValues.STARTING_GOLD;
     pauses = GameValues.MAX_PAUSES;

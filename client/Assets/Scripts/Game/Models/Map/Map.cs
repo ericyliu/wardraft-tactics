@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Wardraft.Game;
@@ -132,14 +132,14 @@ public class Map {
         int y = j/data.width;
         mapTiles[x,y].SetTerrain(i, tiles[j]);
         if (i==1) {
-          mapTiles[x,y].SetHeight(data.layers[(int)Enums.Layers.Heightmap].data[j]);
+          mapTiles[x,y].SetHeight(data.layers[(int)GameEnums.Layers.Heightmap].data[j]);
         }
       }
     }
   }
   
   private void setUpNeutrals (JsonMapData data) {
-    List<int> neutrals = data.layers[(int)Enums.Layers.Neutral].data;
+    List<int> neutrals = data.layers[(int)GameEnums.Layers.Neutral].data;
     for (int j=0; j<neutrals.Count; j++) {
       if (neutrals[j] != 0) {
         int x = j%data.width;
@@ -151,9 +151,9 @@ public class Map {
   
   private void setUpPlayersActors (JsonMapData data) {
     int numLayers = data.layers.Count;
-    int numPlayers = numLayers - (int)Enums.Layers.Players;
+    int numPlayers = numLayers - (int)GameEnums.Layers.Players;
     for (int i=0; i<numPlayers; i++) {
-      List<int> playersActors = data.layers[i+(int)Enums.Layers.Players].data;
+      List<int> playersActors = data.layers[i+(int)GameEnums.Layers.Players].data;
       for (int j=0; j<playersActors.Count; j++) {
         if (playersActors[j] != 0) {
           int x = j%data.width;

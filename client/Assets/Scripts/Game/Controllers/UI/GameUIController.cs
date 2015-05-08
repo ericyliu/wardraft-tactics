@@ -35,10 +35,10 @@ namespace Wardraft.UI {
         string owned = "";
         string state = "";
         if (aa.ownerID == GameData.PlayerID) owned = " (Owned)";
-        if (aa.state == Enums.ActiveActorState.Dead) state = " (Dead)";
+        if (aa.state == GameEnums.ActiveActorState.Dead) state = " (Dead)";
         clearLabels();
         changeLabel(SelectedActorInfo, "LabelName", ActorList.codes[aa.code] + owned + state);
-        if (aa.state == Enums.ActiveActorState.Alive) {
+        if (aa.state == GameEnums.ActiveActorState.Alive) {
           if (aa.attributes.health.max.ToInt() != 0) {
             changeLabel(SelectedActorInfo, "LabelHealth", string.Format("Health: {0}/{1}", 
                                                                         aa.attributes.health.current.ToInt(),
@@ -70,7 +70,7 @@ namespace Wardraft.UI {
         Tile tile = (toShow as TileController).tile;
         HideSelectedInfo();
         SelectedTileInfo.SetActive(true);
-        int layer = (int) Enums.Layers.Ground;
+        int layer = (int) GameEnums.Layers.Ground;
         int code = tile.terrains[layer].code;
         changeLabel(SelectedTileInfo, "LabelName", Terrains.codes[code]);
       }

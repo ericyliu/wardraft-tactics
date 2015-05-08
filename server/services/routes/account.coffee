@@ -85,6 +85,7 @@ AccountRoutes =
   # route: account/logout
 
   logout: (ws, route, data) ->
+    return unless ws.data.account
     username = ws.data.account.username
     Logger.logVerbose "Logging out <#{username}>"
     @['chat/leave'] ws, 'chat/leave'

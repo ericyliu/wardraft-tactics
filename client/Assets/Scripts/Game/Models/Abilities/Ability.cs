@@ -1,4 +1,4 @@
-﻿[System.Serializable]
+[System.Serializable]
 public abstract class Ability {
 
   public ActiveActor        aa_source;
@@ -6,7 +6,7 @@ public abstract class Ability {
   public int                range;
   public int                aoeRange;
   public int                code;
-  public Enums.SpellTarget  target;
+  public GameEnums.SpellTarget  target;
   public bool               isDamageDealt = true;
   
   public bool               canTargetDead = false;

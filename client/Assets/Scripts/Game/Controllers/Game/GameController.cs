@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Wardraft.Test;
@@ -22,7 +22,7 @@ namespace Wardraft.Game {
     }
     
     void Update () {
-      if (game.state == Enums.GameState.Unstarted) {
+      if (game.state == GameEnums.GameState.Unstarted) {
         if (RL.done) {
           loadGame();
         }

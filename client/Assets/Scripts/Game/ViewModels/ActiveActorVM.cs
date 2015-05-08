@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 namespace Wardraft.Game {
@@ -39,13 +39,13 @@ public class ActiveActorVM : MonoBehaviour {
     modelRenderer.material.SetColor("_OutlineColor", new Color(1f,0f,0f,.5f));
   }
   
-  public void PlayAnimation (Enums.AnimationState state) {
+  public void PlayAnimation (GameEnums.AnimationState state) {
     Animator animator = gameObject.GetComponent<Animator>();
-    if (state == Enums.AnimationState.Standing) animator.Play("Idle");
-    else if (state == Enums.AnimationState.Moving) animator.Play("Walking");
-    else if (state == Enums.AnimationState.Attacking) animator.Play("Attacking");
-    else if (state == Enums.AnimationState.TakeDamage) animator.Play("TakeDamage");
-    else if (state == Enums.AnimationState.Dying) animator.Play("Dying");
+    if (state == GameEnums.AnimationState.Standing) animator.Play("Idle");
+    else if (state == GameEnums.AnimationState.Moving) animator.Play("Walking");
+    else if (state == GameEnums.AnimationState.Attacking) animator.Play("Attacking");
+    else if (state == GameEnums.AnimationState.TakeDamage) animator.Play("TakeDamage");
+    else if (state == GameEnums.AnimationState.Dying) animator.Play("Dying");
     
   }
   

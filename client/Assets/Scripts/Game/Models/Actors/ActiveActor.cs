@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 [System.Serializable]
 public abstract class ActiveActor : Actor {
@@ -13,13 +13,13 @@ public abstract class ActiveActor : Actor {
   public bool canAttack = true;
   public bool canMove = true;
 
-  public Enums.ActiveActorState state;
+  public GameEnums.ActiveActorState state;
   
   public bool selected = false;
 
   protected ActiveActor (int aid, string oid) : base(aid) {
     ownerID = oid;
-    state = Enums.ActiveActorState.Alive;
+    state = GameEnums.ActiveActorState.Alive;
     buffs = new List<Buff>();
     abilities = new List<Ability>();
   }
@@ -41,7 +41,7 @@ public abstract class ActiveActor : Actor {
   }
 
   public void Die () {
-    state = Enums.ActiveActorState.Dead;
+    state = GameEnums.ActiveActorState.Dead;
   }
   
   public void Select () {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using UnityEngine;
 
 public static class Utility {
 
@@ -26,6 +27,13 @@ public static class Utility {
 
       return (T) formatter.Deserialize(ms);
     }
+  }
+  
+  public static void PositionGameObject (GameObject item, float x, float y) {
+    RectTransform rt = item.GetComponent<RectTransform>();
+    if (rt == null) return;
+    Vector2 position = new Vector2(x,y);
+    rt.anchoredPosition = position;
   }
 
 }

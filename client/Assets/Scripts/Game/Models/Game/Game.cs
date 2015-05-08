@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System;
 
 namespace Wardraft.Game {
 
   public class Game {
   
-    public Enums.GameState  state;
+    public GameEnums.GameState  state;
   
     public List<User>       users;
     public List<Player>     players;
@@ -25,22 +25,22 @@ namespace Wardraft.Game {
     #region public
   
     public Game() {
-      state = Enums.GameState.Unstarted;
+      state = GameEnums.GameState.Unstarted;
       current = this;
     }
     
     public void LoadGame (string mapname, List<User> game_users, int game_seed) {
-      state = Enums.GameState.Loading;
+      state = GameEnums.GameState.Loading;
       random = new Random(game_seed);
       users = Utility.ShuffleUsers(game_users, ref random);
       loadPlayers(users);
       loadMap(mapname);
-      state = Enums.GameState.Loaded;
+      state = GameEnums.GameState.Loaded;
     }
   
     public void StartDraft() {
       draft = new Draft(users, this);
-      state = Enums.GameState.UnitPick;
+      state = GameEnums.GameState.UnitPick;
     }
   
     public void OnDraftDone(Draft unitPick) {
@@ -53,17 +53,17 @@ namespace Wardraft.Game {
     public void StartGame() {
       turn_list = new List<Turn>();
       turn = new Turn(0, players[0]);
-      state = Enums.GameState.Playing;
+      state = GameEnums.GameState.Playing;
     }
   
     public void EndGame (Player game_winner) {
       winner = game_winner;
-      state = Enums.GameState.Finished;
+      state = GameEnums.GameState.Finished;
     }
   
     public bool Pause(Player player) {
       if (player.pauses > 0) {
-        state = Enums.GameState.Paused;
+        state = GameEnums.GameState.Paused;
         player.pauses--;
         return true;
       }
@@ -71,7 +71,7 @@ namespace Wardraft.Game {
     }
   
     public void Unpause() {
-      state = Enums.GameState.Playing;
+      state = GameEnums.GameState.Playing;
     }
   
     public void NextTurn () {

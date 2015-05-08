@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using Wardraft.UI;
@@ -13,12 +13,12 @@ namespace Wardraft.Game {
     public List<Tile> currentPath;
     Vector3 currentDestination;
     ActiveActorController target;
-    Enums.AnimationState state;
+    GameEnums.AnimationState state;
     
     void Start () {
       currentPath = new List<Tile>();
       currentDestination = Vector3.zero;
-      AAVM.PlayAnimation(Enums.AnimationState.Standing);
+      AAVM.PlayAnimation(GameEnums.AnimationState.Standing);
     }
     
     void Update () {
@@ -80,7 +80,7 @@ namespace Wardraft.Game {
     }
     
     public void Attack (ActiveActorController target) {
-      if (owned() && !target.owned() && target.AA.state == Enums.ActiveActorState.Alive) {
+      if (owned() && !target.owned() && target.AA.state == GameEnums.ActiveActorState.Alive) {
         if (Map.current.IsWithinAttackRange(AA, target.AA)) {
           List<Tile> path = new List<Tile>();
           Map.current.BuildPath(AA.position, target.AA.position, ref path);
@@ -104,10 +104,10 @@ namespace Wardraft.Game {
     }
     
     public void TakeDamage () {
-      AAVM.PlayAnimation(Enums.AnimationState.TakeDamage);
-      if (AA.state == Enums.ActiveActorState.Dead) {
+      AAVM.PlayAnimation(GameEnums.AnimationState.TakeDamage);
+      if (AA.state == GameEnums.ActiveActorState.Dead) {
         Debug.Log(string.Format("{0} has been destroyed.", ActorList.codes[AA.code]));
-        AAVM.PlayAnimation(Enums.AnimationState.Dying);
+        AAVM.PlayAnimation(GameEnums.AnimationState.Dying);
       }
     }
     
@@ -152,7 +152,7 @@ namespace Wardraft.Game {
     
     void navigate () {
       if (currentPath.Count > 0) {
-        AAVM.PlayAnimation(Enums.AnimationState.Moving);
+        AAVM.PlayAnimation(GameEnums.AnimationState.Moving);
         float threshold = ((float)AA.attributes.speed.max.ToDouble() * Time.deltaTime) / 5f;
         if (currentDestination == Vector3.zero) {
           Tile tile = currentPath[currentPath.Count-1];
@@ -166,13 +166,13 @@ namespace Wardraft.Game {
           transform.position = currentDestination;
           currentPath.RemoveAt(currentPath.Count-1);
           currentDestination = Vector3.zero;
-          if (currentPath.Count == 0) AAVM.PlayAnimation(Enums.AnimationState.Standing);
+          if (currentPath.Count == 0) AAVM.PlayAnimation(GameEnums.AnimationState.Standing);
         }
       }
       else {
         if (target != null) {
           AAVM.Face(target.transform.position);
-          AAVM.PlayAnimation(Enums.AnimationState.Attacking);
+          AAVM.PlayAnimation(GameEnums.AnimationState.Attacking);
         }
       }
     }

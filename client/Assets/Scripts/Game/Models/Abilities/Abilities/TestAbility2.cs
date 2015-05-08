@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Wardraft.Game;
 
 [System.Serializable]
@@ -8,7 +8,7 @@ public class TestAbility2 : Ability {
 
   public TestAbility2 () {
     range = 1;
-    target = Enums.SpellTarget.Tile;
+    target = GameEnums.SpellTarget.Tile;
   }
 
   //Deals 1 true damage to all AA on tile
@@ -16,7 +16,7 @@ public class TestAbility2 : Ability {
     foreach (Actor actor in tile_target.actors) {
       if (actor != null && actor is Unit) {
         aa_target = actor as ActiveActor;
-        if (aa_target.state == Enums.ActiveActorState.Alive) {
+        if (aa_target.state == GameEnums.ActiveActorState.Alive) {
           aa_target.TakeDamage(FInt.Create(damage), apply_armor: false);
           string name = string.Format("Actor:{0}#{1}", aa_target.code, aa_target.id);
           ActiveActorController aac = GameObject.Find(name).GetComponentInChildren<ActiveActorController>();

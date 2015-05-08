@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Wardraft.UI;
 
@@ -30,7 +30,7 @@ namespace Wardraft.Game {
     }
     
     public void PrimeAbility (Ability ability, ActiveActor source) {
-      if (ability.target != Enums.SpellTarget.Self) {
+      if (ability.target != GameEnums.SpellTarget.Self) {
         Debug.Log("Priming ability: " + AbilityList.abilities[ability.code]);
         primedAbility = ability;
         abilitySource = source;
@@ -46,7 +46,7 @@ namespace Wardraft.Game {
     }
   
     public void UseAbility (ActiveActor aa_target = null, Tile tile_target = null) {
-      if (primedAbility.target == Enums.SpellTarget.Target) {
+      if (primedAbility.target == GameEnums.SpellTarget.Target) {
         if (aa_target == null) {
           Debug.Log("Must cast target ability on target");
           UnprimeAbility();
