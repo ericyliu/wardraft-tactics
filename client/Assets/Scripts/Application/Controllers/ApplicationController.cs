@@ -3,6 +3,7 @@ using System.Collections;
 using Wardraft.Service;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class ApplicationController : MonoBehaviour {
 
@@ -31,6 +32,11 @@ public class ApplicationController : MonoBehaviour {
   
   //Service Methods
   public void OnLogin (Hashtable data) {
+    if (!Convert.ToBoolean(data["success"])) {
+      LoadingWidgetController.current.Hide();
+      Debug.LogError(data["message"]);
+      return;
+    }
     LoadMenu(Scene.Main);
     ChatService.JoinChatroom(1);
   }
