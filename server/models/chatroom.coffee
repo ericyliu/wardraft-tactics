@@ -1,6 +1,6 @@
 class Chatroom
 
-  constructor: (@id) ->
+  constructor: (@id, @type) ->
     @connections = {}
     @history = []
     @maxHistoryLength = 10
@@ -22,7 +22,7 @@ class Chatroom
       sender: sender
       text: message.text
       action: message.action
-      time: new Date()
+      time: "#{new Date().toLocaleDateString()} #{new Date().toLocaleTimeString()}"
     if @history.length > @maxHistoryLength
       @history.splice 0, 1
     @history.push chat
@@ -34,7 +34,8 @@ class Chatroom
     jsonObject.history = @history
     jsonObject.name = @name
     jsonObject.id = @id
-    jsonObject.people = Object.keys @connections
+    jsonObject.users = Object.keys @connections
+    jsonObject.type = @type
     return jsonObject
 
 module.exports = Chatroom

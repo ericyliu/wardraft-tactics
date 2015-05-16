@@ -36,3 +36,8 @@ Thumbs.db
 #    Sublime    #
 # ============= #
 *.sublime-workspace
+
+# ============= #
+#     Node      #
+# ============= #
+server/node_modules/

@@ -2,6 +2,7 @@ Logger = require '../../utils/logger'
 Account = require '../../models/schemas/account'
 Mongoose = require('mongoose-q')()
 WebSocket = require 'ws'
+ConnectionMap = require '../../models/connectionMap'
 
 AccountRoutes =
 
@@ -51,10 +52,16 @@ AccountRoutes =
 
   login: (ws, route, data) ->
     if data.username is undefined or data.password is undefined
-      Logger.sendData ws, route,
-        success: false
+      Logger.sendFailure ws, route,
         message: 'Logging in requires a username and a password.'
       return
+
+    for key, connection of ConnectionMap
+      if connection.data.account?.username is data.username
+        Logger.sendFailure ws, route,
+          message: 'User already logged in.'
+        return
+
     Logger.logVerbose "Logging in <#{data.username}> with password <#{data.password}>"
 
     promise = Account.findOne
@@ -63,19 +70,16 @@ AccountRoutes =
     promise.execQ()
       .then (result) ->
         if result is null
-          Logger.sendData ws, route,
-            success: false
+          Logger.sendFailure ws, route,
             message: "Username is not registered."
           return
         if result.password != data.password
-          Logger.sendData ws, route,
-            success: false
+          Logger.sendFailure ws, route,
             message: "Password is incorrect."
           return
         ws.data.account = result
         ws.data.chatrooms ?= []
-        Logger.sendData ws, route,
-          success: true
+        Logger.sendSuccess ws, route,
           message: "You have successfully logged in."
         Logger.log "<#{data.username}> has logged in"
       .catch (err) ->
@@ -85,6 +89,7 @@ AccountRoutes =
   # route: account/logout
 
   logout: (ws, route, data) ->
+    return unless ws.data.account
     username = ws.data.account.username
     Logger.logVerbose "Logging out <#{username}>"
     @['chat/leave'] ws, 'chat/leave'
