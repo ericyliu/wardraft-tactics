@@ -2,6 +2,7 @@
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public static class Utility {
 
@@ -34,6 +35,14 @@ public static class Utility {
     if (rt == null) return;
     Vector2 position = new Vector2(x,y);
     rt.anchoredPosition = position;
+  }
+  
+  public static void SetButtonNormalColor (Transform buttonObject, Color color) {
+    Button button = buttonObject.GetComponent<Button>();
+    if (button == null) return;
+    ColorBlock colors = button.colors;
+    colors.normalColor = color;
+    button.colors = colors;
   }
 
 }

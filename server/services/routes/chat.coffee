@@ -9,14 +9,13 @@ ChatRoutes =
   # route: chat/create
   # parameters:
   #   name: (optional) name of chatroom
+  #   type: (optional) private or public
 
   create: (ws, route, data) ->
-    username = ws.data.account.username
     chatroom = ChatSystem.createChatroom data.type
     data.name ?= ''
     chatroom.name = data.name
     Logger.sendSuccess ws, route,
-      success: true
       id: chatroom.id
 
   # route: chat/join
@@ -81,13 +80,13 @@ ChatRoutes =
   # route: chat/message
   # parameters:
   #   id: id of room to send message to
-  #   message: message to sends
+  #   text: message to send
   #   type: (optional) private or public
 
   message: (ws, route, data) ->
-    if data.id is undefined or data.message is undefined
+    if data.id is undefined or data.text is undefined
       Logger.sendFailure ws, route,
-        message: 'Sending a message requires a chatroom id and message.'
+        message: 'Sending a message requires a chatroom id and text.'
       return
 
     chatroom = ChatSystem.getChatroom data.id, data.type
@@ -98,7 +97,7 @@ ChatRoutes =
 
     username = ws.data.account.username
     chat = chatroom.addMessage username,
-      message: data.message
+      text: data.text
       action: "message"
 
     @["chat/_sendChat"] chatroom, chat
@@ -110,7 +109,7 @@ ChatRoutes =
 
   _sendChat: (chatroom, chat) ->
     for name, connection of chatroom.connections
-      Logger.sendData connection, 'chat/message',
+      Logger.sendSuccess connection, 'chat/message',
         id: chatroom.id
         chat: chat
 

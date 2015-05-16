@@ -48,6 +48,7 @@ public class WebsocketService : MonoBehaviour {
   public void Send (string route, Hashtable data) {
     if (connected && data != null) {
       string message = createMessage(route, data);
+      Debug.Log("Sending: " + message);
       ws.Send(message);
     }
   }

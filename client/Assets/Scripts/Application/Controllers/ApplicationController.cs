@@ -20,13 +20,19 @@ public class ApplicationController : MonoBehaviour {
   }
 
   void Start () {
+    setupControllers();
     registerServices();
     LoadMenu(Scene.Login);
+  }
+  
+  void setupControllers () {
+    ChatController.Start();
   }
   
   //Service Methods
   public void OnLogin (Hashtable data) {
     LoadMenu(Scene.Main);
+    ChatService.JoinChatroom(1);
   }
   
   public void OnLogout (Hashtable data) {

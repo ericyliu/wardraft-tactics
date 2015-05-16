@@ -13,7 +13,7 @@ ChatSystem =
 
   createChatroom: (type) ->
     type ?= 'private'
-    chatroom = new Chatroom(++@nextId)
+    chatroom = new Chatroom(++@nextId, type)
     @chatrooms[type][chatroom.id] = chatroom
     return chatroom
 
@@ -38,6 +38,7 @@ ChatSystem =
     chatroom = new Chatroom(++@nextId)
     chatroom.persists = true
     chatroom.name = "Chat Lobby"
+    chatroom.type = "public"
     @chatrooms.public[chatroom.id] = chatroom
 
 module.exports = ChatSystem
