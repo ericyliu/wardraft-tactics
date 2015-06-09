@@ -3,6 +3,7 @@ Account = require '../../models/schemas/account'
 Mongoose = require('mongoose-q')()
 WebSocket = require 'ws'
 ConnectionMap = require '../../models/connectionMap'
+AccountHelper = require '../../utils/account'
 
 AccountRoutes =
 
@@ -45,6 +46,7 @@ AccountRoutes =
             Logger.logError err
           .done()
 
+
   # route: account/login
   # parameters:
   #   username: username to login
@@ -82,14 +84,22 @@ AccountRoutes =
         Logger.sendSuccess ws, route,
           message: "You have successfully logged in."
         Logger.log "<#{data.username}> has logged in"
+
+        for id, connection of ConnectionMap
+          if AccountHelper.isLoggedIn connection
+            Logger.sendSuccess connection, 'players/login',
+              id: ws.data.id
+              username: data.username
+
       .catch (err) ->
         Logger.logError err
       .done()
 
+
   # route: account/logout
 
   logout: (ws, route, data) ->
-    return unless ws.data.account
+    return unless AccountHelper.isLoggedIn ws
     username = ws.data.account.username
     Logger.logVerbose "Logging out <#{username}>"
     @['chat/leave'] ws, 'chat/leave'
@@ -97,5 +107,11 @@ AccountRoutes =
     Logger.sendSuccess ws, route,
       message: 'You have logged out.'
     Logger.log "<#{username}> has logged out"
+
+    for id, connection of ConnectionMap
+      if AccountHelper.isLoggedIn connection
+        Logger.sendSuccess connection, 'players/logout',
+          id: ws.data.id
+          username: username
 
 module.exports = AccountRoutes
