@@ -10,6 +10,7 @@ namespace Wardraft.Service {
     public static void RegisterServices () {
       WebsocketService.current.RegisterService("account/login", OnLogin);
       WebsocketService.current.RegisterService("account/logout", OnLogout);
+      WebsocketService.current.RegisterService("onWsClose", OnConnectionClose);
     }
     
     // Service Calls
@@ -35,6 +36,7 @@ namespace Wardraft.Service {
       if (!Convert.ToBoolean(data["success"])) {
         LoadingWidgetController.current.Hide();
         Debug.LogError(data["message"]);
+        LoginController.OnError(data);
         return;
       }
       ApplicationController.Current.LoadMenu(Enums.Scene.Main);
@@ -49,6 +51,10 @@ namespace Wardraft.Service {
       }
       ApplicationController.Current.LoadMenu(Enums.Scene.Login);
     }
+    
+    public static void OnConnectionClose (Hashtable data) {
+      ApplicationController.Current.LoadMenu(Enums.Scene.Login);
+    }   
     
     // End Callbacks
   

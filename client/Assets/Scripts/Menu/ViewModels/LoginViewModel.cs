@@ -33,17 +33,24 @@ namespace Wardraft.Menu {
     }
 
     public void OnConnect (Hashtable data) {
-      displayStatus("Please Sign In", Status.Neutral);
+      DisplayStatus("Please Sign In", Status.Neutral);
       UsernameField.enabled = true;
       PasswordField.enabled = true;
       LoginButton.enabled = true;
     }
     
     public void OnDisconnect (Hashtable data) {
-      displayStatus("You have lost connection to the server.", Status.Error);
+      DisplayStatus("You have lost connection to the server.", Status.Error);
       UsernameField.enabled = false;
       PasswordField.enabled = false;
       LoginButton.enabled = false;
+    }
+    
+    public void DisplayStatus (string message, Status status) {
+      if (status == Status.Success) StatusText.color = Color.green;
+      if (status == Status.Neutral) StatusText.color = Color.black;
+      if (status == Status.Error) StatusText.color = Color.red;
+      StatusText.text = message;
     }
     
     void registerServices () {
@@ -54,13 +61,6 @@ namespace Wardraft.Menu {
     void removeServices () {
       WebsocketService.current.RemoveService("onWsOpen", OnConnect);
       WebsocketService.current.RemoveService("onWsClose", OnDisconnect);
-    }
-    
-    void displayStatus (string message, Status status) {
-      if (status == Status.Success) StatusText.color = Color.green;
-      if (status == Status.Neutral) StatusText.color = Color.black;
-      if (status == Status.Error) StatusText.color = Color.red;
-      StatusText.text = message;
     }
     
   }
