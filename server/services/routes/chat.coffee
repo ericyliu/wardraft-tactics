@@ -18,6 +18,7 @@ ChatRoutes =
     Logger.sendSuccess ws, route,
       id: chatroom.id
 
+
   # route: chat/join
   # parameters:
   #   id: id of room to join
@@ -56,6 +57,7 @@ ChatRoutes =
 
     Logger.sendSuccess ws, route, chatroom.getJsonReady()
 
+
   # route: chat/leave
   # parameters:
   #   id: (optional) leave all chatrooms if no id is provided
@@ -76,6 +78,7 @@ ChatRoutes =
 
     Logger.sendSuccess ws, route,
       message: "Removed user from #{count} chatrooms."
+
 
   # route: chat/message
   # parameters:
@@ -102,10 +105,12 @@ ChatRoutes =
 
     @["chat/_sendChat"] chatroom, chat
 
+
   list: (ws, route, data) ->
     rooms = ChatSystem.getAllChatrooms 'public'
     Logger.sendSuccess ws, route,
       chatrooms: rooms
+
 
   _sendChat: (chatroom, chat) ->
     for name, connection of chatroom.connections

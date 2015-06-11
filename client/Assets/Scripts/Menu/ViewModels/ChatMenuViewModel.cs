@@ -11,7 +11,7 @@ namespace Wardraft.Menu {
     public GameObject ChatMessagesText;
     public GameObject ChatInput;
     
-    public static ChatMenuViewModel Current;
+    public static ChatMenuViewModel current;
     
     readonly Color activeChatColor = Color.white;
     readonly Color inactiveChatColor = Color.gray; 
@@ -19,7 +19,7 @@ namespace Wardraft.Menu {
     GameObject chatTabPrefab;
     
     void Start () {
-      Current = this;
+      current = this;
       chatTabPrefab = Resources.Load("Menu/Button-Chattab") as GameObject;
     }
     
@@ -30,7 +30,7 @@ namespace Wardraft.Menu {
     }
     
     void OnDestroy () {
-      Current = null;
+      current = null;
     }
     
     public void SendChat () {

@@ -41,6 +41,7 @@ namespace Wardraft.Service {
       }
       ApplicationController.Current.LoadMenu(Enums.Scene.Main);
       ChatService.JoinChatroom(1);
+      PlayerListService.GetPlayerList();
     }
     
     public static void OnLogout (Hashtable data) {

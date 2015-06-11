@@ -14,7 +14,7 @@ namespace Wardraft.Menu {
     public static void SwitchChatroom (int id) {
       currentChatroom = chatrooms.Find(x => x.ID == id);
       if (currentChatroom == null) return;
-      if (ChatMenuViewModel.Current != null) ChatMenuViewModel.Current.SwitchChatroom(currentChatroom);
+      if (ChatMenuViewModel.current != null) ChatMenuViewModel.current.SwitchChatroom(currentChatroom);
     }
     
     public static void Start () {
@@ -33,7 +33,7 @@ namespace Wardraft.Menu {
     
     public static void OnChatroomJoined (Chatroom chatroom) {
       chatrooms.Add(chatroom);
-      if (ChatMenuViewModel.Current != null) ChatMenuViewModel.Current.AddChatroom(chatroom);
+      if (ChatMenuViewModel.current != null) ChatMenuViewModel.current.AddChatroom(chatroom);
       SwitchChatroom(chatroom.ID);
     }
     
@@ -41,7 +41,7 @@ namespace Wardraft.Menu {
       Chatroom chatroom = chatrooms.Find(room => room.ID == id);
       chatroom.ChatLog.Add(chat);
       if (currentChatroom.ID == id) {
-        if (ChatMenuViewModel.Current != null) ChatMenuViewModel.Current.AddChatText(chat.ToChatString());
+        if (ChatMenuViewModel.current != null) ChatMenuViewModel.current.AddChatText(chat.ToChatString());
       }
     }
     
