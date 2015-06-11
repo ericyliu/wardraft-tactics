@@ -29,6 +29,7 @@ namespace Wardraft.Menu {
     void setupControllers () {
       ChatController.Start();
       LoginController.Start();
+      RegisterController.Start();
       PlayerListController.Start();
     }
     

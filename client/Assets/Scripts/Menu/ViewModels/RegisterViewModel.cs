@@ -1,53 +1,57 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Newtonsoft.Json;
 using UnityEngine.UI;
 using Wardraft.Service;
 using Wardraft.App;
 
 namespace Wardraft.Menu {
 
-  public class LoginViewModel : MonoBehaviour {
+  public class RegisterViewModel : MonoBehaviour {
   
-    //GameObjects to be set by developer in Unity Editor
     public Text StatusText;
     public InputField UsernameField;
     public InputField PasswordField;
-    public Button LoginButton;
+    public InputField PasswordConfirmField;
+    public Button RegisterButton;
     
-    public static LoginViewModel Current;
-  
+    public static RegisterViewModel current;
+    
     void Start () {
       if (WebsocketService.current.connected) OnConnect(null); else OnDisconnect(null);
       registerServices();
-      Current = this;
+      current = this;
     }
     
     void OnDestroy () {
       removeServices();
-      Current = null;
-    }
-    
-    public void Login () {
-      LoginController.Login(UsernameField.text, PasswordField.text);
+      current = null;
     }
     
     public void Register () {
-      ApplicationController.Current.LoadMenu(Enums.Scene.Registration);
+      if (PasswordField.text == PasswordConfirmField.text) {
+        RegisterController.Register(UsernameField.text, PasswordField.text);
+      }
+      else {
+        DisplayStatus("Password and Confirm Password does not match.", Status.Error);
+      }
     }
-
+    
+    public void Back () {
+      ApplicationController.Current.LoadMenu(Enums.Scene.Login);
+    }
+    
     public void OnConnect (Hashtable data) {
       DisplayStatus("Please Sign In", Status.Neutral);
       UsernameField.enabled = true;
       PasswordField.enabled = true;
-      LoginButton.enabled = true;
+      RegisterButton.enabled = true;
     }
     
     public void OnDisconnect (Hashtable data) {
       DisplayStatus("You have lost connection to the server.", Status.Error);
       UsernameField.enabled = false;
       PasswordField.enabled = false;
-      LoginButton.enabled = false;
+      RegisterButton.enabled = false;
     }
     
     public void DisplayStatus (string message, Status status) {
@@ -66,7 +70,6 @@ namespace Wardraft.Menu {
       WebsocketService.current.RemoveService("onWsOpen", OnConnect);
       WebsocketService.current.RemoveService("onWsClose", OnDisconnect);
     }
-    
   }
 
 }
