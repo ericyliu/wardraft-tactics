@@ -29,6 +29,7 @@ namespace Wardraft.Menu {
     void setupControllers () {
       ChatController.Start();
       LoginController.Start();
+      PlayerListController.Start();
     }
     
     public void LoadMenu (Enums.Scene scene) {
