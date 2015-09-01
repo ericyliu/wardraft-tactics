@@ -1,5 +1,5 @@
 Chatroom = require '../../models/chatroom.coffee'
-ChatSystem = require '../../models/chatSystem.coffee'
+ChatSystem = require '../../models/ChatSystem.coffee'
 Logger = require '../../utils/logger'
 
 ChatSystem.start()

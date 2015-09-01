@@ -2,7 +2,7 @@ ConnectionMap = require '../../models/connectionMap'
 Logger = require '../../utils/logger'
 AccountHelper = require '../../utils/account'
 
-AccountRoutes =
+PlayersRoutes =
 
   # route: players/list
 
@@ -19,4 +19,4 @@ AccountRoutes =
       players: players
 
 
-module.exports = AccountRoutes
+module.exports = PlayersRoutes
