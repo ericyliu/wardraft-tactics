@@ -10,6 +10,8 @@
   public enum Layers {Underground, Ground, Air, Heightmap, Neutral, Players};
   
   public enum SpellTarget {Self, Target, Tile};
+  
+  public enum Cursors {Default};
 
   public static Color GetNextColor () {
     var color = (Color)color_index;

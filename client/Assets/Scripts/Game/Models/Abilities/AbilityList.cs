@@ -8,9 +8,9 @@ public static class AbilityList  {
   };
 
   public static Dictionary<int, string> abilities = new Dictionary<int, string> {
-    {0,"TestAbility0"},
-    {1,"TestAbility1"},
-    {2,"TestAbility2"}
+    {0,"Heal Self"},
+    {1,"Damage Target"},
+    {2,"Damage Tile"}
   };
 
 }

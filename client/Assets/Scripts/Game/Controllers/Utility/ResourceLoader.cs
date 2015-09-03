@@ -8,13 +8,13 @@ public class ResourceLoader : MonoBehaviour {
   public Dictionary<int, Object>  terrains;
   public Dictionary<int, Object>  actors;
   public Dictionary<string, Object> ui;
+  public Dictionary<GameEnums.Cursors, Object> cursors;
   
   public bool done = false;
   
   public static ResourceLoader current;
 
-  void Start () {
-    ui = new Dictionary<string, Object>();
+  void Awake () {
     todo = new Dictionary<string, System.Action>() {
       { "Loading terrain files.", loadTerrains },
       { "Loading actor files.", loadActors },
@@ -49,6 +49,7 @@ public class ResourceLoader : MonoBehaviour {
   }
   
   void loadUI () {
+    ui = new Dictionary<string, Object>();
     ui.Add("tileSelectionOutline", Resources.Load("GameUI/SelectionOutline"));
     ui.Add("tileMouseoverOutline", Resources.Load("GameUI/MouseoverOutline"));
     ui.Add("tileMovementOutline", Resources.Load("GameUI/MovementOutline"));
@@ -56,6 +57,9 @@ public class ResourceLoader : MonoBehaviour {
     
     ui.Add("AbilityButton", Resources.Load("GameUI/AbilityButton"));
     ui.Add("BuildListButton", Resources.Load("GameUI/BuildListButton"));
+    
+    cursors = new Dictionary<GameEnums.Cursors, Object>();
+    cursors.Add(GameEnums.Cursors.Default, Resources.Load("GameUI/Cursors/Cursor"));
   }
 
 }

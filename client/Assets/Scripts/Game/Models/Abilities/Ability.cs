@@ -1,6 +1,8 @@
 [System.Serializable]
 public abstract class Ability {
 
+  public string             name;
+
   public ActiveActor        aa_source;
   public Tile               tile_source;
   public int                range;

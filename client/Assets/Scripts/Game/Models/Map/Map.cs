@@ -109,8 +109,7 @@ public class Map {
   #region private
 
   private JsonMapData readData (string mapname) {
-    string path = UnityEngine.Application.dataPath + "/Resources/Maps/" + mapname + ".json";
-    string data_text = System.IO.File.ReadAllText(path);
+    string data_text = (Resources.Load("Maps/" + mapname) as TextAsset).text;
     JsonMapData data = JsonConvert.DeserializeObject<JsonMapData>(data_text);
     return data;
   }

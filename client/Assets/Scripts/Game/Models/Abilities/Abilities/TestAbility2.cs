@@ -7,6 +7,7 @@ public class TestAbility2 : Ability {
   int damage = 1;
 
   public TestAbility2 () {
+    name = "Damage Tile";
     range = 1;
     target = GameEnums.SpellTarget.Tile;
   }
@@ -18,13 +19,13 @@ public class TestAbility2 : Ability {
         aa_target = actor as ActiveActor;
         if (aa_target.state == GameEnums.ActiveActorState.Alive) {
           aa_target.TakeDamage(FInt.Create(damage), apply_armor: false);
-          string name = string.Format("Actor:{0}#{1}", aa_target.code, aa_target.id);
-          ActiveActorController aac = GameObject.Find(name).GetComponentInChildren<ActiveActorController>();
+          string targetName = string.Format("Actor:{0}#{1}", aa_target.code, aa_target.id);
+          ActiveActorController aac = GameObject.Find(targetName).GetComponentInChildren<ActiveActorController>();
           aac.TakeDamage();
         }
       }
     }
-    return string.Format("{0} dealt {1} true damage to all units on tile {2}. (TestAbility2)", ActorList.codes[aa_source.code], damage, tile_target.position);
+    return string.Format("{0} dealt {1} true damage to all units on tile {2}.", ActorList.codes[aa_source.code], damage, tile_target.position);
   }
 
 }

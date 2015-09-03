@@ -7,6 +7,7 @@ public class TestAbility1 : Ability {
   int damage = 10;
 
   public TestAbility1 () {
+    name = "Damage Target";
     range = 1;
     target = GameEnums.SpellTarget.Target;
   }
@@ -19,7 +20,7 @@ public class TestAbility1 : Ability {
         string name = string.Format("Actor:{0}#{1}", aa_target.code, aa_target.id);
         ActiveActorController aac = GameObject.Find(name).GetComponentInChildren<ActiveActorController>();
         aac.TakeDamage();
-        return string.Format("{0} dealt {1} true damage to {2}. (TestAbility1)", ActorList.codes[aa_source.code], damage, ActorList.codes[aa_target.code]);
+        return string.Format("{0} dealt {1} true damage to {2}.", ActorList.codes[aa_source.code], damage, ActorList.codes[aa_target.code]);
       }
       else return "Cannot cast on a dead target.";
     }

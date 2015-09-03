@@ -31,7 +31,7 @@ namespace Wardraft.Game {
     
     public void PrimeAbility (Ability ability, ActiveActor source) {
       if (ability.target != GameEnums.SpellTarget.Self) {
-        Debug.Log("Priming ability: " + AbilityList.abilities[ability.code]);
+        Debug.Log("Priming ability: " + ability.name);
         primedAbility = ability;
         abilitySource = source;
         isAbilityPrimed = true;

@@ -7,6 +7,9 @@ namespace Wardraft.UI {
 
   public class GameUIController : MonoBehaviour {
   
+    Texture2D cursorTexture;
+    Vector2 cursorHotspot = new Vector2(2f,5f);
+  
     GameObject  SelectedActorInfo;
     GameObject  SelectedTileInfo;
     GameObject  AbilityPanel;
@@ -24,7 +27,13 @@ namespace Wardraft.UI {
       BuildListPanel.SetActive(false);
       AbilityPanel.SetActive(false);
       HideSelectedInfo();
+      SetCursor(GameEnums.Cursors.Default);
       current = this;
+    }
+    
+    public void SetCursor (GameEnums.Cursors cursor) {
+      cursorTexture = ResourceLoader.current.cursors[cursor] as Texture2D;
+      Cursor.SetCursor(cursorTexture, cursorHotspot, CursorMode.Auto);
     }
     
     public void ShowSelectedInfo (System.Object toShow) {
@@ -117,7 +126,7 @@ namespace Wardraft.UI {
         float position = (60 * i) + (10 * (i + 1));
         GameObject buttonObject = Instantiate(ResourceLoader.current.ui["AbilityButton"]) as GameObject;
         buttonObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(position, 10f);
-        changeLabel(buttonObject, "Label", AbilityList.abilities[ability.code]);
+        changeLabel(buttonObject, "Label", ability.name);
         buttonObject.transform.SetParent(AbilityPanel.transform, false);
         buttonObject.name = "AbilityButton:" + ability.code;
         Button button = buttonObject.GetComponent<Button>();
