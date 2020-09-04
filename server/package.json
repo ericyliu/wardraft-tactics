@@ -11,7 +11,7 @@
   "dependencies": {
     "coffee-script": "^1.9.2",
     "express": "^4.10.2",
-    "mongodb": "^2.0.28",
+    "mongodb": "^3.6.1",
     "mongoose": "^4.0.2",
     "mongoose-q": "0.0.17",
     "q": "^1.3.0",
